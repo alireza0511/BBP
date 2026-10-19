@@ -378,7 +378,7 @@ function toFa(n) {
 }
 
 function stageName(s) {
-  return lang === "fa" ? `${STAGES[s].fa} (${STAGES[s].en})` : STAGES[s].en;
+  return lang === "fa" ? STAGES[s].fa : STAGES[s].en;
 }
 
 function show(id) {
@@ -509,7 +509,7 @@ function buildPrompt(r) {
   const date = new Date().toISOString().slice(0, 10);
   const fa = lang === "fa";
   const L = [];
-  const stageList = STAGES.map((s, i) => `${i * 10}–${i === 9 ? 100 : i * 10 + 9}: ${fa ? `${s.fa} (${s.en})` : s.en} — ${fa ? s.dfa : s.den}`).join("\n");
+  const stageList = STAGES.map((s, i) => `${i * 10}–${i === 9 ? 100 : i * 10 + 9}: ${fa ? s.fa : s.en} — ${fa ? s.dfa : s.den}`).join("\n");
 
   if (!fa) {
     L.push(`I completed a self-assessment of my generosity on ${date}. It uses a 10-stage scale from 0 to 100, rising toward The Bountiful, whose giving has no limit and expects no return.`);
@@ -539,8 +539,8 @@ function buildPrompt(r) {
     L.push(`من در تاریخ ${date} یک خودسنجی بخشندگی انجام دادم. این خودسنجی بر پایهٔ مقیاسی ده‌مرتبه‌ای از ۰ تا ۱۰۰ است که به سوی کریم بالا می‌رود؛ کسی که بخششش حدی ندارد و انتظاری ندارد.`);
     L.push("", "مرتبه‌ها", stageList);
     L.push("", "نتیجهٔ من");
-    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].fa}: ${x.score === null ? "بدون پاسخ" : `${x.score} از ۱۰۰ — ${STAGES[x.stage].fa} (${STAGES[x.stage].en})`}`));
-    if (r.overall !== null) L.push(`- مرتبهٔ کلی: ${r.overall} از ۱۰۰ — ${STAGES[r.overallStage].fa} (${STAGES[r.overallStage].en})`);
+    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].fa}: ${x.score === null ? "بدون پاسخ" : `${x.score} از ۱۰۰ — ${STAGES[x.stage].fa}`}`));
+    if (r.overall !== null) L.push(`- مرتبهٔ کلی: ${r.overall} از ۱۰۰ — ${STAGES[r.overallStage].fa}`);
     if (r.weakest) L.push(`- ضعیف‌ترین بخش: ${ITEMS[r.weakest.ii].fa}`);
     L.push("", "پاسخ‌های من");
     QUESTIONS.forEach((Q, qi) => {

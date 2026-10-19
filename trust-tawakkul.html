@@ -256,7 +256,7 @@ nextTxt:"Your lowest area is {area}, at stage {s} ({name}). The next stage up is
 nextTop:"Your lowest area is {area}, already at stage 9. Keep facing the direction; there is no badge to hold.",
 notScored:"Not scored",llmT:"Text for an AI coach",llmHint:"Copy this into Claude or another assistant to get practices for your next step.",
 copy:"Copy",copied:"Copied",restart:"Start over",lang:"فارسی",band:"Band"},
-fa:{brand:"توکل · Trust",title:"توکل به نیروی برتر",sub:"خودسنجی خصوصی توکل",
+fa:{brand:"توکل",title:"توکل به نیروی برتر",sub:"خودسنجی خصوصی توکل",
 purpose:"این خودسنجی نشان می‌دهد اعتماد شما به خدا، هستی یا نیرویی بزرگ‌تر از خودتان، در شش حوزه از زندگی روزمره کجا ایستاده است. توکل در اینجا یعنی «با توکل زانوی اشتر ببند»: سهم خودت را کامل انجام بده و نتیجه را رها کن. توکل بی‌عملی نیست. ۱۸ موقعیت کوتاه پیش رو دارید. آنچه را صادقانه انجام می‌دهید انتخاب کنید، نه آنچه فکر می‌کنید باید انجام دهید.",
 stagesT:"ده مرحله",privT:"حریم خصوصی و اختیار",priv:"پاسخ‌های شما فقط در همین مرورگر می‌ماند و جایی فرستاده یا ذخیره نمی‌شود. این فقط برای خود شماست، هرگز برای سنجیدن دیگران، و قدم بعدی را خودتان انتخاب می‌کنید.",
 limT:"مرزهای سالم",lim:"توکل هرگز جای تلاش، درمان پزشکی، ایمنی یا مراقبت از کسانی را که به شما وابسته‌اند نمی‌گیرد. مرحله‌های بالا آزادانه انتخاب می‌شوند و هرگز به خود آسیب نمی‌زنند. مرحلهٔ ۹ جهتی برای رفتن است، نه نشانی برای ادعا.",
@@ -293,7 +293,7 @@ function render(){
 }
 
 function renderIntro(){
-  let rows=STAGES.map((s,i)=>`<tr><td class="b">${bandTxt(i)}</td><td class="n">${esc(lang==="fa"?s.fa+" · "+s.en:s.en)}</td><td>${esc(sMark(i))}</td></tr>`).join("");
+  let rows=STAGES.map((s,i)=>`<tr><td class="b">${bandTxt(i)}</td><td class="n">${esc(lang==="fa"?s.fa:s.en)}</td><td>${esc(sMark(i))}</td></tr>`).join("");
   app.innerHTML=`<div class="card"><h1>${esc(t("title"))}</h1><div class="muted">${esc(t("sub"))}</div><p>${esc(t("purpose"))}</p>
   <div class="note"><b>${esc(t("privT"))}.</b> ${esc(t("priv"))}</div>
   <div class="note limit"><b>${esc(t("limT"))}.</b> ${esc(t("lim"))}</div></div>
@@ -354,7 +354,7 @@ function llmText(r){
     L.push("- اختیار: هرگز فشار نیاور و دستور نده. این خودسنجی خصوصی و فقط برای خود من است، نه برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم.");
     L.push("- مرزهای سالم: مرحله‌های بالا باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. توکل جای تلاش، درمان، ایمنی یا مراقبت از وابستگان را نمی‌گیرد.");
     L.push("");L.push("ده مرحله:");
-    STAGES.forEach((s,i)=>L.push(bandTxt(i)+" "+s.fa+" ("+s.en+"): "+s.mFa));
+    STAGES.forEach((s,i)=>L.push(bandTxt(i)+" "+s.fa+": "+s.mFa));
     L.push("");L.push("امتیازهای من:");
   }else{
     L.push("Trust in a higher power (tawakkul) - self-assessment");

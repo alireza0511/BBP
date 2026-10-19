@@ -333,7 +333,7 @@ const T = {
   noneScored:"No answers were scored. Try again, choosing the answers closest to you."
  },
  fa:{
-  title:"شکر · Thankfulness",
+  title:"شکر",
   langBtn:"English",
   purposeH:"این چیست",
   purpose:"نگاهی خصوصی به شکرگزاری در شش حوزه از زندگی روزمره. در هر موقعیت، کاری را انتخاب کنید که صادقانه انجام می‌دهید، نه کاری که فکر می‌کنید باید انجام دهید. در پایان می‌بینید در هر حوزه کجا ایستاده‌اید و یک قدم بعدی ممکن.",
@@ -418,6 +418,7 @@ function render(){
   document.documentElement.lang = lang;
   document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
   document.getElementById("title").textContent = t("title");
+  document.title = t("title");
   document.getElementById("langBtn").textContent = t("langBtn");
   if (idx < 0) renderIntro();
   else if (idx < QUESTIONS.length) renderQuestion();

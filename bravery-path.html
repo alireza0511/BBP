@@ -369,7 +369,7 @@ const stageOf=s=>Math.min(9,Math.floor(s/10));
 
 function renderHeader(){
   document.documentElement.lang=lang;document.documentElement.dir=lang==="fa"?"rtl":"ltr";
-  document.getElementById("brand").textContent=T().brand;
+  document.getElementById("brand").textContent=T().brand;document.title=T().brand;
   document.getElementById("langBtn").textContent=T().lang;
   document.getElementById("themeBtn").textContent=theme==="auto"?T().themeAuto:theme==="light"?T().themeLight:T().themeDark;
   if(theme==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",theme);
@@ -382,7 +382,7 @@ function intro(){
    <p class="muted">${t.howto}</p>
    <div class="row" style="justify-content:flex-end"><button class="btn" id="go">${t.start}</button></div></div>
    <div class="card"><h2>${t.areasT}</h2><div class="areas">${AREAS.map((a,i)=>`<span class="chip">${num(i+1)}. ${a[lang]}</span>`).join("")}</div></div>
-   <div class="card"><h2>${t.stagesT}</h2><table>${STAGES.map((s,i)=>`<tr><td class="band">${band(i)}</td><td class="name">${s[lang]}${lang==="fa"?`<div class="muted" style="font-weight:400;font-size:12px">${s.en}</div>`:""}</td><td>${lang==="fa"?s.mFa:s.mEn}</td></tr>`).join("")}</table></div>`;
+   <div class="card"><h2>${t.stagesT}</h2><table>${STAGES.map((s,i)=>`<tr><td class="band">${band(i)}</td><td class="name">${s[lang]}</td><td>${lang==="fa"?s.mFa:s.mEn}</td></tr>`).join("")}</table></div>`;
   document.getElementById("go").onclick=()=>{pos=0;render()};
 }
 
@@ -432,7 +432,7 @@ function llmText(sc){
     "- اختیار: هرگز فشار نیاور و دستور نده. این ارزیابی را خودم نمره داده‌ام، خصوصی است و فقط برای خودم است، هرگز برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم؛ پیشنهاد بده، تجویز نکن.",
     "- حدود سالم: بالاترین مراحل باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. شجاعت تهوّر نیست.","",
     "ده مرحله:");
-    STAGES.forEach((s,i)=>L.push(`${band(i)}  ${s.fa} (${s.en}): ${s.mFa}`));
+    STAGES.forEach((s,i)=>L.push(`${band(i)}  ${s.fa}: ${s.mFa}`));
     L.push("","نتیجه من:");
     L.push(`کلی: ${num(Math.round(sc.overall))} از ${num(100)}، مرحله ${num(stageOf(sc.overall))}: ${STAGES[stageOf(sc.overall)].fa}`);
     AREAS.forEach((a,i)=>L.push(sc.areas[i]===null?`- ${a.fa}: بدون امتیاز`:`- ${a.fa}: ${num(Math.round(sc.areas[i]))} از ${num(100)}، مرحله ${num(stageOf(sc.areas[i]))}: ${STAGES[stageOf(sc.areas[i])].fa}`));
