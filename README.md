@@ -18,9 +18,15 @@ Private, self-scored assessments for growing in a quality across ten stages, in 
   - `core.css`: the design (from the trust page), light/dark theme, print styles.
   - `widgets.js`: UI widgets (top bar, card, note, stage table, question card, answer options, score bars, big score, copy box, home-page card, history chart and table) plus helpers (Persian digits, dates, theme, saving on the device, download).
   - `defaults.js`: the shared English and Farsi wording (buttons, privacy note, standing rules for the AI coach). Pages only write what is unique to them.
-  - `questionnaire.js`: the questionnaire widget, i.e. the whole assessment: intro, questions, scoring, results, saved progress, results history, download and print.
+  - `questionnaire.js`: the questionnaire widget, i.e. the whole assessment: intro, questions, scoring, results, saved progress, results history, the 40-day plan request, download and print.
   - `items.js`: the list of qualities shown on the home page.
-- `<quality>/en.html`, `fa.html`: one `CONTENT` block per language (title, purpose, healthy limits, areas, ten stages, questions, AI-coach header and rules), then `Questionnaire.mount(...)`.
+- `<quality>/en.html`, `fa.html`: one `CONTENT` block per language (title, purpose, healthy limits, areas, ten stages, questions, AI-coach header, rules and `plan` values), then `Questionnaire.mount(...)`.
+
+## The 40-day plan (چله)
+
+At the end of each assessment the results screen builds a text to paste into an AI assistant. It contains the results and every answer, then asks for a practical 40-day plan with a fixed structure: a short reflection, a weekly rhythm (one task a day, weakest areas twice), a one-minute evening check, three phases (Begin / Go further / Let go), and notes (healthy limits, missed days, swapping days, the date of day 40). The viewer can type tasks they have already chosen; these are added to the request and remembered on the device.
+
+The wording of the request is shared, in `core/defaults.js` (`coach.request`). Each quality fills in its own details in `coach.plan`: `quality`, `patterns` (examples of what holds people back), `vague` (an example of a task that is too vague), `reach` (what the highest stages look like in practice), `recurring` (a task that deepens over the phases), `limit` (its healthy-limits note) and `example` (sample tasks shown in the input box).
 - `<quality>/questions.md`: every question and answer with its stage, for review. Generated; don't edit by hand.
 - `_template/`: a ready-to-fill quality. (Folders starting with `_` are not published by GitHub Pages.)
 - `tools/`: `check.js` (content checker) and `questions-md.js` (writes the questions.md files). Run them with Node.js from the repository root.
@@ -38,4 +44,5 @@ Private, self-scored assessments for growing in a quality across ten stages, in 
 Only in the viewer's browser (localStorage), never sent anywhere:
 - `bbp-progress-<id>`: answers to an unfinished assessment, so it can be continued later.
 - `bbp-history-<id>`: date and scores of each finished assessment, shown as a chart on the results screen and as "Last result" on the home page. The viewer can clear it from the results screen.
+- `bbp-tasks-<id>-<lang>`: the viewer's own tasks for the 40-day plan.
 - `bbp-lang`, `bbp-theme`: last language and light/dark choice.

@@ -22,10 +22,11 @@
 // 1. Copy this whole _template folder and rename the copy (e.g. "honesty").
 //    The folder name is the quality's id.
 // 2. Below, change id: "new-quality" to the folder name, and the <title> above.
-// 3. Replace every placeholder: words, areas, the ten stages, questions.
+// 3. Replace every placeholder: words, areas, the ten stages, questions, and
+//    the coach.plan values used in the 40-day plan request.
 //    Each answer is [stage 0-9, "text"]. A question's "area" is the area's
 //    number in the list (first area = 0). Aim for about 3 questions per area.
-//    Buttons, privacy text and the shared coach rules come from core/defaults.js.
+//    Buttons, privacy text and the shared plan wording come from core/defaults.js.
 // 4. Do the same in the other language file. Both files must have the same
 //    areas, questions and answer stages, in the same order.
 // 5. Add one entry for it in core/items.js, then run:  node tools/check.js
@@ -86,7 +87,16 @@ const CONTENT = {
     "header": "Quality name: self-assessment",
     "rules": [
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Add what this quality must never mean."
-    ]
+    ],
+    "plan": {
+      "quality": "quality name",
+      "patterns": "the inner patterns that hold this quality back",
+      "vague": "be better at this",
+      "reach": "what the highest stages look like in practice",
+      "recurring": "a task that repeats each week",
+      "limit": "what this quality must never turn into",
+      "example": "Monday: a small, concrete task\nThursday: another task"
+    }
   }
 };
 

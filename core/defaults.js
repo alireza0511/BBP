@@ -37,8 +37,10 @@ window.BBP_DEFAULTS = {
       historyScore: "Overall",
       clearHistory: "Clear saved results",
       clearConfirm: "Tap again to clear",
-      llmT: "Text for an AI coach",
-      llmHint: "Copy this into an AI assistant to get practices for your next step.",
+      llmT: "Your 40-day plan",
+      llmHint: "Copy this text into an AI assistant. It will turn your results into a 40-day plan (a chilla): a weekly rhythm, an evening check and three phases.",
+      tasksT: "Tasks you already chose (optional)",
+      tasksHint: "One per line, with a day if you like. They are added to the plan request below.",
       copy: "Copy",
       copied: "Copied",
       download: "Download",
@@ -50,23 +52,65 @@ window.BBP_DEFAULTS = {
     },
     coach: {
       date: "Date: ",
-      rulesT: "Standing rules (please follow them throughout your reply):",
-      rules: [
-        "Universalizability: only suggest things that would make the world a better place if everyone in the world did them.",
-        "Free will: never pressure or command. This assessment is private and only for me, never for scoring others. I choose my own next step."
-      ],
       stagesT: "The ten stages:",
       scoresT: "My scores:",
       qaT: "My questions and answers:",
       notAnswered: "Not answered",
-      requestT: "My request:",
+      // The 40-day plan request ("request"). Placeholders come from the page's coach.plan
+      // ({quality}, {patterns}, {vague}, {reach}, {recurring}, {limit}) and
+      // from the results screen ({tasks}, {start}, {day40}).
       request: [
-        "1. Suggest 2-3 small, concrete practices to move up one stage in my weakest area ({area}, currently stage {s}).",
-        "2. One inner shift that would help most.",
-        "3. One practice for my overall stage (stage {os}, {oname}).",
-        "Follow the standing rules above: suggest, never command.",
-        "Please reply in English."
-      ]
+        "Based on my self-assessment results above, create a practical 40-day plan (a chilla) to help me grow in {quality}. Use exactly this structure:",
+        "",
+        "1. SHORT REFLECTION (3–5 sentences, no judgment)",
+        "- Name my strongest area first, as a real strength.",
+        "- Describe the areas that are uneven: where I do well when asked, but my default is weaker.",
+        "- Name the 1–2 patterns behind my lowest answers (for example: {patterns}).",
+        "- If two of my answers seem to contradict each other, point it out gently as something to look at.",
+        "",
+        "2. THE WEEKLY RHYTHM (a table: Day | Area | Task)",
+        "- One concrete task for each day of the week, Monday to Sunday.",
+        "- Every area from my assessment gets at least one day; my two weakest areas get two days each.",
+        "- Each task must be practical, specific, and doable in under 30 minutes, with a clear action (who, what, how long). Avoid vague tasks like \"{vague}\".",
+        "- {tasks}",
+        "",
+        "3. DAILY EVENING CHECK (1 minute)",
+        "- Two short questions I ask myself each evening, aimed at my lowest patterns. Just noticing, no scoring.",
+        "",
+        "4. HOW IT DEEPENS (three phases)",
+        "- Days 1–14 \"Begin\": do the rhythm as written, keep it small.",
+        "- Days 15–28 \"Go further\": change 3 of the weekly tasks to a deeper version (more personal, more direct, or slightly costly).",
+        "- Days 29–40 \"Let go\": add one one-time act of release, and make 2 tasks reach toward the highest stages ({reach}).",
+        "- For any recurring task with its own progression ({recurring}), show how it deepens in each phase.",
+        "",
+        "5. NOTES (short bullets)",
+        "- A healthy-limits note: {limit}.",
+        "- What to do if I miss a day (offer the traditional \"start over\" rule or \"simply continue,\" and let me choose).",
+        "- Permission to swap days, as long as each area still gets its turn.",
+        "- I start on {start}, so day 40 is {day40}. Remind me to retake this self-assessment then and compare."
+      ],
+      tasksYes: "Include these tasks I already chose: {list}.",
+      tasksNo: "I haven't chosen any tasks of my own yet; suggest all of them.",
+      rulesT: "RULES",
+      rules: [
+        "Universalizability: every task must be something that would make the world better if everyone did it.",
+        "Free will: offer, never command. I choose."
+      ],
+      // the page's own rules (healthy limits) go between these two lists
+      rulesEnd: [
+        "Keep it concise: tables and short bullets, no long explanations.",
+        "Reply in English."
+      ],
+      // used when a page doesn't give its own coach.plan values
+      planDefaults: {
+        quality: "this quality",
+        patterns: "fear, habit, needing to be seen",
+        vague: "try harder",
+        reach: "acting well when it costs me, toward someone who can't repay",
+        recurring: "a task I repeat every week",
+        limit: "growing in this never means staying in harm or hurting myself",
+        example: "Monday: …\nWednesday: …"
+      }
     }
   },
 
@@ -99,8 +143,10 @@ window.BBP_DEFAULTS = {
       historyScore: "کلی",
       clearHistory: "پاک کردن نتیجه‌های ذخیره‌شده",
       clearConfirm: "برای پاک کردن دوباره بزنید",
-      llmT: "متن برای مربی هوش مصنوعی",
-      llmHint: "این متن را در یک دستیار هوش مصنوعی بچسبانید تا برای قدم بعدی تمرین بگیرید.",
+      llmT: "برنامهٔ چلهٔ شما",
+      llmHint: "این متن را در یک دستیار هوش مصنوعی بچسبانید. نتیجهٔ شما را به یک برنامهٔ ۴۰ روزه (چله) تبدیل می‌کند: برنامهٔ هفتگی، مرور شبانه و سه مرحله.",
+      tasksT: "کارهایی که خودتان انتخاب کرده‌اید (اختیاری)",
+      tasksHint: "هر کار در یک خط، اگر خواستید با روزش. به درخواست برنامه در پایین اضافه می‌شوند.",
       copy: "کپی",
       copied: "کپی شد",
       download: "دریافت فایل",
@@ -112,23 +158,64 @@ window.BBP_DEFAULTS = {
     },
     coach: {
       date: "تاریخ: ",
-      rulesT: "قواعد ثابت (لطفاً در همهٔ پاسخ رعایت کن):",
-      rules: [
-        "جهان‌شمول بودن: هر پیشنهادی بده که اگر همهٔ مردم دنیا انجامش دهند، دنیا جای بهتری شود.",
-        "اختیار: هرگز فشار نیاور و دستور نده. این خودسنجی خصوصی و فقط برای خود من است، نه برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم."
-      ],
       stagesT: "ده مرحله:",
       scoresT: "امتیازهای من:",
       qaT: "پرسش‌ها و پاسخ‌های من:",
       notAnswered: "بی‌پاسخ",
-      requestT: "درخواست من:",
+      // درخواست برنامهٔ چله. جای‌خالی‌ها از coach.plan صفحه پر می‌شوند
+      // و {tasks}، {start}، {day40} از صفحهٔ نتیجه.
       request: [
-        "1. دو یا سه تمرین کوچک و مشخص پیشنهاد بده که در ضعیف‌ترین حوزه‌ام («{area}»، اکنون مرحلهٔ {s}) یک مرحله بالاتر بروم.",
-        "2. یک تغییر درونی که بیشترین کمک را می‌کند.",
-        "3. یک تمرین برای مرحلهٔ کلی‌ام (مرحلهٔ {os}، {oname}).",
-        "قواعد ثابت بالا را رعایت کن: پیشنهاد بده، دستور نده.",
-        "لطفاً به فارسی پاسخ بده."
-      ]
+        "بر اساس نتیجهٔ خودسنجی بالا، یک برنامهٔ عملی ۴۰ روزه (یک چله) برای رشد من در {quality} بنویس. دقیقاً از این ساختار استفاده کن:",
+        "",
+        "۱. بازتاب کوتاه (۳ تا ۵ جمله، بدون قضاوت)",
+        "- اول قوی‌ترین حوزه‌ام را به‌عنوان یک نقطهٔ قوت واقعی نام ببر.",
+        "- حوزه‌های ناهموار را توصیف کن: جاهایی که وقتی از من خواسته می‌شود خوب عمل می‌کنم، ولی رفتار پیش‌فرضم ضعیف‌تر است.",
+        "- یک یا دو الگوی پشت پایین‌ترین پاسخ‌هایم را نام ببر (مثلاً: {patterns}).",
+        "- اگر دو پاسخ من با هم ناسازگار به نظر می‌رسند، با ملایمت به آن اشاره کن، به‌عنوان چیزی برای نگاه کردن.",
+        "",
+        "۲. برنامهٔ هفتگی (جدول: روز | حوزه | کار)",
+        "- برای هر روز هفته، از شنبه تا جمعه، یک کار مشخص.",
+        "- هر حوزهٔ خودسنجی دست‌کم یک روز داشته باشد؛ دو حوزهٔ ضعیف‌ترم هر کدام دو روز.",
+        "- هر کار باید عملی، مشخص و کمتر از ۳۰ دقیقه باشد، با اقدامی روشن (با چه کسی، چه کاری، چقدر). از کارهای مبهم مثل «{vague}» پرهیز کن.",
+        "- {tasks}",
+        "",
+        "۳. مرور شبانه (یک دقیقه)",
+        "- دو پرسش کوتاه که هر شب از خودم بپرسم، رو به پایین‌ترین الگوهایم. فقط توجه کردن، بدون امتیاز دادن.",
+        "",
+        "۴. چگونه عمیق‌تر می‌شود (سه مرحله)",
+        "- روز ۱ تا ۱۴ «آغاز»: برنامه را همان‌طور که نوشته شده انجام بده و کوچک نگهش دار.",
+        "- روز ۱۵ تا ۲۸ «فراتر رفتن»: سه کار هفتگی را به شکلی عمیق‌تر تغییر بده (شخصی‌تر، مستقیم‌تر یا کمی پرهزینه‌تر).",
+        "- روز ۲۹ تا ۴۰ «رها کردن»: یک کار یک‌باره برای رها کردن اضافه کن، و دو کار را رو به بالاترین مرحله‌ها ببر ({reach}).",
+        "- برای هر کار تکراری که پیشرفت خودش را دارد ({recurring})، نشان بده در هر مرحله چگونه عمیق‌تر می‌شود.",
+        "",
+        "۵. یادداشت‌ها (نکته‌های کوتاه)",
+        "- یادداشت مرزهای سالم: {limit}.",
+        "- اگر روزی را جا انداختم چه کنم (قاعدهٔ سنتی «از نو شروع کن» یا «ساده ادامه بده» را پیشنهاد بده و انتخاب را به من بسپار).",
+        "- اجازهٔ جابه‌جا کردن روزها، به شرطی که هر حوزه نوبتش را داشته باشد.",
+        "- من از {start} شروع می‌کنم، پس روز چهلم {day40} است. یادم بینداز آن روز دوباره این خودسنجی را انجام دهم و مقایسه کنم."
+      ],
+      tasksYes: "این کارها را که خودم انتخاب کرده‌ام در برنامه بگنجان: {list}.",
+      tasksNo: "هنوز کاری از خودم انتخاب نکرده‌ام؛ همه را خودت پیشنهاد بده.",
+      rulesT: "قواعد",
+      rules: [
+        "جهان‌شمول بودن: هر کار باید چیزی باشد که اگر همه انجامش دهند، دنیا بهتر شود.",
+        "اختیار: پیشنهاد بده، هرگز دستور نده. انتخاب با من است."
+      ],
+      // قواعد خود صفحه (مرزهای سالم) میان این دو فهرست می‌آید
+      rulesEnd: [
+        "کوتاه بنویس: جدول و نکته‌های کوتاه، بدون توضیح طولانی.",
+        "به فارسی پاسخ بده."
+      ],
+      // اگر صفحه coach.plan خودش را نداشته باشد
+      planDefaults: {
+        quality: "این صفت",
+        patterns: "ترس، عادت، نیاز به دیده شدن",
+        vague: "بیشتر تلاش کن",
+        reach: "درست رفتار کردن وقتی هزینه دارد، با کسی که نمی‌تواند جبران کند",
+        recurring: "کاری که هر هفته تکرار می‌کنم",
+        limit: "رشد در این صفت هرگز به معنای ماندن در آسیب یا آسیب زدن به خودم نیست",
+        example: "شنبه: …\nدوشنبه: …"
+      }
     }
   }
 };

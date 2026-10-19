@@ -224,19 +224,22 @@ const CONTENT = {
       ] }
   ],
 
-  // Text for an AI coach: header, this quality's own rules (added after the shared rules), custom request lines
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
   coach: {
     "header": "I completed a self-assessment of my generosity. It uses a 10-stage scale from 0 to 100, rising toward The Bountiful, whose giving has no limit and expects no return.",
     "rules": [
       "Generosity must be freely chosen and never self-destructive. Forgiveness and self-giving never mean staying in harm.",
       "Keep practices small and realistic, so I can start today."
     ],
-    "request": [
-      "1. Briefly reflect back what these answers suggest about how I give, without judging me.",
-      "2. Focus on my weakest area ({area}, currently stage {s}). Suggest 2–3 small, concrete daily or weekly practices that would help me move up one stage there.",
-      "3. Look at the answers where I scored lowest and explain what inner shift (for example, letting go of expecting a return, or of needing to be seen) would help me most.",
-      "4. Suggest one practice that would lift my overall stage (stage {os}, {oname})."
-    ]
+    "plan": {
+      "quality": "generosity",
+      "patterns": "guarding, keeping accounts, needing to be seen",
+      "vague": "be more forgiving",
+      "reach": "giving to someone who can't repay, reconnecting with someone I've drifted from",
+      "recurring": "like giving things away",
+      "limit": "forgiving or giving never means staying in harm or hurting myself",
+      "example": "Thursday: buy food for a homeless person\nFriday: call a family member and just listen\nSunday: pray for those who did wrong to me\nWednesday: give away one thing I don't use anymore"
+    }
   }
 };
 

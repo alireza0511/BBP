@@ -144,9 +144,15 @@
       navRow(button(o.backLabel, { id: "backBtn" }), button(o.nextLabel, { id: "nextBtn", primary: true, disabled: !!o.nextDisabled })));
   }
 
+  /** Labeled multi-line text field. o: {id, label, hint, placeholder, value, rows} */
+  function field(o) {
+    return '<label class="field" for="' + esc(o.id) + '"><b>' + esc(o.label) + "</b>" + (o.hint ? '<span class="muted">' + esc(o.hint) + "</span>" : "") +
+      '<textarea class="field-input" id="' + esc(o.id) + '" rows="' + (o.rows || 3) + '" placeholder="' + esc(o.placeholder || "") + '">' + esc(o.value || "") + "</textarea></label>";
+  }
+
   /** Read-only text with a Copy button. Fill it with UI.bindCopy after rendering. */
   function copyBox(o) {
-    return heading(o.title) + muted(o.hint) + '<textarea id="' + esc(o.id || "copyText") + '" readonly></textarea>' +
+    return (o.title ? heading(o.title) : "") + (o.hint ? muted(o.hint) : "") + '<textarea id="' + esc(o.id || "copyText") + '" readonly></textarea>' +
       '<div class="actions">' + button(o.copyLabel, { id: (o.id || "copyText") + "Btn", primary: true }) + (o.extra || "") + "</div>";
   }
 
@@ -258,7 +264,7 @@
   global.UI = {
     lang: lang, esc: esc, num: num, fill: fill, shuffle: shuffle, today: today,
     topBar: topBar, card: card, title: title, heading: heading, para: para, muted: muted, note: note,
-    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard,
+    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard, field: field,
     pathCard: pathCard, historyChart: historyChart, historyTable: historyTable, store: store, download: download, onConfirm: onConfirm,
     button: button, navRow: navRow, scoreBars: scoreBars, bigScore: bigScore, copyBox: copyBox,
     bindCopy: bindCopy, onPick: onPick, onClick: onClick, initTheme: initTheme, rememberLang: rememberLang

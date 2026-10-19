@@ -139,3 +139,8 @@ html[dir="rtl"] .pc-arrow{display:inline-block;transform:scaleX(-1)}
   .ui-home,.ui-top .tools,.actions,.nav,button,textarea,.no-print{display:none !important}
   .card{border-color:#ccc;break-inside:avoid}
 }
+
+/* ---- Text field (e.g. your own tasks for the 40-day plan) ---- */
+.field{display:flex;flex-direction:column;gap:4px;margin:14px 0 10px}
+.field .muted{font-size:.88rem}
+textarea.field-input{min-height:0;font:inherit;font-size:.95rem}

@@ -268,12 +268,21 @@ const CONTENT = {
       ] }
   ],
 
-  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
   coach: {
     "header": "I took a private self-assessment of bravery. It measures 7 areas of daily life on a 10-stage scale, from Cowardice to The Strong. I'd like your help choosing my next step.",
     "rules": [
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Courage is not recklessness."
-    ]
+    ],
+    "plan": {
+      "quality": "bravery",
+      "patterns": "avoiding, staying silent, needing to feel safe or be seen",
+      "vague": "be braver",
+      "reach": "speaking up for someone with less power, admitting a mistake to someone I hurt",
+      "recurring": "like doing one thing I've been avoiding",
+      "limit": "courage never means recklessness or putting myself or others in danger",
+      "example": "Monday: say no to one request I'd normally accept\nWednesday: ask one honest question in a meeting or class\nFriday: admit one small mistake out loud"
+    }
   }
 };
 

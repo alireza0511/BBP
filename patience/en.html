@@ -266,12 +266,21 @@ const CONTENT = {
       ] }
   ],
 
-  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
   coach: {
     "header": "I'm working on growing in patience. Below is my private self-assessment.",
     "rules": [
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Patience never means enduring abuse, harming my health, or staying silent about injustice."
-    ]
+    ],
+    "plan": {
+      "quality": "patience",
+      "patterns": "rushing, needing control, reacting before thinking",
+      "vague": "be more patient",
+      "reach": "staying calm and kind with someone who tests me, waiting gladly for something I want",
+      "recurring": "like a daily pause before reacting",
+      "limit": "patience never means enduring abuse, harming my health, or staying silent about injustice",
+      "example": "Monday: let someone finish talking without interrupting\nWednesday: wait 10 minutes before replying to an upsetting message\nSaturday: cook or walk slowly for 20 minutes, without rushing"
+    }
   }
 };
 

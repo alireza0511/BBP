@@ -24,10 +24,11 @@
 // 1. Copy this whole _template folder and rename the copy (e.g. "honesty").
 //    The folder name is the quality's id.
 // 2. Below, change id: "new-quality" to the folder name, and the <title> above.
-// 3. Replace every placeholder: words, areas, the ten stages, questions.
+// 3. Replace every placeholder: words, areas, the ten stages, questions, and
+//    the coach.plan values used in the 40-day plan request.
 //    Each answer is [stage 0-9, "text"]. A question's "area" is the area's
 //    number in the list (first area = 0). Aim for about 3 questions per area.
-//    Buttons, privacy text and the shared coach rules come from core/defaults.js.
+//    Buttons, privacy text and the shared plan wording come from core/defaults.js.
 // 4. Do the same in the other language file. Both files must have the same
 //    areas, questions and answer stages, in the same order.
 // 5. Add one entry for it in core/items.js, then run:  node tools/check.js
@@ -88,7 +89,16 @@ const CONTENT = {
     "header": "خودسنجی نام صفت",
     "rules": [
       "مرزهای سالم: مرحله‌های بالا باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. بنویسید این صفت هرگز به چه معنا نیست."
-    ]
+    ],
+    "plan": {
+      "quality": "نام صفت",
+      "patterns": "الگوهای درونی که جلوی این صفت را می‌گیرند",
+      "vague": "در این کار بهتر باش",
+      "reach": "بالاترین مرحله‌ها در عمل چه شکلی دارند",
+      "recurring": "کاری که هر هفته تکرار می‌شود",
+      "limit": "این صفت هرگز نباید به چه چیزی تبدیل شود",
+      "example": "شنبه: یک کار کوچک و مشخص\nسه‌شنبه: کاری دیگر"
+    }
   }
 };
 

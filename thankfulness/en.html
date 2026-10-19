@@ -237,12 +237,21 @@ const CONTENT = {
       ] }
   ],
 
-  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
   coach: {
     "header": "Thankfulness self-assessment",
     "rules": [
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Gratitude never means accepting mistreatment, hiding pain, or staying silent about real needs or injustice."
-    ]
+    ],
+    "plan": {
+      "quality": "thankfulness",
+      "patterns": "comparing, complaining, taking things for granted",
+      "vague": "be more grateful",
+      "reach": "thanking someone I never properly thanked, finding something to be grateful for in a hard situation",
+      "recurring": "like a written gratitude list",
+      "limit": "gratitude never means accepting mistreatment, hiding pain, or staying silent about real needs",
+      "example": "Monday: write down 3 things I'm grateful for\nWednesday: send a thank-you message to someone who helped me\nFriday: thank someone who serves me (cashier, driver) by name"
+    }
   }
 };
 

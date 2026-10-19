@@ -25,9 +25,10 @@
      areas: ["Area name", ...],
      stages: [{ name, desc }, ...],         // 10 stages, lowest first
      questions: [{ area, text, options: [[stage, "answer"], ...] }, ...],
-     coach: { header, rules: [...], request?: [...] }
-       // text for an AI coach: header line, this quality's own rules (added
-       // after the shared standing rules), optional custom request lines
+     coach: { header, rules: [...],         // header line; this quality's own
+                                            // rules (e.g. healthy limits)
+              plan: { quality, patterns, vague, reach, recurring, limit, example } }
+       // fills the 40-day plan request in core/defaults.js
    }
    Saved on this device only (localStorage):
      bbp-progress-<id>  unfinished answers, so the viewer can continue later
@@ -49,11 +50,14 @@
     var T = merge(D.text, C.text);
     var COACH = merge(D.coach, C.coach || {});
     COACH.rules = (D.coach.rules || []).concat((C.coach && C.coach.rules) || []);
+    COACH.planVals = (C.coach && C.coach.plan) || {};
+    var KEY_TASKS;
     var AREAS = C.areas, STAGES = C.stages, QUESTIONS = C.questions;
     var app = find(opts.el || "#app"), top = find(opts.header || "#top");
     var otherPage = opts.otherPage || C.otherPage, home = opts.home || "../index.html";
     var id = opts.id || folderId();
     var KEY_PROGRESS = "bbp-progress-" + id, KEY_HISTORY = "bbp-history-" + id;
+    KEY_TASKS = "bbp-tasks-" + id + "-" + lang;
     var idx = -1, answers = [], orders = [], historyEntry = -1;
 
     function t(k, vars) { return UI.fill(T[k] == null ? k : T[k], vars); }
@@ -179,12 +183,18 @@
         s2: UI.num(s + 1), name2: STAGES[s + 1].name, mark2: STAGES[s + 1].desc });
     }
 
-    /* ---------- Text for an AI coach ---------- */
-    function coachText(r) {
+    /* ---------- Text for an AI coach: results + 40-day plan request ---------- */
+    function dateIn(days) {
+      var d = new Date(); d.setDate(d.getDate() + days);
+      var loc = lang === "fa" ? "fa-IR" : "en-US";
+      try { return d.toLocaleDateString(loc, { weekday: "long" }) + (lang === "fa" ? " " : ", ") + d.toLocaleDateString(loc, { year: "numeric", month: "long", day: "numeric" }); }
+      catch (e) { return UI.num(d.toISOString().slice(0, 10)); }
+    }
+    function coachText(r, ownTasks) {
       var P = COACH, L = [];
-      L.push(P.header, P.date + UI.today(), "", P.rulesT);
-      P.rules.forEach(function (x) { L.push("- " + x); });
-      L.push("", P.stagesT);
+      var plan = merge(P.planDefaults || {}, P.planVals || {});
+      L.push(P.header, P.date + UI.today(), "");
+      L.push(P.stagesT);
       STAGES.forEach(function (s, i) { L.push(band(i) + " " + s.name + ": " + s.desc); });
       L.push("", P.scoresT);
       r.areas.forEach(function (a, i) {
@@ -200,12 +210,15 @@
         else if (a === "none") L.push("   → " + t("none"));
         else { var o = q.options[a]; L.push("   → " + o[1] + " (" + t("stage") + " " + UI.num(o[0]) + " – " + STAGES[o[0]].name + ")"); }
       });
-      L.push("");
-      if (r.low) {
-        var vars = { area: AREAS[r.low.i], s: UI.num(r.low.stage), os: UI.num(r.oStage), oname: STAGES[r.oStage].name };
-        L.push(P.requestT);
-        P.request.forEach(function (x) { L.push(UI.fill(x, vars)); });
-      }
+      L.push("", "---", "");
+      var list = String(ownTasks || "").split("\n").map(function (x) { return x.trim(); }).filter(Boolean);
+      var vars = merge(plan, {
+        tasks: list.length ? UI.fill(P.tasksYes, { list: list.join(lang === "fa" ? "؛ " : "; ") }) : P.tasksNo,
+        start: dateIn(0), day40: dateIn(39)
+      });
+      P.request.forEach(function (x) { L.push(UI.fill(x, vars)); });
+      L.push("", P.rulesT);
+      P.rules.concat(P.rulesEnd || []).forEach(function (x) { L.push("- " + x); });
       return L.join("\n");
     }
 
@@ -220,17 +233,22 @@
       });
       var overall = r.overall === null ? UI.muted(t("notScored"))
         : UI.bigScore(r.overall, 100, t("stage") + " " + UI.num(r.oStage) + ": " + STAGES[r.oStage].name, STAGES[r.oStage].desc);
-      var text = coachText(r);
+      var ownTasks = UI.store.get(KEY_TASKS, "") || "";
+      var example = merge(COACH.planDefaults || {}, COACH.planVals || {}).example || "";
       app.innerHTML =
         UI.card(UI.title(t("resT")) + UI.muted(UI.today()) + UI.heading(t("overall"), "margin-top:14px") + overall) +
         UI.card(UI.scoreBars(bars)) +
         (r.low ? UI.card(UI.heading(t("nextT")) + UI.para(nextStepText(r)) + (T.lim ? UI.note("", t("lim"), "limit") : "")) : "") +
         historyCard() +
-        UI.card(UI.copyBox({ id: "coach", title: t("llmT"), hint: t("llmHint"), copyLabel: t("copy"),
-          extra: UI.button(t("download"), { id: "dlBtn" }) + UI.button(t("print"), { id: "printBtn" }) }), "no-print") +
+        UI.card(UI.heading(t("llmT")) + UI.muted(t("llmHint")) +
+          UI.field({ id: "ownTasks", label: t("tasksT"), hint: t("tasksHint"), placeholder: example, value: ownTasks, rows: 4 }) +
+          UI.copyBox({ id: "coach", copyLabel: t("copy"),
+            extra: UI.button(t("download"), { id: "dlBtn" }) + UI.button(t("print"), { id: "printBtn" }) }), "no-print") +
         UI.navRow(UI.button(t("back"), { id: "backBtn" }), UI.button(t("restart"), { id: "restartBtn" }));
-      UI.bindCopy("coach", text, t("copy"), t("copied"));
-      UI.onClick("dlBtn", function () { UI.download(id + "-" + new Date().toISOString().slice(0, 10) + "-" + lang + ".txt", text); });
+      UI.bindCopy("coach", coachText(r, ownTasks), t("copy"), t("copied"));
+      var field = document.getElementById("ownTasks"), box = document.getElementById("coach");
+      field.oninput = function () { UI.store.set(KEY_TASKS, field.value); box.value = coachText(r, field.value); };
+      UI.onClick("dlBtn", function () { UI.download(id + "-" + new Date().toISOString().slice(0, 10) + "-" + lang + ".txt", box.value); });
       UI.onClick("printBtn", function () { window.print(); });
       UI.onClick("backBtn", function () { goTo(QUESTIONS.length - 1); });
       UI.onClick("restartBtn", function () { reset(); goTo(-1); });
