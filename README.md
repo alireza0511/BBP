@@ -1,15 +1,15 @@
 # Becoming Better · بهتر شدن
 
-Five private, self-scored assessments, in English and Farsi, for growing in a quality across ten stages:
+Five private, self-scored assessments for growing in a quality across ten stages. Each one has its own folder with a separate English and Farsi page:
 
-| Path | From → To | Page |
-|---|---|---|
-| Generosity · سخاوت | شحیح → کریم | `generosity-assessment.html` |
-| Patience · صبر | تندخو → صبور | `path-of-patience.html` |
-| Thankfulness · شکر | نمک‌نشناس → شکور | `thankfulness.html` |
-| Trust · توکل | قانِط → راضی | `trust-tawakkul.html` |
-| Bravery · شجاعت | جُبن → قوی | `bravery-path.html` |
+| Path | From → To | English | Farsi |
+|---|---|---|---|
+| Generosity · سخاوت | شحیح → کریم | `generosity/en.html` | `generosity/fa.html` |
+| Patience · صبر | تندخو → صبور | `patience/en.html` | `patience/fa.html` |
+| Thankfulness · شکر | نمک‌نشناس → شکور | `thankfulness/en.html` | `thankfulness/fa.html` |
+| Trust · توکل | قانِط → راضی | `trust/en.html` | `trust/fa.html` |
+| Bravery · شجاعت | جُبن → قوی | `bravery/en.html` | `bravery/fa.html` |
 
-`index.html` is the home page that links to all of them. Each page is a single self-contained HTML file. Answers never leave the browser.
+`index.html` is the home page (English/Farsi toggle) and links to the page in the chosen language. Each page is a single self-contained HTML file. Answers never leave the browser.
 
-The `*-questions.md` files list every question with the stage behind each answer, for review.
+Some folders also have a `questions.md` listing every question with the stage behind each answer, for review.

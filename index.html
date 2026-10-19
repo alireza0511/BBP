@@ -86,19 +86,19 @@
 
 <script>
 const PATHS = [
-  { href:"generosity-assessment.html", c:"--c-gen",
+  { dir:"generosity", c:"--c-gen",
     en:{name:"Generosity", alt:"", from:"The Grasper", to:"The Bountiful"},
     fa:{name:"سخاوت", alt:"", from:"شحیح", to:"کریم"}, areas:6, qs:18 },
-  { href:"path-of-patience.html", c:"--c-pat",
+  { dir:"patience", c:"--c-pat",
     en:{name:"Patience", alt:"", from:"The Wrathful", to:"The Patient"},
     fa:{name:"صبر", alt:"", from:"تندخو", to:"صبور"}, areas:7, qs:21 },
-  { href:"thankfulness.html", c:"--c-tha",
+  { dir:"thankfulness", c:"--c-tha",
     en:{name:"Thankfulness", alt:"", from:"The Ingrate", to:"The Ever-Grateful"},
     fa:{name:"شکر", alt:"", from:"نمک‌نشناس", to:"شکور"}, areas:6, qs:18 },
-  { href:"trust-tawakkul.html", c:"--c-tru",
+  { dir:"trust", c:"--c-tru",
     en:{name:"Trust in a Higher Power", alt:"", from:"The Despairing", to:"The Content"},
     fa:{name:"توکل", alt:"", from:"قانِط", to:"راضی"}, areas:6, qs:18 },
-  { href:"bravery-path.html", c:"--c-bra",
+  { dir:"bravery", c:"--c-bra",
     en:{name:"Bravery", alt:"", from:"Cowardice", to:"The Strong"},
     fa:{name:"شجاعت", alt:"", from:"جُبن", to:"قوی"}, areas:7, qs:21 }
 ];
@@ -146,7 +146,7 @@ function render(){
   $("lede").textContent = t.lede;
   $("grid").innerHTML = PATHS.map((p, i) => {
     const s = p[lang];
-    return `<a class="path" href="${p.href}" style="--c:var(${p.c})">
+    return `<a class="path" href="${p.dir}/${lang}.html" style="--c:var(${p.c})">
       <span class="num">${lang==="fa" ? fa(i+1) : String(i+1).padStart(2,"0")}</span>
       <span class="name">${s.name}</span>
       ${s.alt ? `<span class="alt">${s.alt}</span>` : ""}

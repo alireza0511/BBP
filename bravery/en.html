@@ -338,7 +338,7 @@ fa:{brand:"مسیر شجاعت",lang:"English",themeAuto:"◐ خودکار",them
  nextTxt:(a,s,n)=>`پایین‌ترین حوزه تو <b>${a}</b> است، در مرحله <b>${s}</b>. مرحله بعدی در آن <b>${n.fa}</b> است: ${n.mFa}.`,
  topTxt:a=>`پایین‌ترین حوزه تو، <b>${a}</b>، هم‌اکنون رو به «القوی» است. آرام ادامه بده؛ این یک جهت است، نه خط پایان.`,
  nextChoose:"این فقط یک پیشنهاد است. قدم بعدی را خودت انتخاب می‌کنی.",
- copyT:"ادامه مسیر",copyHelp:"این متن را کپی کن و در Claude یا دستیار هوش مصنوعی دیگری بچسبان تا تمرین‌های ملایم و مشخص بگیری.",
+ copyT:"ادامه مسیر",copyHelp:"این متن را کپی کن و در یک دستیار هوش مصنوعی بچسبان تا تمرین‌های ملایم و مشخص بگیری.",
  copy:"کپی",copied:"کپی شد ✓",restart:"شروع دوباره",empty:"هنوز پاسخی امتیاز نگرفته. برگرد و دست‌کم یک پاسخ انتخاب کن."}
 };
 
@@ -475,7 +475,7 @@ document.getElementById("langBtn").onclick=()=>{lang=lang==="en"?"fa":"en";rende
 document.getElementById("themeBtn").onclick=()=>{theme=theme==="auto"?"light":theme==="light"?"dark":"auto";renderHeader()};
 render();
 </script>
-<!-- bbp-home: link back to the home page -->
+<!-- bbp-nav: home link + language link (en page) -->
 <style>
   .bbp-home{display:block;max-width:860px;margin:0 auto;padding:12px 16px 0;font:500 .88rem/1.4 Inter,Vazirmatn,system-ui,sans-serif}
   html[lang="fa"] .bbp-home{font-family:Vazirmatn,Tahoma,sans-serif}
@@ -484,22 +484,22 @@ render();
 </style>
 <script>
 (function(){
+  var PAGE_LANG="en", OTHER="fa.html";
+  // Show this page in its own language (the shared code starts in English).
+  if(document.documentElement.lang!==PAGE_LANG){
+    var t=document.getElementById("btn-"+PAGE_LANG)||document.getElementById("langBtn");
+    if(t)t.click();
+  }
+  try{localStorage.setItem("bbp-lang",PAGE_LANG)}catch(e){}
+  // The language button now opens the other language's page.
+  ["langBtn","btn-fa"].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b){b.removeAttribute("onclick");b.onclick=function(){location.href=OTHER};}
+  });
+  var g=document.getElementById("btn-en");if(g){g.removeAttribute("onclick");g.onclick=null;}
   var bar=document.createElement("nav");bar.className="bbp-home";
-  var a=document.createElement("a");a.href="index.html";bar.appendChild(a);
-  document.body.insertBefore(bar,document.body.firstChild);
-  var h=document.documentElement;
-  function sync(){
-    var isFa=h.lang==="fa";
-    a.textContent=isFa?"→ همهٔ مسیرها":"← All paths";
-    try{localStorage.setItem("bbp-lang",isFa?"fa":"en")}catch(e){}
-  }
-  var want=null;try{want=localStorage.getItem("bbp-lang")}catch(e){}
-  if(want==="fa"&&h.lang!=="fa"){
-    var b=document.getElementById("btn-fa")||document.getElementById("langBtn");
-    if(b)b.click();
-  }
-  sync();
-  new MutationObserver(sync).observe(h,{attributes:true,attributeFilter:["lang"]});
+  var a=document.createElement("a");a.href="../index.html";a.textContent="← All paths";
+  bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);
 })();
 </script>
 </body>

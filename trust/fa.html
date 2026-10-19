@@ -1,9 +1,9 @@
 <!doctype html>
-<html lang="en" dir="ltr">
+<html lang="fa" dir="rtl">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Trust in a Higher Power</title>
+<title>توکل به نیروی برتر</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
 <style>
@@ -264,7 +264,7 @@ start:"شروع",back:"قبلی",next:"بعدی",finish:"دیدن نتیجه",no
 resT:"نتیجهٔ شما",overall:"کلی",stage:"مرحله",nextT:"قدم بعدی شما",
 nextTxt:"پایین‌ترین حوزهٔ شما {area} است، در مرحلهٔ {s} ({name}). مرحلهٔ بالاتر {s2}، {name2}: {mark2}",
 nextTop:"پایین‌ترین حوزهٔ شما {area} است که در مرحلهٔ ۹ قرار دارد. رو به همین جهت بمانید؛ نشانی برای نگه داشتن نیست.",
-notScored:"امتیاز ندارد",llmT:"متن برای مربی هوش مصنوعی",llmHint:"این متن را در Claude یا دستیار دیگری بچسبانید تا برای قدم بعدی تمرین بگیرید.",
+notScored:"امتیاز ندارد",llmT:"متن برای مربی هوش مصنوعی",llmHint:"این متن را در یک دستیار هوش مصنوعی بچسبانید تا برای قدم بعدی تمرین بگیرید.",
 copy:"کپی",copied:"کپی شد",restart:"شروع دوباره",lang:"English",band:"بازه"}
 };
 
@@ -430,7 +430,7 @@ document.getElementById("themeBtn").onclick=()=>{
 };
 reset();setLang("en");
 </script>
-<!-- bbp-home: link back to the home page -->
+<!-- bbp-nav: home link + language link (fa page) -->
 <style>
   .bbp-home{display:block;max-width:860px;margin:0 auto;padding:12px 16px 0;font:500 .88rem/1.4 Inter,Vazirmatn,system-ui,sans-serif}
   html[lang="fa"] .bbp-home{font-family:Vazirmatn,Tahoma,sans-serif}
@@ -439,22 +439,22 @@ reset();setLang("en");
 </style>
 <script>
 (function(){
+  var PAGE_LANG="fa", OTHER="en.html";
+  // Show this page in its own language (the shared code starts in English).
+  if(document.documentElement.lang!==PAGE_LANG){
+    var t=document.getElementById("btn-"+PAGE_LANG)||document.getElementById("langBtn");
+    if(t)t.click();
+  }
+  try{localStorage.setItem("bbp-lang",PAGE_LANG)}catch(e){}
+  // The language button now opens the other language's page.
+  ["langBtn","btn-en"].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b){b.removeAttribute("onclick");b.onclick=function(){location.href=OTHER};}
+  });
+  var g=document.getElementById("btn-fa");if(g){g.removeAttribute("onclick");g.onclick=null;}
   var bar=document.createElement("nav");bar.className="bbp-home";
-  var a=document.createElement("a");a.href="index.html";bar.appendChild(a);
-  document.body.insertBefore(bar,document.body.firstChild);
-  var h=document.documentElement;
-  function sync(){
-    var isFa=h.lang==="fa";
-    a.textContent=isFa?"→ همهٔ مسیرها":"← All paths";
-    try{localStorage.setItem("bbp-lang",isFa?"fa":"en")}catch(e){}
-  }
-  var want=null;try{want=localStorage.getItem("bbp-lang")}catch(e){}
-  if(want==="fa"&&h.lang!=="fa"){
-    var b=document.getElementById("btn-fa")||document.getElementById("langBtn");
-    if(b)b.click();
-  }
-  sync();
-  new MutationObserver(sync).observe(h,{attributes:true,attributeFilter:["lang"]});
+  var a=document.createElement("a");a.href="../index.html";a.textContent="→ همهٔ مسیرها";
+  bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);
 })();
 </script>
 </body>

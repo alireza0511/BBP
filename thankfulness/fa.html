@@ -1,0 +1,614 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>شکر</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap">
+<style>
+:root{
+  --bg:#faf7f2;--card:#ffffff;--text:#2a2622;--muted:#6f675e;--line:#e6dfd4;
+  --accent:#a8692c;--accent-soft:#f4e7d6;--bar:#c98c4b;--track:#efe8dd;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#16140f;--card:#211e18;--text:#eee7dc;--muted:#a89f92;--line:#3a352c;
+    --accent:#e0a866;--accent-soft:#3a2e1f;--bar:#d39a5c;--track:#2d2922;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#16140f;--card:#211e18;--text:#eee7dc;--muted:#a89f92;--line:#3a352c;
+  --accent:#e0a866;--accent-soft:#3a2e1f;--bar:#d39a5c;--track:#2d2922;
+}
+*{box-sizing:border-box}
+html,body{margin:0}
+body{background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;}
+html[lang="fa"] body{font-family:"Vazirmatn",Tahoma,system-ui,sans-serif;}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 0 16px}
+header h1{font-size:1.1rem;margin:0;font-weight:700}
+.tools{display:flex;gap:8px}
+button{font:inherit;color:inherit;cursor:pointer}
+.chip{background:var(--card);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font-size:.9rem}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
+h2{font-size:1.05rem;margin:0 0 8px}
+p{margin:0 0 10px}
+.muted{color:var(--muted)}
+table{width:100%;border-collapse:collapse;font-size:.92rem}
+td{padding:8px 6px;border-top:1px solid var(--line);vertical-align:top}
+td.band{white-space:nowrap;color:var(--muted);width:1%}
+td.name{font-weight:600;white-space:nowrap;width:1%}
+.btn{border:none;border-radius:12px;padding:12px 20px;font-weight:600}
+.primary{background:var(--accent);color:#fff}
+html[data-theme="dark"] .primary{color:#1a150e}
+@media (prefers-color-scheme: dark){html:not([data-theme="light"]) .primary{color:#1a150e}}
+.primary:disabled{opacity:.4;cursor:not-allowed}
+.ghost{background:transparent;border:1px solid var(--line)}
+.row{display:flex;justify-content:space-between;gap:12px;margin-top:16px}
+.progress{height:6px;background:var(--track);border-radius:99px;overflow:hidden;margin:6px 0 18px}
+.progress>div{height:100%;background:var(--bar);transition:width .25s}
+.area-tag{display:inline-block;background:var(--accent-soft);color:var(--accent);border-radius:999px;padding:2px 12px;font-size:.85rem;font-weight:600}
+.q{font-size:1.08rem;font-weight:600;margin:14px 0 16px}
+.opt{display:block;width:100%;text-align:start;background:var(--card);border:1.5px solid var(--line);border-radius:12px;padding:12px 14px;margin-bottom:10px;line-height:1.5}
+.opt:hover{border-color:var(--bar)}
+.opt.sel{border-color:var(--accent);background:var(--accent-soft)}
+.opt.none{border-style:dashed;color:var(--muted)}
+.bar-row{margin:12px 0}
+.bar-head{display:flex;justify-content:space-between;gap:8px;font-size:.95rem}
+.bar-track{height:12px;background:var(--track);border-radius:99px;overflow:hidden;margin-top:4px}
+.bar-fill{height:100%;background:var(--bar);border-radius:99px}
+.big{font-size:2.2rem;font-weight:700;color:var(--accent);line-height:1.2}
+textarea{width:100%;min-height:240px;border:1px solid var(--line);border-radius:12px;background:var(--bg);color:var(--text);padding:12px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
+html[lang="fa"] textarea{font-family:"Vazirmatn",Tahoma,sans-serif;font-size:14px}
+.note{border-inline-start:3px solid var(--bar);padding-inline-start:12px}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <h1 id="title"></h1>
+    <div class="tools">
+      <button class="chip" id="langBtn"></button>
+      <button class="chip" id="themeBtn" aria-label="Theme">◐</button>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+<script>
+/*DATA_START*/
+const STAGES = [
+ {en:["The Ingrate","Denies, belittles, or turns against those who helped them."],fa:["نمک‌نشناس","لطف دیگران را انکار یا کوچک می‌کند، یا علیه کسی که کمکش کرده می‌ایستد."]},
+ {en:["The Heedless","Takes things for granted and complains easily — not malice, just not seeing."],fa:["غافل","داشته‌ها و لطف دیگران را نمی‌بیند و زود گله می‌کند؛ بدخواهی نیست، فقط ندیدن است."]},
+ {en:["The Dutiful","Says thanks because it's expected; the words are there, the heart isn't."],fa:["وظیفه‌گزار","چون انتظار می‌رود تشکر می‌کند؛ کلمات هست، ولی دل همراهش نیست."]},
+ {en:["The Indebted","Feels gratitude as a debt: can't simply receive, rushes to repay or over-thanks."],fa:["منّت‌کش","شکر را مثل بدهی حس می‌کند؛ نمی‌تواند ساده بپذیرد، زود جبران می‌کند یا بیش از حد تشکر می‌کند."]},
+ {en:["The Performer","Thanks loudly where others can see; less in private, with the people who actually helped."],fa:["نمایشی","جلوی دیگران بلند تشکر می‌کند، ولی در خلوت و با کسی که واقعاً کمک کرده کمتر."]},
+ {en:["The Calculating","Grateful when things go their way, in proportion to what they got; a ledger in the background."],fa:["حسابگر","وقتی اوضاع به کامش است شاکر است، به اندازهٔ آنچه گرفته؛ دفتر حسابی در پس ذهن دارد."]},
+ {en:["The Thankful","Notices ordinary good things, thanks sincerely and specifically, takes care of what they have."],fa:["شاکر","نعمت‌های عادی را می‌بیند، صادقانه و مشخص تشکر می‌کند و از داشته‌هایش مراقبت می‌کند."]},
+ {en:["The Appreciative","Thanks before being prompted; sees the overlooked and remembers kindness for years."],fa:["قدرشناس","بی‌آنکه کسی یادآوری کند تشکر می‌کند؛ نادیده‌ها را می‌بیند و لطف را سال‌ها به یاد دارد."]},
+ {en:["The Content-at-Heart","Stays grateful through loss, or toward a rival or someone who hurt them — while still naming wrongs and protecting themselves."],fa:["راضی","در فقدان و سختی، یا در برابر رقیب و کسی که آزارش داده، شکرگزار می‌ماند؛ و همچنان ظلم را نام می‌برد و از خود محافظت می‌کند."]},
+ {en:["The Ever-Grateful","Gratitude has become a way of living; even the ability to give thanks is seen as a gift. A direction to face, not a place to arrive."],fa:["شکور","شکر شیوهٔ زندگی شده است؛ حتی توان شکر را نعمت می‌بیند. جهتی است برای رو کردن، نه مقصدی برای رسیدن."]}
+];
+
+const AREAS = [
+{en:"Noticing",fa:"دیدن نعمت",qs:[
+ {en:"At the end of an ordinary, uneventful day, a friend asks: “Anything good happen today?” What do you most likely say?",
+  fa:"پایان یک روز معمولی و بی‌اتفاق، دوستی می‌پرسد: «امروز چیز خوبی پیش آمد؟» به احتمال زیاد چه می‌گویید؟",
+  a:[
+   [1,"“Not really, nothing happened.”","«نه بابا، خبری نبود.»"],
+   [2,"I say “can't complain,” because that's what you say.","می‌گویم «بد نیست، شکر»، چون همین را می‌گویند."],
+   [3,"I mention a good thing or two, then add that I probably didn't deserve such an easy day.","یکی دو چیز خوب را می‌گویم، بعد اضافه می‌کنم که شاید لیاقت چنین روز راحتی را نداشتم."],
+   [4,"I mention the one thing that sounds most impressive.","همان یک چیزی را می‌گویم که جذاب‌تر به نظر برسد."],
+   [5,"“Well, at least I'm doing better than my coworker.”","«خب، دست‌کم از همکارم وضعم بهتر است.»"],
+   [6,"I think for a moment and name a few small good things — a good lunch, a nice call.","کمی فکر می‌کنم و چند چیز کوچک خوب را نام می‌برم؛ یک ناهار خوب، یک تماس خوب."],
+   [7,"Several small things come to mind easily, including the people who made my day work.","بی‌زحمت چند چیز کوچک به ذهنم می‌آید، از جمله آدم‌هایی که روزم را راه انداختند."]
+  ]},
+ {en:"You've had the flu for a week. You missed work, you're exhausted, and you're behind on everything. Looking back at that week, what do you notice?",
+  fa:"یک هفته آنفولانزا داشته‌اید. سر کار نرفته‌اید، خسته‌اید و از همه‌چیز عقب افتاده‌اید. به آن هفته که نگاه می‌کنید، چه چیزی به چشمتان می‌آید؟",
+  a:[
+   [1,"Mostly how much I lost and how far behind I am.","بیشتر اینکه چقدر از دست دادم و چقدر عقب افتادم."],
+   [2,"I tell myself to be grateful because others have it worse, but I don't really feel it.","به خودم می‌گویم باید شاکر باشم چون دیگران وضعشان بدتر است، ولی واقعاً حسش نمی‌کنم."],
+   [4,"I post something about being “grateful for the rest,” while mostly feeling miserable.","پستی می‌گذارم دربارهٔ اینکه «ممنونم برای این استراحت»، در حالی که بیشتر حالم بد است."],
+   [5,"I'd feel grateful if it turned out to get me out of something I didn't want to do.","اگر معلوم شود به خاطرش از کاری که نمی‌خواستم خلاص شدم، آن وقت شاکرم."],
+   [6,"Once I feel better, I notice who checked on me and that my body recovered.","وقتی حالم بهتر می‌شود، می‌بینم چه کسانی حالم را پرسیدند و اینکه بدنم خوب شد."],
+   [7,"Even while sick, I notice small good things — a warm drink, a message from a friend.","حتی وقتی مریضم، چیزهای کوچک خوب را می‌بینم؛ یک نوشیدنی گرم، پیامی از یک دوست."],
+   [8,"Through the whole miserable week I still feel how much I was given — breath, care, a bed — without pretending it wasn't hard.","در تمام آن هفتهٔ سخت هنوز حس می‌کنم چقدر به من داده شده؛ نفس، مراقبت، یک تخت؛ بی‌آنکه وانمود کنم سخت نبود."]
+  ]},
+ {en:"You mention that you enjoy your morning walk. A coworker who once took credit for your work laughs and says it's silly to be grateful for “little stuff like that.” What happens inside you?",
+  fa:"می‌گویید از پیاده‌روی صبحتان لذت می‌برید. همکاری که یک بار کار شما را به اسم خودش زد، می‌خندد و می‌گوید شکرگزاری برای «همچین چیزهای کوچکی» مسخره است. در درونتان چه می‌گذرد؟",
+  a:[
+   [0,"I fire back by mocking the things they care about.","متقابلاً چیزهایی را که برایش مهم است مسخره می‌کنم."],
+   [1,"I stop paying attention to those things — maybe they're right.","دیگر به آن چیزها توجه نمی‌کنم؛ شاید حق با او باشد."],
+   [3,"I feel embarrassed for having said it and keep such things to myself from now on.","از گفتنش خجالت می‌کشم و از این به بعد این چیزها را برای خودم نگه می‌دارم."],
+   [4,"I start talking about my gratitude even more loudly, to prove a point.","برای اینکه حرفم را ثابت کنم، بلندتر از شکرگزاری‌ام حرف می‌زنم."],
+   [6,"I shrug it off and keep enjoying my walks.","اهمیتی نمی‌دهم و همچنان از پیاده‌روی‌ام لذت می‌برم."],
+   [7,"I keep enjoying them, and I even notice the good things this coworker brings to the team.","همچنان لذت می‌برم و حتی خوبی‌هایی را که این همکار به تیم می‌دهد هم می‌بینم."],
+   [9,"I see my walk, my life, and even this difficult person as part of what I've been given — while keeping my distance from how they behave.","پیاده‌روی‌ام، زندگی‌ام و حتی همین آدم سخت را بخشی از آنچه به من داده شده می‌بینم؛ و در عین حال از رفتارش فاصله می‌گیرم."]
+  ]}
+]},
+{en:"Thanking people",fa:"تشکر از دیگران",qs:[
+ {en:"A colleague stays late to help you fix a problem before a deadline. What do you do?",
+  fa:"همکاری دیرتر می‌ماند تا کمکتان کند مشکلی را پیش از موعد تحویل حل کنید. چه می‌کنید؟",
+  a:[
+   [1,"I'm so focused on the deadline that I don't really thank them.","آن‌قدر درگیر موعد تحویلم که درست تشکر نمی‌کنم."],
+   [2,"I say “thanks” on my way out.","موقع رفتن یک «مرسی» می‌گویم."],
+   [3,"I apologize a lot for taking their time and insist on buying them lunch tomorrow.","کلی عذرخواهی می‌کنم که وقتش را گرفتم و اصرار می‌کنم فردا ناهارش را حساب کنم."],
+   [4,"I thank them in the team chat, where the boss can see it.","در گروه تیم، جایی که مدیر هم ببیند، تشکر می‌کنم."],
+   [5,"I thank them warmly — I'll probably need their help again.","گرم تشکر می‌کنم؛ احتمالاً باز هم به کمکش نیاز دارم."],
+   [6,"I tell them right then, specifically, what their help saved me from.","همان موقع دقیق می‌گویم کمکش من را از چه چیزی نجات داد."],
+   [7,"I thank them then, and later, without being asked, I tell their manager what they did.","همان موقع تشکر می‌کنم و بعداً، بی‌آنکه کسی بخواهد، به مدیرش می‌گویم چه کرده."]
+  ]},
+ {en:"You've spent all day moving house and you're exhausted. A neighbor you barely know carried boxes for an hour. It's late and you just want to collapse. What do you do?",
+  fa:"تمام روز اسباب‌کشی کرده‌اید و از پا افتاده‌اید. همسایه‌ای که چندان نمی‌شناسیدش یک ساعت جعبه جابه‌جا کرده. دیروقت است و فقط می‌خواهید بیفتید. چه می‌کنید؟",
+  a:[
+   [1,"I'm too tired to think about it, and I'll probably forget.","خسته‌تر از آنم که فکرش را بکنم و احتمالاً یادم می‌رود."],
+   [2,"I wave and say thanks from the door.","از دم در دستی تکان می‌دهم و تشکر می‌کنم."],
+   [3,"I feel bad and insist on paying them, even though they keep refusing.","معذب می‌شوم و اصرار می‌کنم پولی بدهم، با اینکه مدام قبول نمی‌کند."],
+   [5,"I thank them warmly — it's good to stay on a neighbor's good side.","گرم تشکر می‌کنم؛ خوب است با همسایه رابطه‌ام خوب بماند."],
+   [6,"I thank them sincerely before they leave.","پیش از رفتنش صادقانه تشکر می‌کنم."],
+   [7,"I thank them, and a few days later I bring a small note or treat saying what their help meant.","تشکر می‌کنم و چند روز بعد یادداشت یا چیز کوچکی می‌برم و می‌گویم کمکش چه معنایی داشت."],
+   [8,"Exhausted as I am, I go over, look them in the eye, thank them properly, and offer the same help whenever they need it.","با همهٔ خستگی، پیشش می‌روم، در چشمش نگاه می‌کنم، درست تشکر می‌کنم و می‌گویم هر وقت لازم داشت همین کمک را می‌کنم."]
+  ]},
+ {en:"Someone you had a bitter argument with last month quietly covered your shift when your child was sick. What do you do?",
+  fa:"کسی که ماه پیش با او دعوای تلخی داشتید، وقتی بچه‌تان مریض بود بی‌سروصدا شیفتتان را پوشش داد. چه می‌کنید؟",
+  a:[
+   [0,"I tell myself they only did it to look good, and I say nothing.","به خودم می‌گویم فقط برای خوب جلوه دادن خودش این کار را کرده و چیزی نمی‌گویم."],
+   [1,"It doesn't really register — we're not on speaking terms.","زیاد به چشمم نمی‌آید؛ با هم حرف نمی‌زنیم."],
+   [2,"I send a short “thanks” text because I have to.","چون باید، یک پیام کوتاه «ممنون» می‌فرستم."],
+   [3,"I feel like I owe them now, and I get awkward around them.","حس می‌کنم حالا به او بدهکارم و کنارش معذبم."],
+   [5,"I thank them, mainly so I'm not in their debt at work.","تشکر می‌کنم، بیشتر برای اینکه سر کار زیر دینش نمانم."],
+   [8,"Even though I'm still hurt by the argument, I go to them and thank them sincerely, without pretending the argument didn't happen.","با اینکه هنوز از آن دعوا دلخورم، پیشش می‌روم و صادقانه تشکر می‌کنم، بی‌آنکه وانمود کنم دعوایی نبوده."],
+   [9,"I thank them sincerely and let this kindness genuinely change how I see them — while still talking honestly about what happened between us.","صادقانه تشکر می‌کنم و می‌گذارم این مهربانی واقعاً نگاهم را به او عوض کند؛ و همچنان صادقانه دربارهٔ آنچه بینمان گذشت حرف می‌زنم."]
+  ]}
+]},
+{en:"Using what you're given",fa:"به‌جا به‌کار بردن نعمت",qs:[
+ {en:"A friend gives you a beautiful, good-quality notebook they know you'll like. What happens to it?",
+  fa:"دوستی دفترچهٔ زیبا و باکیفیتی به شما هدیه می‌دهد که می‌داند دوستش دارید. سرنوشتش چه می‌شود؟",
+  a:[
+   [1,"It ends up in a drawer and I forget about it.","سر از کشو درمی‌آورد و فراموشش می‌کنم."],
+   [2,"I use it when I'm going to see them, so they don't feel bad.","وقتی قرار است او را ببینم از آن استفاده می‌کنم که دلخور نشود."],
+   [3,"It's too nice to use — I keep it untouched so I don't ruin it.","حیفم می‌آید استفاده‌اش کنم؛ دست‌نخورده نگهش می‌دارم که خراب نشود."],
+   [4,"I post a photo of it before I ever write in it.","قبل از اینکه چیزی در آن بنویسم، عکسش را پست می‌کنم."],
+   [5,"I look after it because it was expensive.","چون گران بوده مراقبش هستم."],
+   [6,"I use it and take good care of it.","از آن استفاده می‌کنم و خوب مراقبش هستم."],
+   [7,"I use it fully, and later show my friend what I wrote or made in it.","کامل از آن استفاده می‌کنم و بعداً به دوستم نشان می‌دهم چه چیزی در آن نوشتم یا ساختم."]
+  ]},
+ {en:"It's your one free evening after an exhausting week. An elderly neighbor knocks: they can't read an important letter written in a language you know well, and they must reply by tomorrow.",
+  fa:"تنها عصر آزادتان بعد از هفته‌ای طاقت‌فرساست. همسایهٔ سالمندی در می‌زند: نامهٔ مهمی دارد به زبانی که شما خوب بلدید و نمی‌تواند بخواندش، و باید تا فردا جواب بدهد.",
+  a:[
+   [1,"I pretend I'm not home.","وانمود می‌کنم خانه نیستم."],
+   [2,"I help because it would look bad not to, but I rush through it.","کمک می‌کنم چون نکردنش زشت است، ولی سرسری."],
+   [3,"I help, then worry for days that I didn't translate it perfectly.","کمک می‌کنم و بعد تا چند روز نگرانم که بی‌نقص ترجمه نکرده باشم."],
+   [5,"I help — they might be useful to me later.","کمک می‌کنم؛ شاید بعداً به کارم بیاید."],
+   [6,"I help them read and answer it, then rest.","کمکش می‌کنم نامه را بخواند و جواب بدهد، بعد استراحت می‌کنم."],
+   [7,"I help, and tell them to come to me anytime they get a letter like this.","کمک می‌کنم و می‌گویم هر وقت نامه‌ای مثل این داشت پیش من بیاید."],
+   [8,"Tired as I am, I sit with them as long as it takes, glad this language I was given can be useful — and I still protect my rest afterward.","با همهٔ خستگی، هر قدر لازم باشد کنارش می‌نشینم، خوشحال که زبانی که به من داده شده به کار می‌آید؛ و بعد هم از استراحتم مراقبت می‌کنم."]
+  ]},
+ {en:"A former manager who treated you unfairly is also the person who trained you in the skill you now use most. A new colleague is struggling with exactly that skill.",
+  fa:"مدیر سابقی که با شما ناعادلانه رفتار کرد، همان کسی است که مهارتی را که اکنون بیش از همه به کار می‌برید یادتان داد. همکار تازه‌واردی دقیقاً با همین مهارت مشکل دارد.",
+  a:[
+   [0,"I avoid using or passing on anything that person taught me.","از به کار بردن یا یاد دادن هر چیزی که آن آدم یادم داده پرهیز می‌کنم."],
+   [1,"I don't think about it — I just do my own job.","به آن فکر نمی‌کنم؛ فقط کار خودم را می‌کنم."],
+   [2,"I help the new colleague only if I'm asked to.","فقط اگر از من بخواهند به همکار تازه کمک می‌کنم."],
+   [4,"I help them, especially when the team can see it.","کمکش می‌کنم، به‌خصوص وقتی تیم می‌بیند."],
+   [6,"I teach the new colleague what I know.","آنچه بلدم را به همکار تازه یاد می‌دهم."],
+   [8,"I teach them what I know, and can honestly say I learned it from that manager — without excusing how I was treated.","آنچه بلدم یادش می‌دهم و صادقانه می‌گویم از آن مدیر یاد گرفته‌ام؛ بی‌آنکه رفتارش با خودم را توجیه کنم."],
+   [9,"I pass on everything I know as a trust given to me, grateful for the gift even though the giver hurt me.","هر آنچه می‌دانم را مثل امانتی که به من سپرده شده منتقل می‌کنم، شکرگزار این نعمت، هرچند دهنده‌اش آزارم داد."]
+  ]}
+]},
+{en:"Not complaining or comparing",fa:"شکایت نکردن و مقایسه نکردن",qs:[
+ {en:"A friend tells you they just bought the kind of home you've been hoping for yourself.",
+  fa:"دوستی خبر می‌دهد همان خانه‌ای را خریده که شما مدت‌هاست آرزویش را دارید.",
+  a:[
+   [0,"I start pointing out everything that's wrong with their new place.","شروع می‌کنم ایرادهای خانهٔ جدیدش را بشمارم."],
+   [1,"I congratulate them, feel a sting, and grumble about it later.","تبریک می‌گویم، دلم می‌سوزد و بعداً غر می‌زنم."],
+   [2,"I say “congrats” because I should, and compare in my head all evening.","چون باید، تبریک می‌گویم و تمام شب در ذهنم مقایسه می‌کنم."],
+   [4,"I congratulate them warmly in front of others, then complain about it privately.","جلوی دیگران گرم تبریک می‌گویم و بعد در خلوت گله می‌کنم."],
+   [5,"I'm happy for them, as long as I'm still doing fine compared to them.","برایش خوشحالم، تا وقتی که خودم در مقایسه با او وضعم خوب باشد."],
+   [6,"I'm genuinely glad for them.","صادقانه برایش خوشحالم."],
+   [7,"I notice a twinge of comparison, let it go, and celebrate with them.","کمی حس مقایسه را در خودم می‌بینم، رهایش می‌کنم و با او جشن می‌گیرم."]
+  ]},
+ {en:"This year you were passed over for a raise, while a coworker who does less got one. Money is tight at home.",
+  fa:"امسال افزایش حقوق به شما نرسید، ولی به همکاری که کمتر کار می‌کند رسید. در خانه دستتان تنگ است.",
+  a:[
+   [0,"I complain to everyone and try to turn the team against that coworker.","پیش همه گله می‌کنم و سعی می‌کنم تیم را علیه آن همکار کنم."],
+   [1,"I grumble about it for weeks.","هفته‌ها غرش را می‌زنم."],
+   [3,"I tell no one, remind myself I should just be grateful to have a job, and quietly stew.","به کسی نمی‌گویم، به خودم می‌گویم باید شاکر باشم که اصلاً کار دارم، و در سکوت می‌جوشم."],
+   [4,"I act unbothered at work, but vent bitterly at home.","سر کار وانمود می‌کنم برایم مهم نیست، ولی در خانه با تلخی خالی می‌کنم."],
+   [5,"I'm okay with it as long as I'm still paid more than most of the team.","تا وقتی از بیشتر اعضای تیم حقوق بیشتری می‌گیرم، مشکلی ندارم."],
+   [6,"It stings for a while, then I remind myself what's good about my job.","مدتی دلم می‌سوزد، بعد خوبی‌های کارم را به یاد خودم می‌آورم."],
+   [8,"I honestly don't envy my coworker, and I calmly ask my manager what I'd need to get a raise next time.","واقعاً به همکارم حسادت نمی‌کنم و آرام از مدیرم می‌پرسم دفعهٔ بعد برای افزایش حقوق چه لازم است."]
+  ]},
+ {en:"A former friend who spread rumors about you is now doing very well and posts about it often.",
+  fa:"دوست سابقی که پشت سرتان شایعه پخش کرد، حالا اوضاعش خیلی خوب است و مدام درباره‌اش پست می‌گذارد.",
+  a:[
+   [0,"I hope it all falls apart for them, and I say so.","امیدوارم همه‌اش از هم بپاشد و این را به زبان هم می‌آورم."],
+   [1,"I keep checking their posts and feeling worse.","مدام پست‌هایش را نگاه می‌کنم و حالم بدتر می‌شود."],
+   [2,"I mute them, but keep comparing quietly.","صدایش را می‌بندم، ولی در سکوت مقایسه می‌کنم."],
+   [4,"I post about my own successes, to show I'm doing fine too.","از موفقیت‌های خودم پست می‌گذارم تا نشان بدهم من هم خوبم."],
+   [6,"I don't wish them harm. I stop following them and get on with my life.","بدش را نمی‌خواهم. دنبال کردنش را قطع می‌کنم و سراغ زندگی‌ام می‌روم."],
+   [8,"I can honestly wish them well, while staying clear of them.","صادقانه می‌توانم برایش خیر بخواهم، و از او فاصله بگیرم."],
+   [9,"Their success takes nothing from my life. I feel at peace with my portion, and with theirs.","موفقیت او چیزی از زندگی من کم نمی‌کند. با سهم خودم و سهم او در آرامشم."]
+  ]}
+]},
+{en:"Gratitude in hardship",fa:"شکر در سختی",qs:[
+ {en:"Your car breaks down on the way to work. You're late, and the repair will be expensive.",
+  fa:"ماشینتان سر راه کار خراب می‌شود. دیرتان شده و تعمیرش هزینهٔ قابل‌توجهی دارد.",
+  a:[
+   [0,"I take it out on whoever is around me.","سر هر کسی که دور و برم باشد خالی می‌کنم."],
+   [1,"My whole day is ruined.","کل روزم خراب می‌شود."],
+   [2,"I say “could be worse,” but I'm fuming inside.","می‌گویم «می‌توانست بدتر باشد»، ولی درونم می‌جوشم."],
+   [3,"I scold myself for being upset over something so small.","خودم را سرزنش می‌کنم که برای چیزی به این کوچکی ناراحتم."],
+   [4,"I joke about it at work like it's nothing, though it's eating at me.","سر کار طوری شوخی می‌کنم که انگار چیزی نیست، ولی درونم را می‌خورد."],
+   [6,"Once the stress settles, I notice nobody got hurt and I can manage the repair.","وقتی استرس فروکش می‌کند، می‌بینم کسی آسیب ندیده و از پس تعمیرش برمی‌آیم."],
+   [7,"Even waiting by the roadside, I notice good things — a stranger who stopped to help, that I'm safe.","حتی کنار جاده منتظر که هستم، خوبی‌ها را می‌بینم؛ غریبه‌ای که برای کمک ایستاد، اینکه سالمم."]
+  ]},
+ {en:"You lose your job unexpectedly, and the next few months are hard, both financially and emotionally.",
+  fa:"ناگهان کارتان را از دست می‌دهید و چند ماه بعدی، هم از نظر مالی و هم از نظر روحی، سخت است.",
+  a:[
+   [1,"I mostly see the loss; it takes over everything.","بیشتر فقط از دست دادن را می‌بینم؛ همه‌چیز را فرا می‌گیرد."],
+   [2,"I keep saying “everything happens for a reason,” because people expect it.","مدام می‌گویم «هر اتفاقی حکمتی دارد»، چون دیگران انتظارش را دارند."],
+   [3,"I hide how scared I am, because I feel I shouldn't complain.","پنهان می‌کنم چقدر می‌ترسم، چون حس می‌کنم نباید گله کنم."],
+   [4,"I make sure everyone sees how positive I'm staying.","حواسم هست همه ببینند چقدر مثبت مانده‌ام."],
+   [5,"I'll be grateful for it if I end up with a better job.","اگر آخرش کار بهتری پیدا کنم، بابتش شاکر خواهم بود."],
+   [6,"Over time, I see what stayed good: family, health, people who helped.","با گذشت زمان، می‌بینم چه چیزهایی خوب ماند: خانواده، سلامتی، کسانی که کمک کردند."],
+   [8,"I grieve and worry honestly, and even in the worst weeks I hold on to what's still good.","صادقانه غصه می‌خورم و نگرانم، و حتی در بدترین هفته‌ها آنچه هنوز خوب است را نگه می‌دارم."]
+  ]},
+ {en:"Someone close to you betrays your trust, and the relationship ends painfully.",
+  fa:"کسی نزدیک به شما اعتمادتان را می‌شکند و رابطه با درد به پایان می‌رسد.",
+  a:[
+   [0,"I make sure they pay for it.","کاری می‌کنم تاوانش را بدهد."],
+   [1,"All I can see is what they took from me.","فقط چیزی را می‌بینم که از من گرفت."],
+   [3,"I feel guilty for being so hurt, and keep it all inside.","از اینکه این‌قدر آسیب دیده‌ام احساس گناه می‌کنم و همه را در خودم نگه می‌دارم."],
+   [4,"I post about being “grateful for the lesson,” while inside I'm still burning.","پست می‌گذارم که «ممنونم برای این درس»، در حالی که هنوز درونم می‌سوزد."],
+   [6,"After some time, I can see things from those years I'm still grateful for.","بعد از مدتی، می‌توانم چیزهایی از آن سال‌ها ببینم که هنوز بابتشان شاکرم."],
+   [8,"I name clearly what they did wrong and grieve fully, and I still don't let it erase the good years.","روشن می‌گویم چه خطایی کرد و کامل سوگواری می‌کنم، و باز نمی‌گذارم سال‌های خوب پاک شوند."],
+   [9,"I protect myself and I grieve — and I find I can meet even this with the same trust and gratitude I have in good times.","از خودم محافظت می‌کنم و سوگواری می‌کنم؛ و می‌بینم می‌توانم حتی با این هم با همان اعتماد و شکری روبه‌رو شوم که در روزهای خوب دارم."]
+  ]}
+]},
+{en:"Remembering past kindness",fa:"حق‌شناسی",qs:[
+ {en:"You hear that a teacher who helped you a lot years ago is retiring.",
+  fa:"می‌شنوید معلمی که سال‌ها پیش خیلی کمکتان کرد، بازنشسته می‌شود.",
+  a:[
+   [1,"I barely remember them.","به زور به یادش می‌آورم."],
+   [2,"I'd sign a group card if someone passed one around.","اگر کسی کارت جمعی بچرخاند، امضا می‌کنم."],
+   [3,"I feel guilty I never thanked them, so I avoid reaching out.","احساس گناه می‌کنم که هیچ‌وقت تشکر نکردم، برای همین سراغش نمی‌روم."],
+   [4,"I post a public tribute but don't contact them directly.","یک پست قدردانی عمومی می‌گذارم ولی مستقیم با او تماس نمی‌گیرم."],
+   [5,"I'd reach out if they could still help me with something.","اگر هنوز بتواند در کاری کمکم کند، سراغش می‌روم."],
+   [6,"I remember what they did and think of them warmly.","یادم هست چه کرد و با محبت به یادش می‌افتم."],
+   [7,"I write to them myself and tell them what they did for me.","خودم برایش می‌نویسم و می‌گویم چه کاری برایم کرد."]
+  ]},
+ {en:"An aunt who looked after you for a year when you were young is now elderly and would love regular visits. She lives an hour away, and your schedule is already full.",
+  fa:"عمه یا خاله‌ای که در کودکی یک سال از شما نگهداری کرد، حالا سالمند است و دلش می‌خواهد مرتب به دیدنش بروید. یک ساعت راه است و برنامه‌تان از قبل پر است.",
+  a:[
+   [1,"I've mostly forgotten that year — I'm busy.","آن سال تقریباً از یادم رفته؛ سرم شلوغ است."],
+   [2,"I visit on holidays, because it's expected.","عیدها سر می‌زنم، چون انتظارش هست."],
+   [3,"I visit out of guilt and feel heavy the whole time.","از روی عذاب وجدان سر می‌زنم و تمام مدت دلم سنگین است."],
+   [4,"I visit mostly when the rest of the family will notice.","بیشتر وقتی سر می‌زنم که بقیهٔ خانواده متوجه شوند."],
+   [5,"I visit when it's convenient and keeps the family happy with me.","وقتی سر می‌زنم که راحت باشد و خانواده را از من راضی نگه دارد."],
+   [6,"I visit regularly, remembering what she did for me.","مرتب سر می‌زنم و یادم هست چه کاری برایم کرد."],
+   [8,"I rearrange my week to visit often, glad to give back some of what she gave me — without running myself into the ground.","برنامهٔ هفته‌ام را جابه‌جا می‌کنم تا زیاد سر بزنم، خوشحال که بخشی از آنچه به من داد را برمی‌گردانم؛ بی‌آنکه خودم را از پا بیندازم."]
+  ]},
+ {en:"A friend who stood by you through a hard time years ago later hurt you badly, and you're no longer close.",
+  fa:"دوستی که سال‌ها پیش در دوران سختی کنارتان بود، بعدها به شدت آزارتان داد و دیگر نزدیک نیستید.",
+  a:[
+   [0,"I tell people they never really helped me anyway.","به دیگران می‌گویم اصلاً هیچ‌وقت واقعاً کمکم نکرد."],
+   [1,"I don't think about what they did for me anymore.","دیگر به کاری که برایم کرد فکر نمی‌کنم."],
+   [3,"I feel I still owe them, which makes me avoid even thinking about them.","حس می‌کنم هنوز بدهکارش هستم و برای همین حتی از فکر کردن به او فرار می‌کنم."],
+   [5,"I bring up the good they did only when it helps the story I'm telling.","فقط وقتی از خوبی‌اش حرف می‌زنم که به نفع روایت خودم باشد."],
+   [6,"I can admit they helped me back then.","می‌توانم بپذیرم که آن زمان کمکم کرد."],
+   [8,"I honor what they did for me back then, even though they hurt me — without excusing the hurt.","کاری را که آن زمان برایم کرد ارج می‌گذارم، با اینکه آزارم داد؛ بی‌آنکه آن آزار را توجیه کنم."],
+   [9,"Their kindness still lives in how I help others through hard times. I'm grateful for it, and I keep the boundary I need.","مهربانی‌اش هنوز در شیوه‌ای که دیگران را در سختی همراهی می‌کنم زنده است. بابتش شاکرم و مرزی را که لازم دارم نگه می‌دارم."]
+  ]}
+]}
+];
+/*DATA_END*/
+
+const T = {
+ en:{
+  title:"Thankfulness",
+  langBtn:"فارسی",
+  purposeH:"What this is",
+  purpose:"A private reflection on thankfulness across six areas of daily life. For each situation, choose what you would honestly do — not what you think you should do. At the end you'll see where you stand in each area and one possible next step.",
+  stagesH:"The ten stages",
+  privacyH:"Privacy",
+  privacy:"Your answers stay in this browser. Nothing is sent or saved anywhere. This is only for yourself — never for scoring anyone else.",
+  limitsH:"Healthy limits",
+  limits:"The highest stages are freely chosen and never self-destructive. Gratitude never means thanking anyone for mistreatment, hiding your pain, or staying silent about real needs or injustice.",
+  begin:"Begin",
+  qOf:"Question {n} of {t}",
+  none:"None of these fits me",
+  back:"Back", next:"Next", finish:"See results",
+  resultsH:"Your results",
+  overall:"Overall",
+  stage:"Stage",
+  notScored:"Not scored",
+  nextStepH:"Your next step",
+  nextStep:"Your lowest area is “{area}” ({from}). The next stage there is {to} — if and when you choose it.",
+  nextStepTop:"Your lowest area is “{area}”, already at {from}. Keep facing this direction.",
+  llmH:"Text for an AI coach",
+  llmNote:"Copy this and paste it into an AI assistant to get personal practices.",
+  copy:"Copy", copied:"Copied ✓",
+  restart:"Start again",
+  noneScored:"No answers were scored. Try again, choosing the answers closest to you."
+ },
+ fa:{
+  title:"شکر",
+  langBtn:"English",
+  purposeH:"این چیست",
+  purpose:"نگاهی خصوصی به شکرگزاری در شش حوزه از زندگی روزمره. در هر موقعیت، کاری را انتخاب کنید که صادقانه انجام می‌دهید، نه کاری که فکر می‌کنید باید انجام دهید. در پایان می‌بینید در هر حوزه کجا ایستاده‌اید و یک قدم بعدی ممکن.",
+  stagesH:"ده مرحله",
+  privacyH:"حریم خصوصی",
+  privacy:"پاسخ‌هایتان فقط در همین مرورگر می‌ماند. هیچ چیزی جایی فرستاده یا ذخیره نمی‌شود. این فقط برای خود شماست و هرگز برای سنجیدن دیگران نیست.",
+  limitsH:"حد سالم",
+  limits:"بالاترین مرحله‌ها آزادانه انتخاب می‌شوند و هرگز به خود آسیب نمی‌زنند. شکر هرگز به معنای تشکر از کسی بابت بدرفتاری، پنهان کردن درد، یا سکوت دربارهٔ نیازهای واقعی و بی‌عدالتی نیست.",
+  begin:"شروع",
+  qOf:"پرسش {n} از {t}",
+  none:"هیچ‌کدام به من نمی‌خورد",
+  back:"قبلی", next:"بعدی", finish:"دیدن نتیجه",
+  resultsH:"نتیجهٔ شما",
+  overall:"کلی",
+  stage:"مرحلهٔ",
+  notScored:"نمره‌ای ثبت نشد",
+  nextStepH:"قدم بعدی شما",
+  nextStep:"پایین‌ترین حوزهٔ شما «{area}» است ({from}). مرحلهٔ بعدی در آن {to} است؛ اگر و هر وقت خودتان انتخابش کنید.",
+  nextStepTop:"پایین‌ترین حوزهٔ شما «{area}» است که در {from} قرار دارد. همچنان رو به همین جهت بمانید.",
+  llmH:"متن برای مربی هوش مصنوعی",
+  llmNote:"این متن را کپی کنید و به یک دستیار هوش مصنوعی بدهید تا تمرین‌های شخصی بگیرید.",
+  copy:"کپی", copied:"کپی شد ✓",
+  restart:"شروع دوباره",
+  noneScored:"هیچ پاسخی نمره نگرفت. دوباره امتحان کنید و نزدیک‌ترین پاسخ‌ها را انتخاب کنید."
+ }
+};
+
+const QUESTIONS = [];
+AREAS.forEach((ar, ai) => ar.qs.forEach(q => QUESTIONS.push(Object.assign({area: ai}, q))));
+
+let lang = "en";
+let idx = -1;            // -1 intro, 0..N-1 questions, N results
+let answers = [];        // stage number or "none"
+let orders = [];
+
+function shuffle(n){
+  const a = [...Array(n).keys()];
+  for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; }
+  return a;
+}
+function reset(){
+  answers = QUESTIONS.map(() => undefined);
+  orders = QUESTIONS.map(q => shuffle(q.a.length));
+  idx = -1;
+}
+function num(x){
+  const s = String(x);
+  return lang === "fa" ? s.replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]) : s;
+}
+function t(k, vars){
+  let s = T[lang][k];
+  if (vars) for (const v in vars) s = s.split("{" + v + "}").join(vars[v]);
+  return s;
+}
+function band(i){ return num(i * 10) + "–" + num(i === 9 ? 100 : i * 10 + 9); }
+function stageName(i){ return STAGES[i][lang][0]; }
+function stageLabel(i){ return t("stage") + " " + num(i) + " · " + stageName(i); }
+function esc(s){ return String(s).replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c])); }
+
+function areaScore(ai){
+  const st = [];
+  QUESTIONS.forEach((q, qi) => { if (q.area === ai && typeof answers[qi] === "number") st.push(answers[qi]); });
+  if (!st.length) return null;
+  const avg = st.reduce((a, b) => a + b, 0) / st.length;
+  return Math.min(100, Math.round(avg * 10 + 5));   // middle of the stage's band
+}
+function scoreStage(s){ return Math.min(9, Math.floor(s / 10)); }
+
+function computeResults(){
+  const areas = AREAS.map((ar, ai) => ({ai, name: ar[lang], score: areaScore(ai)}));
+  const scored = areas.filter(a => a.score !== null);
+  if (!scored.length) return {areas, overall: null, lowest: null};
+  const overall = Math.round(scored.reduce((s, a) => s + a.score, 0) / scored.length);
+  let lowest = scored[0];
+  scored.forEach(a => { if (a.score < lowest.score) lowest = a; });
+  return {areas, overall, lowest};
+}
+
+const app = document.getElementById("app");
+
+function render(){
+  document.documentElement.lang = lang;
+  document.documentElement.dir = lang === "fa" ? "rtl" : "ltr";
+  document.getElementById("title").textContent = t("title");
+  document.title = t("title");
+  document.getElementById("langBtn").textContent = t("langBtn");
+  if (idx < 0) renderIntro();
+  else if (idx < QUESTIONS.length) renderQuestion();
+  else renderResults();
+  window.scrollTo(0, 0);
+}
+
+function renderIntro(){
+  const rows = STAGES.map((s, i) =>
+    `<tr><td class="band">${band(i)}</td><td class="name">${esc(s[lang][0])}</td><td>${esc(s[lang][1])}</td></tr>`).join("");
+  app.innerHTML = `
+   <div class="card"><h2>${t("purposeH")}</h2><p>${t("purpose")}</p></div>
+   <div class="card"><h2>${t("stagesH")}</h2><table>${rows}</table></div>
+   <div class="card"><h2>${t("privacyH")}</h2><p class="note">${t("privacy")}</p>
+     <h2 style="margin-top:14px">${t("limitsH")}</h2><p class="note">${t("limits")}</p></div>
+   <button class="btn primary" id="begin">${t("begin")}</button>`;
+  document.getElementById("begin").onclick = () => { idx = 0; render(); };
+}
+
+function renderQuestion(){
+  const q = QUESTIONS[idx];
+  const total = QUESTIONS.length;
+  const pct = Math.round((idx / total) * 100);
+  const sel = answers[idx];
+  const opts = orders[idx].map(oi => {
+    const a = q.a[oi];
+    const isSel = sel === a[0] && answers["_o" + idx] === oi;
+    return `<button class="opt${isSel ? " sel" : ""}" data-o="${oi}">${esc(lang === "en" ? a[1] : a[2])}</button>`;
+  }).join("");
+  const isLast = idx === total - 1;
+  app.innerHTML = `
+   <div class="card">
+     <div class="muted" style="font-size:.9rem">${t("qOf", {n: num(idx + 1), t: num(total)})}</div>
+     <div class="progress"><div style="width:${pct}%"></div></div>
+     <span class="area-tag">${esc(AREAS[q.area][lang])}</span>
+     <div class="q">${esc(q[lang])}</div>
+     ${opts}
+     <button class="opt none${sel === "none" ? " sel" : ""}" data-o="none">${t("none")}</button>
+     <div class="row">
+       <button class="btn ghost" id="back">${t("back")}</button>
+       <button class="btn primary" id="next" ${sel === undefined ? "disabled" : ""}>${isLast ? t("finish") : t("next")}</button>
+     </div>
+   </div>`;
+  app.querySelectorAll(".opt").forEach(b => b.onclick = () => {
+    const o = b.dataset.o;
+    if (o === "none") { answers[idx] = "none"; delete answers["_o" + idx]; }
+    else { answers[idx] = q.a[+o][0]; answers["_o" + idx] = +o; }
+    renderQuestion();
+  });
+  document.getElementById("back").onclick = () => { idx -= 1; render(); };
+  document.getElementById("next").onclick = () => { if (answers[idx] !== undefined) { idx += 1; render(); } };
+}
+
+function renderResults(){
+  const r = computeResults();
+  if (r.overall === null) {
+    app.innerHTML = `<div class="card"><p>${t("noneScored")}</p></div>
+      <button class="btn primary" id="restart">${t("restart")}</button>`;
+    document.getElementById("restart").onclick = () => { reset(); render(); };
+    return;
+  }
+  const bars = r.areas.map(a => a.score === null
+    ? `<div class="bar-row"><div class="bar-head"><span>${esc(a.name)}</span><span class="muted">${t("notScored")}</span></div></div>`
+    : `<div class="bar-row"><div class="bar-head"><span>${esc(a.name)}</span><span><b>${num(a.score)}</b> <span class="muted">· ${esc(stageName(scoreStage(a.score)))}</span></span></div>
+       <div class="bar-track"><div class="bar-fill" style="width:${a.score}%"></div></div></div>`).join("");
+  const os = scoreStage(r.overall);
+  const ls = scoreStage(r.lowest.score);
+  const next = ls >= 9
+    ? t("nextStepTop", {area: r.lowest.name, from: stageLabel(ls)})
+    : t("nextStep", {area: r.lowest.name, from: stageLabel(ls), to: stageLabel(ls + 1)});
+  app.innerHTML = `
+   <div class="card"><h2>${t("resultsH")}</h2>
+     <div class="muted">${t("overall")}</div>
+     <div class="big">${num(r.overall)} <span style="font-size:1rem">/ ${num(100)}</span></div>
+     <div style="font-weight:600;margin-bottom:6px">${esc(stageLabel(os))}</div>
+     <p class="muted">${esc(STAGES[os][lang][1])}</p>
+     ${bars}
+   </div>
+   <div class="card"><h2>${t("nextStepH")}</h2><p>${esc(next)}</p>
+     <p class="muted">${esc(STAGES[Math.min(9, ls + 1)][lang][1])}</p></div>
+   <div class="card"><h2>${t("llmH")}</h2><p class="muted">${t("llmNote")}</p>
+     <textarea id="llm" readonly>${esc(buildLLM(r))}</textarea>
+     <div class="row"><button class="btn ghost" id="restart">${t("restart")}</button>
+     <button class="btn primary" id="copy">${t("copy")}</button></div></div>`;
+  document.getElementById("restart").onclick = () => { reset(); render(); };
+  document.getElementById("copy").onclick = copyLLM;
+}
+
+function buildLLM(r){
+  const fa = lang === "fa";
+  const L = [];
+  const date = new Date().toLocaleDateString(fa ? "fa-IR" : "en-US", {year:"numeric", month:"long", day:"numeric"});
+  const os = scoreStage(r.overall), ls = scoreStage(r.lowest.score);
+  if (!fa) {
+    L.push("Thankfulness self-assessment — " + date, "");
+    L.push("STANDING RULES FOR YOUR REPLY");
+    L.push("- Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.");
+    L.push("- Free will: never pressure or command me. This assessment is self-scored, private, and only for myself, never for scoring others. I choose my own next step.");
+    L.push("- Healthy limits: the highest stages must be freely chosen and never self-destructive. Gratitude never means accepting mistreatment, hiding pain, or staying silent about real needs or injustice.", "");
+    L.push("THE TEN STAGES");
+  } else {
+    L.push("خودارزیابی شکرگزاری — " + date, "");
+    L.push("قواعد پاسخ تو");
+    L.push("- جهان‌شمول بودن: بررسی کن که هر پیشنهاد، اگر همهٔ مردم جهان انجامش دهند، جهان را جای بهتری کند.");
+    L.push("- اختیار: هرگز به من فشار نیاور و دستور نده. این ارزیابی را خودم نمره داده‌ام، خصوصی است و فقط برای خودم است، هرگز برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم.");
+    L.push("- حد سالم: بالاترین مرحله‌ها باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. شکر هرگز به معنای پذیرفتن بدرفتاری، پنهان کردن درد یا سکوت دربارهٔ نیازهای واقعی و بی‌عدالتی نیست.", "");
+    L.push("ده مرحله");
+  }
+  STAGES.forEach((s, i) => L.push(band(i) + "  " + (fa ? "مرحلهٔ " : "Stage ") + num(i) + " · " + s[lang][0] + " — " + s[lang][1]));
+  L.push("", fa ? "نمره‌ها" : "SCORES");
+  r.areas.forEach(a => L.push("- " + a.name + ": " + (a.score === null ? t("notScored") : num(a.score) + " (" + stageLabel(scoreStage(a.score)) + ")")));
+  L.push((fa ? "کلی: " : "Overall: ") + num(r.overall) + " (" + stageLabel(os) + ")");
+  L.push((fa ? "ضعیف‌ترین حوزه: " : "Weakest area: ") + r.lowest.name + " (" + stageLabel(ls) + ")", "");
+  L.push(fa ? "پرسش‌ها و پاسخ‌های من" : "MY ANSWERS");
+  AREAS.forEach((ar, ai) => {
+    L.push("", "[" + ar[lang] + "]");
+    QUESTIONS.forEach((q, qi) => {
+      if (q.area !== ai) return;
+      L.push((fa ? "پرسش: " : "Q: ") + q[lang]);
+      const a = answers[qi];
+      if (a === "none" || a === undefined) L.push((fa ? "پاسخ: " : "A: ") + t("none") + (fa ? " (بدون نمره)" : " (not scored)"));
+      else {
+        const o = q.a[answers["_o" + qi]];
+        L.push((fa ? "پاسخ: " : "A: ") + (fa ? o[2] : o[1]) + " (" + stageLabel(a) + ")");
+      }
+    });
+  });
+  L.push("");
+  const toStage = ls >= 9 ? stageLabel(9) : stageLabel(ls + 1);
+  if (!fa) {
+    L.push("PLEASE GIVE ME");
+    L.push("1. 2–3 small, concrete practices to move up one stage in my weakest area (" + r.lowest.name + "), from " + stageLabel(ls) + " toward " + toStage + ".");
+    L.push("2. One inner shift that would help me most.");
+    L.push("3. One practice for my overall stage (" + stageLabel(os) + ").");
+    L.push("Keep every suggestion within the standing rules above. Please reply in English.");
+  } else {
+    L.push("لطفاً به من بده");
+    L.push("۱. دو یا سه تمرین کوچک و مشخص برای بالا رفتن یک مرحله در ضعیف‌ترین حوزه‌ام («" + r.lowest.name + "»)، از " + stageLabel(ls) + " به سوی " + toStage + ".");
+    L.push("۲. یک تغییر درونی که بیشترین کمک را به من می‌کند.");
+    L.push("۳. یک تمرین برای مرحلهٔ کلی‌ام (" + stageLabel(os) + ").");
+    L.push("همهٔ پیشنهادها را در چارچوب قواعد بالا نگه دار. لطفاً به فارسی پاسخ بده.");
+  }
+  return L.join("\n");
+}
+
+function copyLLM(){
+  const ta = document.getElementById("llm");
+  const btn = document.getElementById("copy");
+  const done = () => { btn.textContent = t("copied"); setTimeout(() => { btn.textContent = t("copy"); }, 1800); };
+  if (navigator.clipboard && navigator.clipboard.writeText) {
+    navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); document.execCommand("copy"); done(); });
+  } else { ta.select(); document.execCommand("copy"); done(); }
+}
+
+document.getElementById("langBtn").onclick = () => { lang = lang === "en" ? "fa" : "en"; render(); };
+document.getElementById("themeBtn").onclick = () => {
+  const root = document.documentElement;
+  const dark = root.dataset.theme ? root.dataset.theme === "dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+  root.dataset.theme = dark ? "light" : "dark";
+};
+
+reset();
+render();
+</script>
+<!-- bbp-nav: home link + language link (fa page) -->
+<style>
+  .bbp-home{display:block;max-width:860px;margin:0 auto;padding:12px 16px 0;font:500 .88rem/1.4 Inter,Vazirmatn,system-ui,sans-serif}
+  html[lang="fa"] .bbp-home{font-family:Vazirmatn,Tahoma,sans-serif}
+  .bbp-home a{color:inherit;opacity:.65;text-decoration:none}
+  .bbp-home a:hover{opacity:1;text-decoration:underline}
+</style>
+<script>
+(function(){
+  var PAGE_LANG="fa", OTHER="en.html";
+  // Show this page in its own language (the shared code starts in English).
+  if(document.documentElement.lang!==PAGE_LANG){
+    var t=document.getElementById("btn-"+PAGE_LANG)||document.getElementById("langBtn");
+    if(t)t.click();
+  }
+  try{localStorage.setItem("bbp-lang",PAGE_LANG)}catch(e){}
+  // The language button now opens the other language's page.
+  ["langBtn","btn-en"].forEach(function(id){
+    var b=document.getElementById(id);
+    if(b){b.removeAttribute("onclick");b.onclick=function(){location.href=OTHER};}
+  });
+  var g=document.getElementById("btn-fa");if(g){g.removeAttribute("onclick");g.onclick=null;}
+  var bar=document.createElement("nav");bar.className="bbp-home";
+  var a=document.createElement("a");a.href="../index.html";a.textContent="→ همهٔ مسیرها";
+  bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);
+})();
+</script>
+</body>
+</html>
