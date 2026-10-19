@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Becoming Better · بهتر شدن</title>
+<meta name="description" content="Five private, self-scored paths for growing in generosity, patience, thankfulness, trust and bravery. English and Farsi.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,650&family=Inter:wght@400;500;600&family=Vazirmatn:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#f7f3ec; --card:#fffdf9; --ink:#29241e; --muted:#73695d; --line:#e5ddd0; --soft:#efe8dc;
+    --c-gen:#9a6b2f; --c-pat:#3d6b5a; --c-tha:#a8692c; --c-tru:#2f6f5e; --c-bra:#b4532a;
+  }
+  @media (prefers-color-scheme: dark){
+    :root:not([data-theme="light"]){
+      --bg:#181613; --card:#221f1b; --ink:#eee7dc; --muted:#a69c8e; --line:#38332c; --soft:#2a2620;
+      --c-gen:#d9a660; --c-pat:#7fb59e; --c-tha:#e0a866; --c-tru:#6fc2a8; --c-bra:#e0875c;
+    }
+  }
+  :root[data-theme="dark"]{
+    --bg:#181613; --card:#221f1b; --ink:#eee7dc; --muted:#a69c8e; --line:#38332c; --soft:#2a2620;
+    --c-gen:#d9a660; --c-pat:#7fb59e; --c-tha:#e0a866; --c-tru:#6fc2a8; --c-bra:#e0875c;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0}
+  body{background:var(--bg);color:var(--ink);font:16px/1.6 Inter,Vazirmatn,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+  html[lang="fa"] body{font-family:Vazirmatn,Tahoma,sans-serif}
+  .wrap{max-width:860px;margin:0 auto;padding:20px 16px 56px}
+
+  .top{display:flex;justify-content:flex-end;gap:8px}
+  .chip{background:transparent;color:var(--ink);border:1px solid var(--line);border-radius:999px;padding:6px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+  .chip:hover{border-color:var(--muted)}
+
+  .hero{padding:44px 0 34px;border-bottom:1px solid var(--line);margin-bottom:28px}
+  .eyebrow{font-size:.8rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin:0 0 10px}
+  html[lang="fa"] .eyebrow{letter-spacing:0;font-size:.9rem}
+  h1{font-family:Fraunces,Georgia,serif;font-weight:650;font-size:clamp(2.1rem,6vw,3.2rem);line-height:1.08;margin:0 0 16px;letter-spacing:-.01em}
+  html[lang="fa"] h1{font-family:Vazirmatn,Tahoma,sans-serif;font-weight:700;letter-spacing:0;line-height:1.3}
+  .lede{font-size:1.08rem;color:var(--muted);max-width:60ch;margin:0}
+
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(250px,1fr));gap:14px}
+  a.path{--c:var(--muted);display:flex;flex-direction:column;text-decoration:none;color:inherit;background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px 20px 18px;position:relative;overflow:hidden;transition:transform .15s,border-color .15s}
+  a.path::before{content:"";position:absolute;inset:0 auto 0 0;width:4px;background:var(--c)}
+  html[dir="rtl"] a.path::before{inset:0 0 0 auto}
+  a.path:hover{border-color:var(--c);transform:translateY(-2px)}
+  a.path:focus-visible{outline:2px solid var(--c);outline-offset:2px}
+  .num{font-family:Fraunces,Georgia,serif;font-size:.85rem;color:var(--c);font-weight:650}
+  html[lang="fa"] .num{font-family:Vazirmatn,sans-serif}
+  .name{font-size:1.3rem;font-weight:600;margin:2px 0 0;line-height:1.3}
+  .alt{color:var(--muted);font-size:.95rem;margin-bottom:12px}
+  .arc{display:flex;align-items:center;gap:8px;font-size:.88rem;margin-bottom:14px;flex-wrap:wrap}
+  .arc .from{color:var(--muted)}
+  .arc .to{color:var(--c);font-weight:600}
+  .arc .arrow{color:var(--muted)}
+  html[dir="rtl"] .arc .arrow{transform:scaleX(-1)}
+  .meta{margin-top:auto;font-size:.82rem;color:var(--muted);display:flex;justify-content:space-between;align-items:center;padding-top:12px;border-top:1px dashed var(--line)}
+  .go{color:var(--c);font-weight:600}
+
+  .how{margin-top:40px;display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:22px}
+  .how h2{font-size:.95rem;margin:0 0 4px}
+  .how p{margin:0;color:var(--muted);font-size:.93rem}
+  footer{margin-top:44px;padding-top:18px;border-top:1px solid var(--line);color:var(--muted);font-size:.82rem}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="top">
+    <button class="chip" id="langBtn" type="button"></button>
+    <button class="chip" id="themeBtn" type="button" aria-label="Theme">◐</button>
+  </div>
+
+  <section class="hero">
+    <p class="eyebrow" id="eyebrow"></p>
+    <h1 id="title"></h1>
+    <p class="lede" id="lede"></p>
+  </section>
+
+  <div class="grid" id="grid"></div>
+
+  <section class="how" id="how"></section>
+
+  <footer id="foot"></footer>
+</div>
+
+<script>
+const PATHS = [
+  { href:"generosity-assessment.html", c:"--c-gen",
+    en:{name:"Generosity", alt:"سخاوت", from:"The Grasper", to:"The Bountiful"},
+    fa:{name:"سخاوت", alt:"Generosity", from:"شحیح", to:"کریم"}, areas:6, qs:18 },
+  { href:"path-of-patience.html", c:"--c-pat",
+    en:{name:"Patience", alt:"صبر", from:"The Wrathful", to:"The Patient"},
+    fa:{name:"صبر", alt:"Patience", from:"تندخو", to:"صبور"}, areas:7, qs:21 },
+  { href:"thankfulness.html", c:"--c-tha",
+    en:{name:"Thankfulness", alt:"شکر", from:"The Ingrate", to:"The Ever-Grateful"},
+    fa:{name:"شکر", alt:"Thankfulness", from:"نمک‌نشناس", to:"شکور"}, areas:6, qs:18 },
+  { href:"trust-tawakkul.html", c:"--c-tru",
+    en:{name:"Trust in a Higher Power", alt:"توکل", from:"The Despairing", to:"The Content"},
+    fa:{name:"توکل", alt:"Trust in a Higher Power", from:"قانِط", to:"راضی"}, areas:6, qs:18 },
+  { href:"bravery-path.html", c:"--c-bra",
+    en:{name:"Bravery", alt:"شجاعت", from:"Cowardice", to:"The Strong"},
+    fa:{name:"شجاعت", alt:"Bravery", from:"جُبن", to:"قوی"}, areas:7, qs:21 }
+];
+
+const T = {
+  en:{ dir:"ltr", toggle:"فارسی", doc:"Becoming Better · بهتر شدن",
+    eyebrow:"Five paths · ten stages each",
+    title:"Becoming Better",
+    lede:"Short, private self-assessments that show where you stand in a quality today and what the next stage looks like. Answer honestly; nobody sees your answers but you.",
+    areas:n=>`${n} areas`, qs:n=>`${n} questions`, go:"Begin →",
+    how:[
+      ["Answer real situations","Each question describes an everyday moment. Pick what you would actually do, not what you think you should."],
+      ["See your stage","You get a score for each area and an overall stage out of ten, with a description of the next one."],
+      ["Choose your own practice","Copy your results into an AI assistant for suggestions if you like. What to work on is always your choice."]
+    ],
+    foot:"Your answers stay in your browser. Nothing is sent or stored on a server. These tools are for self-reflection, never for judging others."
+  },
+  fa:{ dir:"rtl", toggle:"English", doc:"بهتر شدن · Becoming Better",
+    eyebrow:"پنج مسیر · هر کدام ده مرحله",
+    title:"بهتر شدن",
+    lede:"خودسنجی‌های کوتاه و خصوصی که نشان می‌دهند امروز در هر صفت کجا ایستاده‌اید و مرحلهٔ بعد چه شکلی است. صادقانه پاسخ دهید؛ پاسخ‌هایتان را جز خودتان کسی نمی‌بیند.",
+    areas:n=>`${fa(n)} حوزه`, qs:n=>`${fa(n)} پرسش`, go:"← شروع",
+    how:[
+      ["به موقعیت‌های واقعی پاسخ دهید","هر پرسش یک لحظهٔ روزمره را توصیف می‌کند. آنچه واقعاً انجام می‌دهید را انتخاب کنید، نه آنچه فکر می‌کنید باید."],
+      ["مرحلهٔ خود را ببینید","برای هر حوزه امتیاز و یک مرحلهٔ کلی از ده می‌گیرید، همراه با توصیف مرحلهٔ بعد."],
+      ["تمرین خود را انتخاب کنید","اگر خواستید، نتیجه را در یک دستیار هوش مصنوعی بچسبانید تا پیشنهاد بگیرید. انتخاب اینکه روی چه کار کنید همیشه با خودتان است."]
+    ],
+    foot:"پاسخ‌هایتان فقط در مرورگر خودتان می‌ماند و به هیچ سروری فرستاده نمی‌شود. این ابزارها برای خودشناسی‌اند، نه برای قضاوت دیگران."
+  }
+};
+
+function fa(n){ return String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]); }
+function store(k, v){ try{ if(v===undefined) return localStorage.getItem(k); localStorage.setItem(k, v); }catch(e){ return null; } }
+
+let lang = store("bbp-lang") === "fa" ? "fa" : "en";
+let theme = store("bbp-theme") || "auto";
+const $ = id => document.getElementById(id);
+
+function render(){
+  const t = T[lang], h = document.documentElement;
+  h.lang = lang; h.dir = t.dir; document.title = t.doc;
+  $("langBtn").textContent = t.toggle;
+  $("eyebrow").textContent = t.eyebrow;
+  $("title").textContent = t.title;
+  $("lede").textContent = t.lede;
+  $("grid").innerHTML = PATHS.map((p, i) => {
+    const s = p[lang];
+    return `<a class="path" href="${p.href}" style="--c:var(${p.c})">
+      <span class="num">${lang==="fa" ? fa(i+1) : String(i+1).padStart(2,"0")}</span>
+      <span class="name">${s.name}</span>
+      <span class="alt">${s.alt}</span>
+      <span class="arc"><span class="from">${s.from}</span><span class="arrow">→</span><span class="to">${s.to}</span></span>
+      <span class="meta"><span>${t.areas(p.areas)} · ${t.qs(p.qs)}</span><span class="go">${t.go}</span></span>
+    </a>`;
+  }).join("");
+  $("how").innerHTML = t.how.map(([a,b]) => `<div><h2>${a}</h2><p>${b}</p></div>`).join("");
+  $("foot").textContent = t.foot;
+}
+
+function applyTheme(){
+  if(theme === "auto") document.documentElement.removeAttribute("data-theme");
+  else document.documentElement.setAttribute("data-theme", theme);
+}
+
+$("langBtn").onclick = () => { lang = lang === "en" ? "fa" : "en"; store("bbp-lang", lang); render(); };
+$("themeBtn").onclick = () => {
+  const dark = theme === "dark" || (theme === "auto" && matchMedia("(prefers-color-scheme: dark)").matches);
+  theme = dark ? "light" : "dark"; store("bbp-theme", theme); applyTheme();
+};
+
+applyTheme();
+render();
+</script>
+</body>
+</html>
