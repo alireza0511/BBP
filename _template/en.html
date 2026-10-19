@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Path of Quality name</title>
+<link rel="stylesheet" href="../core/core.css">
+</head>
+<body>
+<div class="wrap">
+  <header id="top"></header>
+  <main id="app"></main>
+</div>
+
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
+<script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
+<script src="../core/questionnaire.js"></script>
+
+<script>
+// ===== NEW QUALITY TEMPLATE =====
+// 1. Copy this whole _template folder and rename the copy (e.g. "honesty").
+//    The folder name is the quality's id.
+// 2. Below, change id: "new-quality" to the folder name, and the <title> above.
+// 3. Replace every placeholder: words, areas, the ten stages, questions.
+//    Each answer is [stage 0-9, "text"]. A question's "area" is the area's
+//    number in the list (first area = 0). Aim for about 3 questions per area.
+//    Buttons, privacy text and the shared coach rules come from core/defaults.js.
+// 4. Do the same in the other language file. Both files must have the same
+//    areas, questions and answer stages, in the same order.
+// 5. Add one entry for it in core/items.js, then run:  node tools/check.js
+// ================================
+
+// This page's content (English only)
+const CONTENT = {
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
+  text: {
+    brand: "Quality name",
+    title: "The Path of Quality name",
+    sub: "A private self-assessment",
+    purpose: "One short paragraph: what this quality is, the areas of life it covers, how many situations there are, and the reminder to choose what you would honestly do, not what you think you should do.",
+    limT: "Healthy limits",
+    lim: "What this quality must never turn into (for example: never staying in harm, never self-destructive). The highest stages are always freely chosen."
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "First area",  // 0
+    "Second area"  // 1
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "Stage 0 name", desc: "The opposite of this quality, at its most harmful." },  // 0
+    { name: "Stage 1 name", desc: "Describe this stage in one sentence." },  // 1
+    { name: "Stage 2 name", desc: "Describe this stage in one sentence." },  // 2
+    { name: "Stage 3 name", desc: "Describe this stage in one sentence." },  // 3
+    { name: "Stage 4 name", desc: "Describe this stage in one sentence." },  // 4
+    { name: "Stage 5 name", desc: "Describe this stage in one sentence." },  // 5
+    { name: "Stage 6 name", desc: "The ordinary, healthy form of this quality." },  // 6
+    { name: "Stage 7 name", desc: "Describe this stage in one sentence." },  // 7
+    { name: "Stage 8 name", desc: "Describe this stage in one sentence." },  // 8
+    { name: "Stage 9 name", desc: "The highest stage: a direction to face, not a badge to claim." }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "An everyday situation in the first area. What do you usually do?",
+      options: [
+        [1, "An answer that reflects stage 1."],
+        [3, "An answer that reflects stage 3."],
+        [6, "An answer that reflects stage 6."],
+        [7, "An answer that reflects stage 7."]
+      ] },
+    { area: 1, text: "A harder situation in the second area, where acting well costs something.",
+      options: [
+        [0, "An answer that reflects stage 0."],
+        [4, "An answer that reflects stage 4."],
+        [6, "An answer that reflects stage 6."],
+        [8, "An answer that reflects stage 8."]
+      ] }
+  ],
+
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
+  coach: {
+    "header": "Quality name: self-assessment",
+    "rules": [
+      "Healthy limits: the highest stages must be freely chosen and never self-destructive. Add what this quality must never mean."
+    ]
+  }
+};
+
+// Show the questionnaire
+Questionnaire.mount({
+  id: "new-quality",
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "fa.html",
+  home: "../index.html"
+});
+</script>
+</body>
+</html>

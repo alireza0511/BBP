@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="fa" dir="rtl">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>مسیر نام صفت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../core/core.css">
+</head>
+<body>
+<div class="wrap">
+  <header id="top"></header>
+  <main id="app"></main>
+</div>
+
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
+<script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
+<script src="../core/questionnaire.js"></script>
+
+<script>
+// ===== NEW QUALITY TEMPLATE =====
+// 1. Copy this whole _template folder and rename the copy (e.g. "honesty").
+//    The folder name is the quality's id.
+// 2. Below, change id: "new-quality" to the folder name, and the <title> above.
+// 3. Replace every placeholder: words, areas, the ten stages, questions.
+//    Each answer is [stage 0-9, "text"]. A question's "area" is the area's
+//    number in the list (first area = 0). Aim for about 3 questions per area.
+//    Buttons, privacy text and the shared coach rules come from core/defaults.js.
+// 4. Do the same in the other language file. Both files must have the same
+//    areas, questions and answer stages, in the same order.
+// 5. Add one entry for it in core/items.js, then run:  node tools/check.js
+// ================================
+
+// This page's content (Farsi only)
+const CONTENT = {
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
+  text: {
+    brand: "نام صفت",
+    title: "مسیر نام صفت",
+    sub: "یک خودسنجی خصوصی",
+    purpose: "یک بند کوتاه: این صفت چیست، چه حوزه‌هایی از زندگی را در بر می‌گیرد، چند موقعیت دارد، و یادآوری اینکه آنچه صادقانه انجام می‌دهید را انتخاب کنید، نه آنچه فکر می‌کنید باید.",
+    limT: "مرزهای سالم",
+    lim: "این صفت هرگز نباید به چه چیزی تبدیل شود (مثلاً ماندن در آسیب یا آسیب به خود). مرحله‌های بالا همیشه آزادانه انتخاب می‌شوند."
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "حوزهٔ اول",  // 0
+    "حوزهٔ دوم"  // 1
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "نام مرحلهٔ ۰", desc: "نقطهٔ مقابل این صفت، در زیان‌بارترین شکلش." },  // 0
+    { name: "نام مرحلهٔ ۱", desc: "این مرحله را در یک جمله توصیف کنید." },  // 1
+    { name: "نام مرحلهٔ ۲", desc: "این مرحله را در یک جمله توصیف کنید." },  // 2
+    { name: "نام مرحلهٔ ۳", desc: "این مرحله را در یک جمله توصیف کنید." },  // 3
+    { name: "نام مرحلهٔ ۴", desc: "این مرحله را در یک جمله توصیف کنید." },  // 4
+    { name: "نام مرحلهٔ ۵", desc: "این مرحله را در یک جمله توصیف کنید." },  // 5
+    { name: "نام مرحلهٔ ۶", desc: "شکل معمول و سالم این صفت." },  // 6
+    { name: "نام مرحلهٔ ۷", desc: "این مرحله را در یک جمله توصیف کنید." },  // 7
+    { name: "نام مرحلهٔ ۸", desc: "این مرحله را در یک جمله توصیف کنید." },  // 8
+    { name: "نام مرحلهٔ ۹", desc: "بالاترین مرحله: جهتی برای رفتن، نه نشانی برای ادعا." }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "یک موقعیت روزمره در حوزهٔ اول. معمولاً چه می‌کنید؟",
+      options: [
+        [1, "پاسخی که مرحلهٔ ۱ را نشان می‌دهد."],
+        [3, "پاسخی که مرحلهٔ ۳ را نشان می‌دهد."],
+        [6, "پاسخی که مرحلهٔ ۶ را نشان می‌دهد."],
+        [7, "پاسخی که مرحلهٔ ۷ را نشان می‌دهد."]
+      ] },
+    { area: 1, text: "موقعیتی سخت‌تر در حوزهٔ دوم، که درست رفتار کردن هزینه دارد.",
+      options: [
+        [0, "پاسخی که مرحلهٔ ۰ را نشان می‌دهد."],
+        [4, "پاسخی که مرحلهٔ ۴ را نشان می‌دهد."],
+        [6, "پاسخی که مرحلهٔ ۶ را نشان می‌دهد."],
+        [8, "پاسخی که مرحلهٔ ۸ را نشان می‌دهد."]
+      ] }
+  ],
+
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
+  coach: {
+    "header": "خودسنجی نام صفت",
+    "rules": [
+      "مرزهای سالم: مرحله‌های بالا باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. بنویسید این صفت هرگز به چه معنا نیست."
+    ]
+  }
+};
+
+// Show the questionnaire
+Questionnaire.mount({
+  id: "new-quality",
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "en.html",
+  home: "../index.html"
+});
+</script>
+</body>
+</html>

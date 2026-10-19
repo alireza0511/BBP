@@ -150,7 +150,71 @@
       '<div class="actions">' + button(o.copyLabel, { id: (o.id || "copyText") + "Btn", primary: true }) + (o.extra || "") + "</div>";
   }
 
+  /** Home-page card for one quality. o: {href, number, name, from, to, meta, go, last} */
+  function pathCard(o) {
+    return '<a class="path-card" href="' + esc(o.href) + '">' +
+      '<span class="pc-num">' + esc(o.number) + "</span>" +
+      '<span class="pc-name">' + esc(o.name) + "</span>" +
+      '<span class="pc-arc"><span class="muted">' + esc(o.from) + '</span><span class="pc-arrow">→</span><b>' + esc(o.to) + "</b></span>" +
+      (o.last ? '<span class="pc-last">' + esc(o.last) + "</span>" : "") +
+      '<span class="pc-meta"><span>' + esc(o.meta) + '</span><span class="pc-go">' + esc(o.go) + "</span></span></a>";
+  }
+
+  /** Line chart of past overall scores (0-100). points: [{label, value}] oldest first.
+      Hovering a dot shows its date and score. */
+  function historyChart(points) {
+    var W = 320, H = 150, L = 30, R = 12, T = 12, B = 26, iw = W - L - R, ih = H - T - B;
+    var x = function (i) { return points.length === 1 ? L + iw / 2 : L + iw * i / (points.length - 1); };
+    var y = function (v) { return T + ih * (1 - v / 100); };
+    var g = [0, 50, 100].map(function (v) {
+      return '<line class="hc-grid" x1="' + L + '" x2="' + (W - R) + '" y1="' + y(v) + '" y2="' + y(v) + '"/>' +
+        '<text class="hc-axis" x="' + (L - 6) + '" y="' + (y(v) + 4) + '" text-anchor="end">' + esc(num(v)) + "</text>";
+    }).join("");
+    var line = points.length > 1 ? '<polyline class="hc-line" points="' + points.map(function (p, i) { return x(i) + "," + y(p.value); }).join(" ") + '"/>' : "";
+    var dots = points.map(function (p, i) {
+      return '<g class="hc-pt"><circle class="hc-hit" cx="' + x(i) + '" cy="' + y(p.value) + '" r="12"/>' +
+        '<circle class="hc-dot" cx="' + x(i) + '" cy="' + y(p.value) + '" r="4.5"/><title>' + esc(p.label + " · " + num(p.value)) + "</title></g>";
+    }).join("");
+    var ends = points.length ? '<text class="hc-axis" x="' + x(0) + '" y="' + (H - 6) + '" text-anchor="' + (points.length === 1 ? "middle" : "start") + '">' + esc(points[0].label) + "</text>" +
+      (points.length > 1 ? '<text class="hc-axis" x="' + x(points.length - 1) + '" y="' + (H - 6) + '" text-anchor="end">' + esc(points[points.length - 1].label) + "</text>" : "") : "";
+    return '<div class="history-chart" dir="ltr"><svg viewBox="0 0 ' + W + " " + H + '" role="img">' + g + line + dots + ends + "</svg></div>";
+  }
+
+  /** Table of past results. rows: [{date, score, stage}], headers: [date, score] */
+  function historyTable(rows, headers) {
+    return '<table class="stages history-table"><thead><tr><td class="b">' + esc(headers[0]) + '</td><td class="b">' + esc(headers[1]) + "</td></tr></thead><tbody>" +
+      rows.map(function (r) { return "<tr><td>" + esc(r.date) + '</td><td><b>' + esc(r.score) + "</b> · " + esc(r.stage) + "</td></tr>"; }).join("") +
+      "</tbody></table>";
+  }
+
   /* ---------- Behaviour ---------- */
+
+  /** Small wrapper around localStorage for JSON values. Never throws. */
+  var store = {
+    get: function (key, fallback) { try { var v = localStorage.getItem(key); return v == null ? fallback : JSON.parse(v); } catch (e) { return fallback; } },
+    set: function (key, value) { try { localStorage.setItem(key, JSON.stringify(value)); } catch (e) {} },
+    remove: function (key) { try { localStorage.removeItem(key); } catch (e) {} }
+  };
+
+  /** Save text as a file on the viewer's device. */
+  function download(filename, text) {
+    var a = document.createElement("a");
+    a.href = URL.createObjectURL(new Blob([text], { type: "text/plain;charset=utf-8" }));
+    a.download = filename;
+    document.body.appendChild(a); a.click(); a.remove();
+    setTimeout(function () { URL.revokeObjectURL(a.href); }, 1000);
+  }
+
+  /** A button that needs two taps: the first changes its label to confirmLabel. */
+  function onConfirm(id, confirmLabel, fn) {
+    var el = document.getElementById(id); if (!el) return;
+    var label = el.textContent, armed = false, timer;
+    el.onclick = function () {
+      if (armed) { clearTimeout(timer); fn(); return; }
+      armed = true; el.textContent = confirmLabel;
+      timer = setTimeout(function () { armed = false; el.textContent = label; }, 4000);
+    };
+  }
 
   /** Put text in a copy box and wire its button. */
   function bindCopy(id, text, copyLabel, copiedLabel) {
@@ -195,6 +259,7 @@
     lang: lang, esc: esc, num: num, fill: fill, shuffle: shuffle, today: today,
     topBar: topBar, card: card, title: title, heading: heading, para: para, muted: muted, note: note,
     stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard,
+    pathCard: pathCard, historyChart: historyChart, historyTable: historyTable, store: store, download: download, onConfirm: onConfirm,
     button: button, navRow: navRow, scoreBars: scoreBars, bigScore: bigScore, copyBox: copyBox,
     bindCopy: bindCopy, onPick: onPick, onClick: onClick, initTheme: initTheme, rememberLang: rememberLang
   };

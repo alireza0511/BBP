@@ -12,45 +12,22 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared core: UI widgets and the questionnaire widget -->
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
 <script src="../core/questionnaire.js"></script>
 
 <script>
 // This page's content (English only)
 const CONTENT = {
-  // Words used on the screens
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
   text: {
     brand: "Patience",
     title: "The Path of Patience",
     sub: "A private self-reflection on sabr (patience)",
     purpose: "This is a private self-reflection on patience across seven areas of daily life. Each question describes a real situation. There are no right or wrong answers. Choose what you would most honestly do, not what you think you should do.",
-    privT: "Privacy",
-    priv: "Your answers stay in this browser. Nothing is sent or saved anywhere. This is for you alone, never for scoring anyone else.",
     limT: "Healthy limits",
-    lim: "Patience never means enduring abuse, harming your health, or staying silent about injustice. The highest stages are freely chosen, never self-destructive, and include calmly saying no, leaving, or working to change things.",
-    stagesT: "The ten stages",
-    start: "Begin",
-    back: "Back",
-    next: "Next",
-    finish: "See my results",
-    none: "None of these fits me",
-    qOf: "Question {n} of {t}",
-    resT: "Your results",
-    overall: "Overall",
-    stage: "Stage",
-    nextT: "Your next step",
-    nextTxt: "“{area}” is the area where a small step may help most. It is now at stage {s} ({name}); the next stage up is {s2}, {name2}: {mark2} What you do with that is entirely your choice.",
-    nextTop: "“{area}” is your lowest area, and it is already at the highest stage. What you do with that is entirely your choice.",
-    notScored: "Not scored",
-    llmT: "Take it further with an AI assistant",
-    llmHint: "Copy this text into an AI assistant to get small, concrete practices. It already includes the ground rules.",
-    copy: "Copy",
-    copied: "Copied",
-    restart: "Start again",
-    lang: "فارسی",
-    home: "← All paths",
-    theme: "Theme"
+    lim: "Patience never means enduring abuse, harming your health, or staying silent about injustice. The highest stages are freely chosen, never self-destructive, and include calmly saying no, leaving, or working to change things."
   },
 
   // Areas of life (questions point to these by number, starting at 0)
@@ -289,31 +266,18 @@ const CONTENT = {
       ] }
   ],
 
-  // Text copied for an AI coach on the results screen
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
   coach: {
     "header": "I'm working on growing in patience. Below is my private self-assessment.",
-    "date": "Date: ",
-    "rulesT": "RULES FOR YOUR ANSWER:",
     "rules": [
-      "Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.",
-      "Free will: never pressure or command me. Offer options; I choose my own next step. This assessment is self-scored, private, and only for me, never for scoring others.",
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Patience never means enduring abuse, harming my health, or staying silent about injustice."
-    ],
-    "stagesT": "THE TEN STAGES OF PATIENCE:",
-    "scoresT": "MY SCORES (each area = average stage of my answers, placed in the middle of that stage's band; overall = average of the areas):",
-    "qaT": "MY QUESTIONS AND ANSWERS:",
-    "notAnswered": "Not answered",
-    "requestT": "PLEASE SUGGEST:",
-    "request": [
-      "1. 2–3 small, concrete practices to move up one stage in my weakest area ({area}, currently stage {s}).",
-      "2. One inner shift that would help me most.",
-      "3. One practice for my overall stage (stage {os}, {oname})."
     ]
   }
 };
 
 // Show the questionnaire
 Questionnaire.mount({
+  id: "patience",
   content: CONTENT,
   el: "#app",
   header: "#top",

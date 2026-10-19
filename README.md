@@ -1,6 +1,6 @@
 # Becoming Better · بهتر شدن
 
-Five private, self-scored assessments for growing in a quality across ten stages. Each one has its own folder with a separate English and Farsi page:
+Private, self-scored assessments for growing in a quality across ten stages, in English and Farsi.
 
 | Path | From → To | English | Farsi |
 |---|---|---|---|
@@ -10,25 +10,32 @@ Five private, self-scored assessments for growing in a quality across ten stages
 | Trust · توکل | قانِط → راضی | `trust/en.html` | `trust/fa.html` |
 | Bravery · شجاعت | جُبن → قوی | `bravery/en.html` | `bravery/fa.html` |
 
-`index.html` is the home page (English/Farsi toggle) and links to the page in the chosen language. Each page is a single self-contained HTML file. Answers never leave the browser.
+`index.html` is the home page. It builds one card per quality from `core/items.js` and opens each in the viewer's language. Answers never leave the browser; unfinished answers and past results are saved only on the viewer's device.
 
-Some folders also have a `questions.md` listing every question with the stage behind each answer, for review.
+## Folders
 
-## Shared code (`core/`)
+- `core/` shared code, used by every page:
+  - `core.css`: the design (from the trust page), light/dark theme, print styles.
+  - `widgets.js`: UI widgets (top bar, card, note, stage table, question card, answer options, score bars, big score, copy box, home-page card, history chart and table) plus helpers (Persian digits, dates, theme, saving on the device, download).
+  - `defaults.js`: the shared English and Farsi wording (buttons, privacy note, standing rules for the AI coach). Pages only write what is unique to them.
+  - `questionnaire.js`: the questionnaire widget, i.e. the whole assessment: intro, questions, scoring, results, saved progress, results history, download and print.
+  - `items.js`: the list of qualities shown on the home page.
+- `<quality>/en.html`, `fa.html`: one `CONTENT` block per language (title, purpose, healthy limits, areas, ten stages, questions, AI-coach header and rules), then `Questionnaire.mount(...)`.
+- `<quality>/questions.md`: every question and answer with its stage, for review. Generated; don't edit by hand.
+- `_template/`: a ready-to-fill quality. (Folders starting with `_` are not published by GitHub Pages.)
+- `tools/`: `check.js` (content checker) and `questions-md.js` (writes the questions.md files). Run them with Node.js from the repository root.
 
-Every page is built from the same three files and uses the same design (taken from the trust page):
+## Adding a new quality
 
-- `core/core.css`: colors, light/dark theme and the styles for every widget.
-- `core/widgets.js`: the UI widgets (top bar, card, note, stage table, progress bar, question card, answer options, score bars, big score, copy box) plus helpers for Persian digits, dates and the theme toggle.
-- `core/questionnaire.js`: the questionnaire widget, i.e. the whole assessment (intro, questions, scoring, results, text for an AI coach).
+1. Copy `_template/` and rename the copy, e.g. `honesty/`. The folder name is the quality's id.
+2. In both `en.html` and `fa.html`: set `id: "honesty"` and the `<title>`, then replace the placeholders (words, areas, the ten stages, questions). Each answer is `[stage 0-9, "text"]`; a question's `area` is the area's number in the list, starting at 0.
+3. Add one entry to `core/items.js` (names, first and last stage, number of areas and questions).
+4. Run `node tools/check.js honesty` and fix anything it reports, then `node tools/questions-md.js honesty`.
+5. Commit and push. The new card appears on the home page.
 
-Each `en.html` / `fa.html` holds only its own language in one `CONTENT` block (screen text, areas, stages, questions, AI-coach text) and then calls the questionnaire:
+## What's saved on the device
 
-```html
-<script src="../core/widgets.js"></script>
-<script src="../core/questionnaire.js"></script>
-<script>
-  const CONTENT = { /* this page's words and questions */ };
-  Questionnaire.mount({ content: CONTENT, el: "#app", header: "#top", otherPage: "fa.html", home: "../index.html" });
-</script>
-```
+Only in the viewer's browser (localStorage), never sent anywhere:
+- `bbp-progress-<id>`: answers to an unfinished assessment, so it can be continued later.
+- `bbp-history-<id>`: date and scores of each finished assessment, shown as a chart on the results screen and as "Last result" on the home page. The viewer can clear it from the results screen.
+- `bbp-lang`, `bbp-theme`: last language and light/dark choice.

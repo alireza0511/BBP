@@ -12,45 +12,22 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared core: UI widgets and the questionnaire widget -->
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
 <script src="../core/questionnaire.js"></script>
 
 <script>
 // This page's content (English only)
 const CONTENT = {
-  // Words used on the screens
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
   text: {
     brand: "Generosity",
     title: "Stages of Generosity",
     sub: "A self-assessment of generosity",
     purpose: "This questionnaire helps you see which stage of generosity you are at in each kind of giving: attention, credit, forgiveness, time and skill, material, and giving without announcing it. There are 18 questions. Choose the answer that is honestly true of you, not the one you wish were true.",
-    privT: "Privacy and free will",
-    priv: "Your answers stay in your browser and are not sent anywhere. This is a mirror for finding your next step, not a judgment. Please use it only for yourself, never to score others.",
     limT: "Healthy limits",
-    lim: "Forgiveness and self-giving never mean staying in harm. Generosity counts only when it is freely chosen.",
-    stagesT: "The ten stages",
-    start: "Start",
-    back: "Back",
-    next: "Next",
-    finish: "See results",
-    none: "None of these fits me",
-    qOf: "{n} of {t}",
-    resT: "Your results",
-    overall: "Overall",
-    stage: "Stage",
-    nextT: "Your next step",
-    nextTxt: "Your lowest area is {area}, at the stage of {name} (stage {s}). Growing here will lift everything else. The next stage up is {s2}, {name2}: {mark2}.",
-    nextTop: "Your lowest area is {area}, already at stage 9, The Bountiful. Keep giving freely, expecting nothing.",
-    notScored: "No answers",
-    llmT: "Get suggestions for growth",
-    llmHint: "Copy this text and give it to an AI assistant (LLM). It will suggest ways to grow toward the next stage.",
-    copy: "Copy text",
-    copied: "Copied",
-    restart: "Start again",
-    lang: "فارسی",
-    home: "← All paths",
-    theme: "Theme"
+    lim: "Forgiveness and self-giving never mean staying in harm. Generosity counts only when it is freely chosen."
   },
 
   // Areas of life (questions point to these by number, starting at 0)
@@ -247,22 +224,13 @@ const CONTENT = {
       ] }
   ],
 
-  // Text copied for an AI coach on the results screen
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules), custom request lines
   coach: {
     "header": "I completed a self-assessment of my generosity. It uses a 10-stage scale from 0 to 100, rising toward The Bountiful, whose giving has no limit and expects no return.",
-    "date": "Date: ",
-    "rulesT": "Please follow these principles throughout your reply:",
     "rules": [
-      "Every suggestion should be something that, if everyone in the world did it, would make the world a better place.",
-      "Respect my free will: offer options for me to choose from; don't command or pressure me.",
       "Generosity must be freely chosen and never self-destructive. Forgiveness and self-giving never mean staying in harm.",
       "Keep practices small and realistic, so I can start today."
     ],
-    "stagesT": "THE STAGES",
-    "scoresT": "MY RESULTS",
-    "qaT": "MY ANSWERS",
-    "notAnswered": "(not answered)",
-    "requestT": "WHAT I'D LIKE FROM YOU",
     "request": [
       "1. Briefly reflect back what these answers suggest about how I give, without judging me.",
       "2. Focus on my weakest area ({area}, currently stage {s}). Suggest 2–3 small, concrete daily or weekly practices that would help me move up one stage there.",
@@ -274,6 +242,7 @@ const CONTENT = {
 
 // Show the questionnaire
 Questionnaire.mount({
+  id: "generosity",
   content: CONTENT,
   el: "#app",
   header: "#top",

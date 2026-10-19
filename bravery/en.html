@@ -12,44 +12,21 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared core: UI widgets and the questionnaire widget -->
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
 <script src="../core/questionnaire.js"></script>
 
 <script>
 // This page's content (English only)
 const CONTENT = {
-  // Words used on the screens
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
   text: {
     brand: "The Path of Bravery",
     title: "The Path of Bravery",
     purpose: "Bravery is the middle path between cowardice and recklessness. This private self-assessment helps you see where you stand in seven everyday areas, so you can choose your own next step toward The Strong: a direction to face, not a badge to claim. 21 situations, 3 per area. Choose what you would most honestly do. There are no wrong answers.",
-    privT: "Private",
-    priv: "your answers never leave this browser. Nothing is sent or saved. This is only for you, never for scoring others.",
     limT: "Healthy limits",
-    lim: "the highest stages are always freely chosen and never self-destructive. Courage is not recklessness, and sometimes the strongest choice is to walk away.",
-    stagesT: "The ten stages",
-    start: "Begin",
-    back: "Back",
-    next: "Next",
-    finish: "See results",
-    none: "None of these fits me",
-    qOf: "Question {n} of {t}",
-    resT: "Your results",
-    overall: "Overall",
-    stage: "Stage",
-    nextT: "Your next step",
-    nextTxt: "Your lowest area is {area}, at stage {s} ({name}). The next stage there is {s2}, {name2}: {mark2}. This is only a suggestion. You choose your own next step.",
-    nextTop: "Your lowest area, {area}, is already facing The Strong. Keep walking gently; it is a direction, not a finish line. This is only a suggestion. You choose your own next step.",
-    notScored: "Not scored",
-    llmT: "Take it further",
-    llmHint: "Copy this text and paste it into Claude or another AI assistant for gentle, concrete practices.",
-    copy: "Copy",
-    copied: "Copied ✓",
-    restart: "Start over",
-    lang: "فارسی",
-    home: "← All paths",
-    theme: "Theme"
+    lim: "the highest stages are always freely chosen and never self-destructive. Courage is not recklessness, and sometimes the strongest choice is to walk away."
   },
 
   // Areas of life (questions point to these by number, starting at 0)
@@ -291,32 +268,18 @@ const CONTENT = {
       ] }
   ],
 
-  // Text copied for an AI coach on the results screen
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
   coach: {
     "header": "I took a private self-assessment of bravery. It measures 7 areas of daily life on a 10-stage scale, from Cowardice to The Strong. I'd like your help choosing my next step.",
-    "date": "Date: ",
-    "rulesT": "Standing rules for your reply:",
     "rules": [
-      "Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.",
-      "Free will: never pressure or command. This assessment is self-scored, private, and only for myself, never for scoring others. I choose my own next step; offer, don't prescribe.",
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Courage is not recklessness."
-    ],
-    "stagesT": "The ten stages:",
-    "scoresT": "My results:",
-    "qaT": "My answers:",
-    "notAnswered": "(skipped)",
-    "requestT": "Please give me:",
-    "request": [
-      "1. 2–3 small, concrete practices to move up one stage in my weakest area, {area} (currently stage {s}).",
-      "2. One inner shift that would help me most.",
-      "3. One practice for my overall stage (stage {os}, {oname}).",
-      "Keep each practice small enough to try this week, and follow the standing rules above."
     ]
   }
 };
 
 // Show the questionnaire
 Questionnaire.mount({
+  id: "bravery",
   content: CONTENT,
   el: "#app",
   header: "#top",

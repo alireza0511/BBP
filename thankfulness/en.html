@@ -12,44 +12,21 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared core: UI widgets and the questionnaire widget -->
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
 <script src="../core/questionnaire.js"></script>
 
 <script>
 // This page's content (English only)
 const CONTENT = {
-  // Words used on the screens
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
   text: {
     brand: "Thankfulness",
     title: "Thankfulness",
     purpose: "A private reflection on thankfulness across six areas of daily life. For each situation, choose what you would honestly do — not what you think you should do. At the end you'll see where you stand in each area and one possible next step.",
-    privT: "Privacy",
-    priv: "Your answers stay in this browser. Nothing is sent or saved anywhere. This is only for yourself — never for scoring anyone else.",
     limT: "Healthy limits",
-    lim: "The highest stages are freely chosen and never self-destructive. Gratitude never means thanking anyone for mistreatment, hiding your pain, or staying silent about real needs or injustice.",
-    stagesT: "The ten stages",
-    start: "Begin",
-    back: "Back",
-    next: "Next",
-    finish: "See results",
-    none: "None of these fits me",
-    qOf: "Question {n} of {t}",
-    resT: "Your results",
-    overall: "Overall",
-    stage: "Stage",
-    nextT: "Your next step",
-    nextTxt: "Your lowest area is “{area}” (Stage {s} · {name}). The next stage there is Stage {s2} · {name2} — if and when you choose it. {mark2}",
-    nextTop: "Your lowest area is “{area}”, already at Stage 9. Keep facing this direction.",
-    notScored: "Not scored",
-    llmT: "Text for an AI coach",
-    llmHint: "Copy this and paste it into an AI assistant to get personal practices.",
-    copy: "Copy",
-    copied: "Copied ✓",
-    restart: "Start again",
-    lang: "فارسی",
-    home: "← All paths",
-    theme: "Theme"
+    lim: "The highest stages are freely chosen and never self-destructive. Gratitude never means thanking anyone for mistreatment, hiding your pain, or staying silent about real needs or injustice."
   },
 
   // Areas of life (questions point to these by number, starting at 0)
@@ -260,32 +237,18 @@ const CONTENT = {
       ] }
   ],
 
-  // Text copied for an AI coach on the results screen
+  // Text for an AI coach: header, this quality's own rules (added after the shared rules)
   coach: {
     "header": "Thankfulness self-assessment",
-    "date": "Date: ",
-    "rulesT": "STANDING RULES FOR YOUR REPLY",
     "rules": [
-      "Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.",
-      "Free will: never pressure or command me. This assessment is self-scored, private, and only for myself, never for scoring others. I choose my own next step.",
       "Healthy limits: the highest stages must be freely chosen and never self-destructive. Gratitude never means accepting mistreatment, hiding pain, or staying silent about real needs or injustice."
-    ],
-    "stagesT": "THE TEN STAGES",
-    "scoresT": "SCORES",
-    "qaT": "MY ANSWERS",
-    "notAnswered": "Not answered",
-    "requestT": "PLEASE GIVE ME",
-    "request": [
-      "1. 2–3 small, concrete practices to move up one stage in my weakest area ({area}), from Stage {s} toward the next stage.",
-      "2. One inner shift that would help me most.",
-      "3. One practice for my overall stage (Stage {os} · {oname}).",
-      "Keep every suggestion within the standing rules above. Please reply in English."
     ]
   }
 };
 
 // Show the questionnaire
 Questionnaire.mount({
+  id: "thankfulness",
   content: CONTENT,
   el: "#app",
   header: "#top",
