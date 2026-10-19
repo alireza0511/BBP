@@ -5,12 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>The Path of Patience</title>
 <link rel="stylesheet" href="../core/core.css">
-<style>
-/* This page's colors (see ../core/core.css for the full list of tokens) */
-:root{ --bg:#f6f3ee; --card:#fffdf9; --text:#26221d; --muted:#6f675c; --line:#e4ddd2; --accent:#3d6b5a; --accent-soft:#e8f0ec; --accent-ink:#fff; --bar:#e4ddd2; --sel:#d9e8e0; --warn:#b9733f }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#171614; --card:#211f1c; --text:#ece6dc; --muted:#a59d90; --line:#363230; --accent:#7fb59e; --accent-soft:#25302b; --accent-ink:#13221c; --bar:#363230; --sel:#2c3d35; --warn:#d99a66 } }
-:root[data-theme="dark"]{ --bg:#171614; --card:#211f1c; --text:#ece6dc; --muted:#a59d90; --line:#363230; --accent:#7fb59e; --accent-soft:#25302b; --accent-ink:#13221c; --bar:#363230; --sel:#2c3d35; --warn:#d99a66 }
-</style>
 </head>
 <body>
 <div class="wrap">
@@ -18,14 +12,13 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared UI widgets -->
+<!-- Shared core: UI widgets and the questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/questionnaire.js"></script>
 
-<!-- This page's content (English only) -->
 <script>
-window.CONTENT = {
-  otherPage: "fa.html",
-
+// This page's content (English only)
+const CONTENT = {
   // Words used on the screens
   text: {
     brand: "Patience",
@@ -318,9 +311,15 @@ window.CONTENT = {
     ]
   }
 };
-</script>
 
-<!-- Shared screens and scoring -->
-<script src="../core/assessment.js"></script>
+// Show the questionnaire
+Questionnaire.mount({
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "fa.html",
+  home: "../index.html"
+});
+</script>
 </body>
 </html>

@@ -7,12 +7,6 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../core/core.css">
-<style>
-/* This page's colors (see ../core/core.css for the full list of tokens) */
-:root{ --bg:#faf7f2; --card:#ffffff; --text:#2b2620; --muted:#7a7064; --line:#e6ddd0; --accent:#9a6b2f; --accent-soft:#f3e7d5; --accent-ink:#ffffff; --bar:#efe8dc; --sel:#fbf1e2; --warn:#a4492e }
-@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#1c1915; --card:#26221d; --text:#eee7dc; --muted:#a89d8e; --line:#3a342c; --accent:#d9a660; --accent-soft:#3a3026; --accent-ink:#1c1915; --bar:#332d26; --sel:#3a3026; --warn:#e08a68 } }
-:root[data-theme="dark"]{ --bg:#1c1915; --card:#26221d; --text:#eee7dc; --muted:#a89d8e; --line:#3a342c; --accent:#d9a660; --accent-soft:#3a3026; --accent-ink:#1c1915; --bar:#332d26; --sel:#3a3026; --warn:#e08a68 }
-</style>
 </head>
 <body>
 <div class="wrap">
@@ -20,14 +14,13 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared UI widgets -->
+<!-- Shared core: UI widgets and the questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/questionnaire.js"></script>
 
-<!-- This page's content (Farsi only) -->
 <script>
-window.CONTENT = {
-  otherPage: "en.html",
-
+// This page's content (Farsi only)
+const CONTENT = {
   // Words used on the screens
   text: {
     brand: "کرم",
@@ -281,9 +274,15 @@ window.CONTENT = {
     ]
   }
 };
-</script>
 
-<!-- Shared screens and scoring -->
-<script src="../core/assessment.js"></script>
+// Show the questionnaire
+Questionnaire.mount({
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "en.html",
+  home: "../index.html"
+});
+</script>
 </body>
 </html>

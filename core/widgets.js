@@ -136,6 +136,14 @@
       (line ? "<div>" + esc(line) + "</div>" : "") + (sub ? muted(sub) : "");
   }
 
+  /** One question screen: counter, progress bar, area tag, question, answers, Back/Next.
+      o: {counter, percent, area, text, items (see options), backLabel, nextLabel, nextDisabled}
+      Buttons get the ids "backBtn" and "nextBtn". */
+  function questionCard(o) {
+    return card(muted(o.counter) + progress(o.percent) + tag(o.area) + situation(o.text) + options(o.items) +
+      navRow(button(o.backLabel, { id: "backBtn" }), button(o.nextLabel, { id: "nextBtn", primary: true, disabled: !!o.nextDisabled })));
+  }
+
   /** Read-only text with a Copy button. Fill it with UI.bindCopy after rendering. */
   function copyBox(o) {
     return heading(o.title) + muted(o.hint) + '<textarea id="' + esc(o.id || "copyText") + '" readonly></textarea>' +
@@ -186,7 +194,7 @@
   global.UI = {
     lang: lang, esc: esc, num: num, fill: fill, shuffle: shuffle, today: today,
     topBar: topBar, card: card, title: title, heading: heading, para: para, muted: muted, note: note,
-    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options,
+    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard,
     button: button, navRow: navRow, scoreBars: scoreBars, bigScore: bigScore, copyBox: copyBox,
     bindCopy: bindCopy, onPick: onPick, onClick: onClick, initTheme: initTheme, rememberLang: rememberLang
   };

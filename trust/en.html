@@ -12,14 +12,13 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared UI widgets -->
+<!-- Shared core: UI widgets and the questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/questionnaire.js"></script>
 
-<!-- This page's content (English only) -->
 <script>
-window.CONTENT = {
-  otherPage: "fa.html",
-
+// This page's content (English only)
+const CONTENT = {
   // Words used on the screens
   text: {
     brand: "Trust",
@@ -286,9 +285,15 @@ window.CONTENT = {
     ]
   }
 };
-</script>
 
-<!-- Shared screens and scoring -->
-<script src="../core/assessment.js"></script>
+// Show the questionnaire
+Questionnaire.mount({
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "fa.html",
+  home: "../index.html"
+});
+</script>
 </body>
 </html>

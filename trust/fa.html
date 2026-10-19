@@ -14,14 +14,13 @@
   <main id="app"></main>
 </div>
 
-<!-- Shared UI widgets -->
+<!-- Shared core: UI widgets and the questionnaire widget -->
 <script src="../core/widgets.js"></script>
+<script src="../core/questionnaire.js"></script>
 
-<!-- This page's content (Farsi only) -->
 <script>
-window.CONTENT = {
-  otherPage: "en.html",
-
+// This page's content (Farsi only)
+const CONTENT = {
   // Words used on the screens
   text: {
     brand: "توکل",
@@ -288,9 +287,15 @@ window.CONTENT = {
     ]
   }
 };
-</script>
 
-<!-- Shared screens and scoring -->
-<script src="../core/assessment.js"></script>
+// Show the questionnaire
+Questionnaire.mount({
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "en.html",
+  home: "../index.html"
+});
+</script>
 </body>
 </html>
