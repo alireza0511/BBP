@@ -378,7 +378,7 @@ function toFa(n) {
 }
 
 function stageName(s) {
-  return lang === "fa" ? `${STAGES[s].fa} (${STAGES[s].en})` : `${STAGES[s].en} (${STAGES[s].fa})`;
+  return lang === "fa" ? `${STAGES[s].fa} (${STAGES[s].en})` : STAGES[s].en;
 }
 
 function show(id) {
@@ -509,14 +509,14 @@ function buildPrompt(r) {
   const date = new Date().toISOString().slice(0, 10);
   const fa = lang === "fa";
   const L = [];
-  const stageList = STAGES.map((s, i) => `${i * 10}–${i === 9 ? 100 : i * 10 + 9}: ${fa ? s.fa : s.en} (${fa ? s.en : s.fa}) — ${fa ? s.dfa : s.den}`).join("\n");
+  const stageList = STAGES.map((s, i) => `${i * 10}–${i === 9 ? 100 : i * 10 + 9}: ${fa ? `${s.fa} (${s.en})` : s.en} — ${fa ? s.dfa : s.den}`).join("\n");
 
   if (!fa) {
-    L.push(`I completed a self-assessment of my generosity on ${date}. It uses a 10-stage scale from 0 to 100, rising toward کریم (The Bountiful), whose giving has no limit and expects no return.`);
+    L.push(`I completed a self-assessment of my generosity on ${date}. It uses a 10-stage scale from 0 to 100, rising toward The Bountiful, whose giving has no limit and expects no return.`);
     L.push("", "THE STAGES", stageList);
     L.push("", "MY RESULTS");
-    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].en}: ${x.score === null ? "no answers" : `${x.score}/100 — ${STAGES[x.stage].en} (${STAGES[x.stage].fa})`}`));
-    if (r.overall !== null) L.push(`- Overall: ${r.overall}/100 — ${STAGES[r.overallStage].en} (${STAGES[r.overallStage].fa})`);
+    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].en}: ${x.score === null ? "no answers" : `${x.score}/100 — ${STAGES[x.stage].en}`}`));
+    if (r.overall !== null) L.push(`- Overall: ${r.overall}/100 — ${STAGES[r.overallStage].en}`);
     if (r.weakest) L.push(`- Weakest area: ${ITEMS[r.weakest.ii].en}`);
     L.push("", "MY ANSWERS");
     QUESTIONS.forEach((Q, qi) => {

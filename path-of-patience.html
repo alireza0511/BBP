@@ -376,7 +376,7 @@ function intro(){
  return `<section class="card">
   <p class="lead">${t("purpose")}</p>
   <h2>${t("stagesH")}</h2>
-  <ol class="stages">${STAGES.map((s,i)=>`<li><div class="sh"><span class="band">${num(band(i))}</span><b>${esc(L(s))}</b><span class="alt">${esc(S.lang==="fa"?s.en:s.fa)}</span></div><p>${esc(S.lang==="fa"?s.mfa:s.men)}</p></li>`).join("")}</ol>
+  <ol class="stages">${STAGES.map((s,i)=>`<li><div class="sh"><span class="band">${num(band(i))}</span><b>${esc(L(s))}</b>${S.lang==="fa"?`<span class="alt">${esc(s.en)}</span>`:""}</div><p>${esc(S.lang==="fa"?s.mfa:s.men)}</p></li>`).join("")}</ol>
   <div class="note"><h3>${t("privacyH")}</h3><p>${t("privacy")}</p></div>
   <div class="note"><h3>${t("limitsH")}</h3><p>${t("limits")}</p></div>
   <button class="primary" data-act="start">${t("start")}</button></section>`;
@@ -411,7 +411,7 @@ function results(){
 function llmText(r){
  const fa=S.lang==="fa";
  const date = new Date().toLocaleDateString(fa?"fa-IR":"en-US",{year:"numeric",month:"long",day:"numeric"});
- const stLine = i => fa ? `مرتبهٔ ${num(i)} (${num(band(i))}): ${STAGES[i].fa} (${STAGES[i].en}): ${STAGES[i].mfa}` : `Stage ${i} (${band(i)}): ${STAGES[i].en} (${STAGES[i].fa}): ${STAGES[i].men}`;
+ const stLine = i => fa ? `مرتبهٔ ${num(i)} (${num(band(i))}): ${STAGES[i].fa} (${STAGES[i].en}): ${STAGES[i].mfa}` : `Stage ${i} (${band(i)}): ${STAGES[i].en}: ${STAGES[i].men}`;
  const sc = AREAS.map((a,i)=>{const v=r.areas[i];return `- ${L(a)}: ${v===null?t("notScored"):num(v)+" ("+(fa?"مرتبهٔ ":"Stage ")+num(stageOf(v))+", "+L(STAGES[stageOf(v)])+")"}`;}).join("\n");
  const ans = AREAS.map((a,ai)=>{
   const lines = QS.map((x,i)=>({x,i})).filter(o=>o.x.ai===ai).map(({x,i})=>{
@@ -449,7 +449,7 @@ ${ans}
 - جهان‌شمولی: بررسی کن که هر پیشنهاد، اگر همهٔ مردم دنیا آن را انجام دهند، دنیا را جای بهتری کند.
 - اختیار: هرگز فشار نیاور و دستور نده. گزینه پیشنهاد کن؛ گام بعدی را خودم انتخاب می‌کنم. این سنجش را خودم انجام داده‌ام، خصوصی است و فقط برای خودم است، هرگز برای سنجیدن دیگران.
 - حد سالم: بالاترین مراتب باید آزادانه انتخاب شوند و هرگز خودویرانگر نباشند. صبر هرگز به معنای تحمل آزار، آسیب زدن به سلامتم یا سکوت در برابر بی‌عدالتی نیست.`;
- return `I'm working on growing in patience (صبر). Below is my private self-assessment.
+ return `I'm working on growing in patience. Below is my private self-assessment.
 
 Date: ${date}
 

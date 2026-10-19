@@ -306,7 +306,7 @@ const AREAS = [
 
 const T = {
  en:{
-  title:"Thankfulness · شکر",
+  title:"Thankfulness",
   langBtn:"فارسی",
   purposeH:"What this is",
   purpose:"A private reflection on thankfulness across six areas of daily life. For each situation, choose what you would honestly do — not what you think you should do. At the end you'll see where you stand in each area and one possible next step.",
@@ -512,7 +512,7 @@ function buildLLM(r){
   const date = new Date().toLocaleDateString(fa ? "fa-IR" : "en-US", {year:"numeric", month:"long", day:"numeric"});
   const os = scoreStage(r.overall), ls = scoreStage(r.lowest.score);
   if (!fa) {
-    L.push("Thankfulness (شکر) self-assessment — " + date, "");
+    L.push("Thankfulness self-assessment — " + date, "");
     L.push("STANDING RULES FOR YOUR REPLY");
     L.push("- Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.");
     L.push("- Free will: never pressure or command me. This assessment is self-scored, private, and only for myself, never for scoring others. I choose my own next step.");
