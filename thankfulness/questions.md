@@ -193,3 +193,68 @@ Stage in [brackets]. In the quiz, answer order is shuffled.
 - [6] I can admit they helped me back then.
 - [8] I honor what they did for me back then, even though they hurt me — without excusing the hurt.
 - [9] Their kindness still lives in how I help others through hard times. I'm grateful for it, and I keep the boundary I need.
+
+
+## 7. Nature and every creature / طبیعت و همهٔ جانداران
+
+**Q1 (Ordinary situation).** You're filling a glass of water at the tap when a child asks you: “Where does water come from?”
+
+- [1] “From the tap,” and I move on — I don't really think about it.
+- [2] I give the textbook answer — rain, pipes — and leave it there.
+- [3] I suddenly feel guilty about all the water I waste, and it turns into a lecture.
+- [4] I give a beautiful answer about being grateful for water, mostly because other adults are listening.
+- [5] “We're lucky — we pay for good water, not like some places.”
+- [6] I explain its journey — clouds, rivers, the people who keep it clean — and say what a gift it is to have it.
+- [7] We pause and thank the water together, and I tell the story of the clouds, the rivers and the people who bring it to us.
+
+**Q2 (Costly situation).** Your old dog is sick. For weeks it has needed care in the middle of the night, the vet bills are high, and you're exhausted.
+
+- [0] I lose patience with it and handle it roughly.
+- [1] Mostly I feel how much it's costing me.
+- [2] I do what has to be done, without much feeling.
+- [3] I feel I owe it everything, so I skip my own sleep and meals for weeks to make up for it.
+- [5] I'll keep caring for it as long as the costs stay reasonable for what it gives us.
+- [6] I care for it patiently, remembering the years of company it gave us.
+- [8] Even at 3 a.m., tired as I am, I sit with it gently, grateful for every year of its loyalty — and I ask family to share the nights so I don't break down.
+
+**Q3 (Something that opposes, frightens or disappoints you).** You find a big spider in the corner of your bedroom. Honestly, you're afraid of spiders.
+
+- [0] I kill it, then spray the whole house to get rid of every spider.
+- [1] I get rid of it whatever way is quickest, without a second thought.
+- [2] I put it outside because I've heard you're supposed to, but to me it's just a pest.
+- [4] I carry it outside and film it, to show how kind I am to all creatures.
+- [6] I carefully move it outside. It has its place in the world — just not my bed.
+- [8] Even though I'm afraid, I catch it gently and release it, thankful for the insects it eats and its part in the world.
+- [9] I see even this creature I fear as part of the same creation as me — its web, its work, its life — and I'm grateful it exists as I move it outside with care.
+
+## 8. Thanking God / شکر خدا
+
+**Q1 (Ordinary situation).** You wake up on an ordinary morning — healthy, with the day ahead of you. What happens in your first few minutes?
+
+- [1] I reach for my phone; thanking God doesn't cross my mind.
+- [2] I say the usual words of thanks or prayer out of habit, while thinking about other things.
+- [3] I feel I'm never thankful enough, and start the day feeling guilty before God.
+- [4] I talk about thanking God mostly when others can hear it.
+- [5] I thank God mainly when I need something, or right after I get it.
+- [6] I take a moment to thank God for the day, my health, and the people I love.
+- [7] Before anything else I thank God, and small thanks keep returning through the day without any reminder.
+
+**Q2 (Costly situation).** An injury keeps you in bed for a month. You're in pain, missing work, and the bills are piling up.
+
+- [0] I turn bitter and mock the people around me who still pray.
+- [1] I forget about God; all I can see is the pain.
+- [2] I keep saying “thank God” because that's what people say, but I don't feel it.
+- [3] I hide my pain, because complaining would feel ungrateful to God.
+- [5] I promise God I'll be very thankful once I'm better.
+- [6] I tell God honestly that it's hard, and still thank Him for what remains — family, a roof, the healing that's coming.
+- [8] In the middle of the pain, I can cry honestly and still say alhamdulillah from the heart.
+
+**Q3 (Something that opposes, frightens or disappoints you).** For a long time you prayed for something that mattered deeply — healing for someone you love, or work you badly needed — and it didn't happen.
+
+- [0] I turn against God and try to pull others away from their faith too.
+- [2] I keep up the rituals because it's expected, but inside I've closed the door.
+- [3] I blame myself for not praying well enough, and carry that guilt.
+- [5] I can be thankful again only once something else good comes along to make up for it.
+- [6] After a while, I can thank God again for the many prayers that were answered.
+- [8] I grieve, and even complain to God honestly, and still thank Him from the heart.
+- [9] I trust that what was given and what was withheld both came from love, and I thank God in both — without pretending the loss doesn't hurt.
