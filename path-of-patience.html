@@ -1,0 +1,502 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Path of Patience</title>
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&family=Source+Serif+4:wght@400;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f6f3ee;--card:#fffdf9;--ink:#26221d;--muted:#6f675c;--line:#e4ddd2;--accent:#3d6b5a;--accent-ink:#fff;--soft:#e8f0ec;--low:#b9733f;--sel:#d9e8e0}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){--bg:#171614;--card:#211f1c;--ink:#ece6dc;--muted:#a59d90;--line:#363230;--accent:#7fb59e;--accent-ink:#13221c;--soft:#25302b;--low:#d99a66;--sel:#2c3d35}}
+:root[data-theme="dark"]{--bg:#171614;--card:#211f1c;--ink:#ece6dc;--muted:#a59d90;--line:#363230;--accent:#7fb59e;--accent-ink:#13221c;--soft:#25302b;--low:#d99a66;--sel:#2c3d35}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink);font:16px/1.6 "Source Serif 4",Georgia,serif}
+html[lang="fa"] body{font-family:"Vazirmatn",Tahoma,sans-serif;line-height:1.9}
+header{max-width:720px;margin:0 auto;padding:20px 16px 8px;display:flex;align-items:center;gap:8px}
+header h1{font-size:1.35rem;margin:0;flex:1}
+.tb{background:none;border:1px solid var(--line);color:var(--ink);border-radius:999px;padding:6px 14px;font:inherit;font-size:.9rem;cursor:pointer}
+main{max-width:720px;margin:0 auto;padding:0 16px 40px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px 20px}
+h2{font-size:1.15rem;margin:24px 0 10px}h3{font-size:1rem;margin:0 0 4px}
+.lead{font-size:1.05rem;margin-top:0}
+.stages{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.stages li{border:1px solid var(--line);border-radius:10px;padding:10px 12px}
+.stages p{margin:4px 0 0;color:var(--muted);font-size:.93rem}
+.sh{display:flex;flex-wrap:wrap;gap:8px;align-items:baseline}
+.band{font-size:.8rem;background:var(--soft);color:var(--accent);border-radius:6px;padding:1px 7px;font-variant-numeric:tabular-nums}
+.alt{color:var(--muted);font-size:.9rem}
+.note{background:var(--soft);border-radius:10px;padding:12px 14px;margin-top:14px}.note p{margin:0}
+.next{border-inline-start:4px solid var(--low)}
+button.primary{background:var(--accent);color:var(--accent-ink);border:0;border-radius:10px;padding:11px 22px;font:inherit;font-weight:600;cursor:pointer;margin-top:18px}
+button.primary:disabled{opacity:.4;cursor:default}
+button.ghost{background:none;border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:11px 18px;font:inherit;cursor:pointer;margin-top:18px}
+.meta{display:flex;justify-content:space-between;gap:8px;color:var(--muted);font-size:.9rem}
+.prog{height:6px;background:var(--line);border-radius:6px;margin:8px 0 18px;overflow:hidden}.prog div{height:100%;background:var(--accent);transition:width .3s}
+.q{font-size:1.12rem;margin:0 0 16px}
+.opts{display:grid;gap:8px}
+.opt{text-align:start;background:var(--card);border:1px solid var(--line);color:var(--ink);border-radius:10px;padding:12px 14px;font:inherit;cursor:pointer}
+.opt:hover{border-color:var(--accent)}.opt.sel{background:var(--sel);border-color:var(--accent)}
+.opt.none{color:var(--muted);font-style:italic}html[lang="fa"] .opt.none{font-style:normal}
+.nav{display:flex;justify-content:space-between;gap:10px}
+.overall{display:flex;gap:16px;align-items:flex-start;background:var(--soft);border-radius:12px;padding:14px}
+.big{font-size:2.6rem;font-weight:700;color:var(--accent);line-height:1}
+.ol{color:var(--muted);font-size:.85rem}.overall p{margin:4px 0 0;font-size:.93rem;color:var(--muted)}
+.bars{display:grid;gap:12px;margin-top:18px}
+.bl{display:flex;justify-content:space-between;gap:8px;font-size:.93rem;flex-wrap:wrap}
+.track{height:10px;background:var(--line);border-radius:6px;overflow:hidden;margin-top:4px}
+.fill{height:100%;background:var(--accent);border-radius:6px}.fill.low{background:var(--low)}
+.muted{color:var(--muted)}
+textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--ink);padding:12px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace}
+html[lang="fa"] textarea{font-family:"Vazirmatn",Tahoma,sans-serif;font-size:14px}
+</style>
+</head>
+<body>
+<header><h1 id="hTitle">The Path of Patience</h1><button class="tb" id="themeBtn" aria-label="Theme">◐</button><button class="tb" id="langBtn">فارسی</button></header>
+<main id="app"></main>
+<script>
+const STAGES = [
+  {en:"The Wrathful", fa:"تندخو",
+   men:"Impatience becomes harm to others: shouting, punishing, humiliating, or making others pay for one's own frustration.",
+   mfa:"بی‌صبری به آزار دیگران تبدیل می‌شود: داد زدن، تنبیه، تحقیر، یا گرفتن تاوانِ ناکامیِ خود از دیگران."},
+  {en:"The Restless", fa:"بی‌تاب",
+   men:"Can't bear waiting or difficulty. Gives up, panics, rushes, or falls apart, but doesn't attack others.",
+   mfa:"تاب انتظار و سختی را ندارد؛ رها می‌کند، هول می‌شود، می‌شتابد یا از هم می‌پاشد، اما به دیگران حمله نمی‌کند."},
+  {en:"The Forced", fa:"ناچار",
+   men:"Waits only because there's no choice or because it's expected. Still outside, seething inside, and it leaks out later where it's safe.",
+   mfa:"فقط چون چاره‌ای نیست یا از او انتظار می‌رود صبر می‌کند؛ بیرون آرام، درون جوشان، و بعداً جایی که امن است بیرون می‌ریزد."},
+  {en:"The Complainer", fa:"شاکی",
+   men:"Endures, but makes everyone carry it: sighs, complaints, guilt, \u201clook how much I put up with.\u201d",
+   mfa:"تحمل می‌کند، اما بارش را بر دوش همه می‌گذارد: آه، گلایه، احساس گناه دادن، «ببین چقدر تحمل می‌کنم»."},
+  {en:"The Showy", fa:"خودنما",
+   men:"Calm and gracious where it is seen and admired; impatient where nobody is watching, often at home.",
+   mfa:"جایی که دیده و تحسین می‌شود آرام و بزرگوار است؛ جایی که کسی نمی‌بیند، اغلب در خانه، بی‌صبر."},
+  {en:"The Calculating", fa:"حسابگر",
+   men:"Genuinely calm, but as a deal: patient for a reward, credit, a later win, or keeping score (\u201cI waited for you, so you owe me\u201d).",
+   mfa:"واقعاً آرام است، اما مثل یک معامله: صبر برای پاداش، اعتبار، بردن بعدی، یا نگه داشتن حساب («منتظرت ماندم، پس به من بدهکاری»)."},
+  {en:"The Composed", fa:"شکیبا",
+   men:"The ordinary, healthy form. Stays calm, responds instead of reacting, waits without complaint or show, and expects nothing back.",
+   mfa:"شکل معمول و سالم: آرام می‌ماند، پاسخ می‌دهد نه واکنش، بی‌گلایه و بی‌نمایش صبر می‌کند و چیزی در عوض نمی‌خواهد."},
+  {en:"The Forbearing", fa:"حلیم",
+   men:"Patient before being tested. Gives others room in advance, plans for delays, and their calm steadies the people around them.",
+   mfa:"پیش از آزموده شدن صبور است: از پیش به دیگران فرصت می‌دهد، برای تأخیرها برنامه می‌ریزد و آرامشش اطرافیان را آرام می‌کند."},
+  {en:"The Steadfast", fa:"صبّار",
+   men:"Stays patient at real personal cost (exhausted, losing something, or facing someone who wronged them), without bitterness, by free choice and within healthy limits.",
+   mfa:"حتی با هزینهٔ واقعی صبور می‌ماند (خسته، در حال از دست دادن، یا در برابر کسی که به او بد کرده)؛ بی‌تلخی، به انتخاب آزاد و در حد سالم."},
+  {en:"The Patient", fa:"صبور",
+   men:"Named after al-Ṣabūr, the One who has full power yet does not hasten. Patience rooted in trust, without resentment, acting at the right time. For a human, a direction to face, not a badge to claim.",
+   mfa:"به نام صفت الهی «الصبور»: کسی که با همهٔ توان شتاب نمی‌کند. صبری ریشه‌دار در توکل، بی‌کینه، که به‌هنگام عمل می‌کند. برای انسان، جهتی برای رو کردن است، نه نشانی برای ادعا."}
+];
+
+const AREAS = [
+ {en:"Waiting", fa:"انتظار", qs:[
+  {en:"You're at the pharmacy. The line is slow because the only cashier is new and struggling.",
+   fa:"در داروخانه هستید. صف کند پیش می‌رود چون تنها صندوقدار تازه‌کار است و به زحمت افتاده.",
+   a:[
+    [0,"I tell the cashier, loud enough for others to hear, that they should get someone who knows the job.","به صندوقدار، طوری که بقیه هم بشنوند، می‌گویم باید کسی را بیاورند که کار بلد باشد."],
+    [1,"I give up and leave. I'll come back another time or go somewhere else.","کلافه می‌شوم و می‌روم؛ یک وقت دیگر برمی‌گردم یا جای دیگری می‌روم."],
+    [2,"I stay, but I'm tense the whole time and end up short with the next person I talk to.","می‌مانم، اما تمام مدت عصبی‌ام و با اولین کسی که بعدش حرف می‌زنم تند می‌شوم."],
+    [3,"I sigh and say to the person next to me, \u201cThis is ridiculous.\u201d","آه می‌کشم و به نفر کناری می‌گویم: «این دیگر مسخره است.»"],
+    [6,"I wait calmly. I check my messages or just rest.","آرام منتظر می‌مانم؛ پیام‌هایم را نگاه می‌کنم یا فقط استراحت می‌کنم."],
+    [7,"I'd left extra time anyway, so I smile at the cashier and tell them there's no rush.","از قبل وقت اضافه گذاشته بودم، پس به صندوقدار لبخند می‌زنم و می‌گویم عجله نکند."]]},
+  {en:"After a long workday you've waited 50 minutes at a clinic. They tell you it will be another hour, which means missing a dinner you'd been looking forward to.",
+   fa:"بعد از یک روز کاری طولانی، ۵۰ دقیقه در درمانگاه منتظر مانده‌اید. می‌گویند یک ساعت دیگر هم طول می‌کشد، یعنی شامی را که منتظرش بودید از دست می‌دهید.",
+   a:[
+    [0,"I raise my voice at the receptionist and make it clear this is their fault.","سر پذیرش صدایم را بلند می‌کنم و می‌گویم تقصیر آن‌هاست."],
+    [1,"I walk out without being seen.","بدون این‌که ویزیت شوم بیرون می‌روم."],
+    [4,"I smile at the staff, then complain about it all evening at home.","جلوی کارکنان لبخند می‌زنم، بعد تمام شب در خانه گلایه می‌کنم."],
+    [5,"I stay, but I tell them that after this I expect to be seen first next time.","می‌مانم، اما می‌گویم بعد از این انتظار دارم دفعهٔ بعد اول مرا ببینند."],
+    [6,"I accept it, let the people expecting me know, and use the time.","می‌پذیرم، به کسانی که منتظرم هستند خبر می‌دهم و از وقت استفاده می‌کنم."],
+    [8,"I'm tired and disappointed, but I stay calm and even help settle the stressed person next to me.","خسته و ناامیدم، اما آرام می‌مانم و حتی به آرام شدن آدم مضطرب کنارم کمک می‌کنم."],
+    [9,"I calmly weigh it: if the dinner matters more, I kindly ask to reschedule; if I stay, I stay at peace, with no resentment toward anyone.","آرام می‌سنجم: اگر آن شام مهم‌تر است، مؤدبانه وقت دیگری می‌گیرم؛ اگر می‌مانم، با آرامش و بی‌دلخوری از کسی می‌مانم."]]},
+  {en:"A coworker who once took credit for your work promised to send a file you need today. It's 4 p.m. and nothing has come.",
+   fa:"همکاری که یک بار کار شما را به نام خودش زد، قول داده فایلی را که امروز لازم دارید بفرستد. ساعت ۴ بعدازظهر است و هنوز خبری نیست.",
+   a:[
+    [0,"I message our manager that they're unreliable, and bring up the credit thing too.","به مدیرمان پیام می‌دهم که این آدم قابل اعتماد نیست، و ماجرای قبلی را هم پیش می‌کشم."],
+    [1,"I message them every few minutes until they answer.","هر چند دقیقه یک بار پیام می‌دهم تا جواب بدهد."],
+    [2,"I wait because I need them, but I'm fuming inside.","چون به او احتیاج دارم صبر می‌کنم، اما درونم می‌جوشد."],
+    [3,"I wait, and tell a few colleagues what this person is like.","صبر می‌کنم و به چند همکار می‌گویم این آدم چطور است."],
+    [6,"I remind them once, politely, and plan around the delay.","یک بار مؤدبانه یادآوری می‌کنم و کارم را با تأخیر تنظیم می‌کنم."],
+    [8,"Despite the past, I send a kind reminder and offer to help if they're swamped.","با وجود گذشته، مهربانانه یادآوری می‌کنم و اگر سرش شلوغ است پیشنهاد کمک می‌دهم."],
+    [9,"I send a calm, clear reminder with the deadline, and whatever happens, I don't carry the old grudge into it.","یادآوری آرام و روشنی با ذکر مهلت می‌فرستم و هر چه پیش بیاید، کینهٔ قدیمی را وارد ماجرا نمی‌کنم."]]}
+ ]},
+ {en:"Holding back anger", fa:"فروخوردن خشم", qs:[
+  {en:"At a family dinner, a relative criticizes the way you did something, in front of everyone.",
+   fa:"سر شام خانوادگی، یکی از اقوام جلوی همه از روشی که کاری را انجام داده‌اید ایراد می‌گیرد.",
+   a:[
+    [0,"I hit back with something worse about them.","با چیزی بدتر دربارهٔ خودش جوابش را می‌دهم."],
+    [1,"I snap and say something I later regret.","از کوره در می‌روم و حرفی می‌زنم که بعداً پشیمان می‌شوم."],
+    [2,"I say nothing, but later I'm harsh with someone else.","چیزی نمی‌گویم، اما بعداً با کس دیگری تند می‌شوم."],
+    [3,"I go quiet and stay cold toward everyone for the rest of the evening.","ساکت می‌شوم و تا آخر شب با همه سرد می‌مانم."],
+    [4,"I'm gracious at the table, then let them have it once we're alone.","سر میز بزرگوارانه برخورد می‌کنم، بعد که تنها شدیم حسابش را می‌رسم."],
+    [6,"I take a breath and answer calmly, maybe asking what they meant.","نفسی می‌کشم و آرام جواب می‌دهم، شاید هم می‌پرسم منظورش چه بود."],
+    [7,"I'd half expected it, so I answer lightly and ease the moment for everyone.","تا حدی انتظارش را داشتم، پس سبک جواب می‌دهم و فضا را برای همه آرام می‌کنم."]]},
+  {en:"You're exhausted after a terrible day, and a stranger posts a rude, unfair comment about your work where others can see it.",
+   fa:"بعد از یک روز بسیار بد خسته‌اید و یک غریبه، جایی که دیگران می‌بینند، نظری بی‌ادبانه و ناعادلانه دربارهٔ کارتان می‌نویسد.",
+   a:[
+    [0,"I write back something cutting to put them in their place.","جوابی گزنده می‌نویسم تا سر جایش بنشانمش."],
+    [1,"I fire back an angry reply right away.","فوراً جوابی عصبانی می‌دهم."],
+    [4,"I reply politely in public, then mock them with friends in private.","در جمع مؤدبانه جواب می‌دهم، بعد در خلوت با دوستانم مسخره‌اش می‌کنم."],
+    [5,"I reply calmly because it looks better, and save a screenshot in case I need it against them.","آرام جواب می‌دهم چون وجههٔ بهتری دارد، و عکسی از صفحه نگه می‌دارم شاید روزی علیه او لازم شود."],
+    [6,"I wait until I've rested, then reply briefly and fairly, or not at all.","صبر می‌کنم تا استراحت کنم، بعد کوتاه و منصفانه جواب می‌دهم، یا اصلاً جواب نمی‌دهم."],
+    [8,"Even exhausted, I answer kindly and fairly and let the rest go.","حتی با همین خستگی، مهربان و منصفانه جواب می‌دهم و بقیه را رها می‌کنم."],
+    [9,"I look for anything true in it, answer with grace, and carry no grudge afterward.","دنبال هر نکتهٔ درستی در آن می‌گردم، با بزرگواری جواب می‌دهم و بعدش کینه‌ای به دل نمی‌گیرم."]]},
+  {en:"Years ago a relative spread something untrue about you. At a family gathering, they provoke you again.",
+   fa:"سال‌ها پیش یکی از اقوام حرف نادرستی دربارهٔ شما پخش کرد. در یک دورهمی خانوادگی دوباره تحریکتان می‌کند.",
+   a:[
+    [0,"I bring up everything they've ever done, in front of everyone.","همهٔ کارهایی را که تا حالا کرده جلوی جمع رو می‌کنم."],
+    [1,"I lose my temper and leave.","از کوره در می‌روم و می‌روم."],
+    [2,"I keep quiet out of respect for the elders, but I'm boiling, and it spills onto my family later.","به احترام بزرگ‌ترها ساکت می‌مانم، اما درونم می‌جوشد و بعداً سر خانواده‌ام خالی می‌شود."],
+    [5,"I stay calm, knowing it makes me look better than them, and I remember it for later.","آرام می‌مانم چون می‌دانم این‌طوری از او بهتر به نظر می‌رسم، و این را برای بعد یادم می‌ماند."],
+    [6,"I calmly say I see it differently, and move on.","آرام می‌گویم من طور دیگری می‌بینم، و می‌گذرم."],
+    [8,"It stings, but I stay polite, and later I tell them privately and calmly that it has to stop.","می‌سوزاند، اما مؤدب می‌مانم و بعداً در خلوت و با آرامش به او می‌گویم که این باید تمام شود."],
+    [9,"I find I'm not holding a grudge. I can be warm toward them and still calmly, firmly stop the behavior.","می‌بینم کینه‌ای در دلم نیست؛ می‌توانم با او گرم باشم و در عین حال آرام و محکم جلوی این رفتار را بگیرم."]]}
+ ]},
+ {en:"Bearing with others", fa:"مدارا با دیگران", qs:[
+  {en:"Your child (or a younger relative) asks you to explain the same homework step for the third time.",
+   fa:"فرزندتان (یا یکی از کوچک‌ترهای فامیل) برای بار سوم از شما می‌خواهد همان قسمت تکلیف را توضیح دهید.",
+   a:[
+    [0,"I tell them sharply that they never listen. Maybe they're just not good at this.","با تندی می‌گویم هیچ‌وقت گوش نمی‌دهد؛ شاید اصلاً از پسش برنمی‌آید."],
+    [1,"I just do it for them so we can be done.","خودم برایش انجامش می‌دهم تا زودتر تمام شود."],
+    [2,"I explain again, but in a clipped, tired tone.","دوباره توضیح می‌دهم، اما با لحنی کوتاه و خسته."],
+    [3,"I explain again and remind them how much time I've spent on this.","دوباره توضیح می‌دهم و یادش می‌اندازم چقدر وقتم را گرفته."],
+    [6,"I explain again kindly, maybe in a different way.","دوباره با مهربانی توضیح می‌دهم، شاید به روشی دیگر."],
+    [7,"I'd set aside extra time for this, so I sit with them and let them try at their own pace.","از قبل برای این کار وقت اضافه گذاشته بودم، پس کنارش می‌نشینم و می‌گذارم با سرعت خودش امتحان کند."]]},
+  {en:"On a busy, stressful workday, an elderly parent calls (the fourth time this week) asking for help with their phone.",
+   fa:"در یک روز کاری شلوغ و پرفشار، پدر یا مادر سالمندتان برای چهارمین بار در این هفته زنگ می‌زند و برای گوشی‌اش کمک می‌خواهد.",
+   a:[
+    [0,"I tell them sharply to stop calling me for every little thing.","با تندی می‌گویم برای هر چیز کوچکی به من زنگ نزند."],
+    [1,"I let it ring. I just can't deal with it right now.","می‌گذارم زنگ بخورد؛ الان واقعاً حوصله‌اش را ندارم."],
+    [2,"I help, but with a sharp tone, keeping it as short as possible.","کمک می‌کنم، اما با لحنی تند و تا جای ممکن کوتاه."],
+    [3,"I help, but tell them how much they're interrupting my work.","کمک می‌کنم، اما می‌گویم چقدر کارم را مختل می‌کند."],
+    [6,"I tell them I'll call back after work, and I do, calmly.","می‌گویم بعد از کار زنگ می‌زنم، و همین کار را با آرامش می‌کنم."],
+    [8,"I help them gently right then, even though it costs me work time.","همان موقع با ملایمت کمکش می‌کنم، با این‌که از وقت کارم کم می‌شود."],
+    [9,"I help with warmth, and later calmly set up something that works for both of us, like simple written steps or a set time to call.","با گرمی کمک می‌کنم و بعداً با آرامش راهی می‌گذاریم که برای هر دومان خوب باشد، مثل نوشتن مراحل ساده یا یک وقت ثابت برای تماس."]]},
+  {en:"A new colleague who openly criticized you in a meeting last month keeps making the same mistake in a task you're responsible for teaching them.",
+   fa:"همکار تازه‌واردی که ماه پیش در جلسه آشکارا از شما انتقاد کرد، مدام در کاری که آموزشش با شماست همان اشتباه را تکرار می‌کند.",
+   a:[
+    [0,"I correct them in front of others so they feel what it's like.","جلوی دیگران اشتباهش را می‌گیرم تا بفهمد چه حسی دارد."],
+    [1,"I take the task back and stop teaching them.","کار را از او پس می‌گیرم و دیگر آموزشش نمی‌دهم."],
+    [4,"I'm patient with them when the manager is around; otherwise I'm short with them.","وقتی مدیر هست با او صبورم؛ وگرنه کم‌حوصله‌ام."],
+    [5,"I stay patient so it's clear I'm the bigger person.","صبوری می‌کنم تا معلوم شود من آدم بزرگ‌تری هستم."],
+    [6,"I explain again, fairly, the same way I would for anyone.","دوباره منصفانه توضیح می‌دهم، همان‌طور که برای هر کس دیگری می‌دادم."],
+    [8,"It still stings, but I explain again kindly and help them succeed.","هنوز دلم می‌سوزد، اما دوباره با مهربانی توضیح می‌دهم و کمکش می‌کنم موفق شود."],
+    [9,"I've let the meeting go. I teach them with real care, and if the mistakes continue I tell them honestly what needs to change.","ماجرای آن جلسه را رها کرده‌ام. با دلسوزی واقعی آموزشش می‌دهم و اگر اشتباه ادامه پیدا کرد، صادقانه می‌گویم چه چیزی باید تغییر کند."]]}
+ ]},
+ {en:"Listening to the end", fa:"شنیدن تا آخر", qs:[
+  {en:"A friend is telling you a long story about their weekend, and you can already guess where it's going.",
+   fa:"دوستی دارد ماجرای مفصل آخر هفته‌اش را تعریف می‌کند و شما از حالا حدس می‌زنید به کجا می‌رسد.",
+   a:[
+    [0,"I make a joke at their expense to hurry them along.","برای این‌که زودتر تمامش کند، شوخی‌ای به ضررش می‌کنم."],
+    [1,"I jump in and finish the story for them.","وسط حرفش می‌پرم و خودم ماجرا را تمام می‌کنم."],
+    [2,"I nod, but I'm really just waiting for my turn to talk.","سر تکان می‌دهم، اما در واقع فقط منتظرم نوبت حرف زدن من برسد."],
+    [3,"I let them finish, but glance at my phone and say, \u201cOkay, and?\u201d","می‌گذارم تمام کند، اما نگاهی به گوشی‌ام می‌اندازم و می‌گویم: «خب، که چی؟»"],
+    [6,"I let them finish and ask a question about it.","می‌گذارم تمام کند و سؤالی درباره‌اش می‌پرسم."],
+    [7,"I let them finish, ask how it felt, and leave room for anything more they want to say.","می‌گذارم تمام کند، می‌پرسم چه حسی داشت، و جا می‌گذارم اگر حرف دیگری دارد بگوید."]]},
+  {en:"At the end of a long, tiring day, your partner (or a close friend) wants to talk through a problem that seems to you to have an obvious solution.",
+   fa:"آخر یک روز طولانی و خسته‌کننده، همسرتان (یا دوست نزدیکی) می‌خواهد دربارهٔ مشکلی حرف بزند که به نظر شما راه‌حلش واضح است.",
+   a:[
+    [0,"I tell them they're being dramatic and should just fix it.","می‌گویم دارد شلوغش می‌کند و فقط کافی است درستش کند."],
+    [1,"I cut in with the solution right away.","فوراً وسط حرفش راه‌حل را می‌گویم."],
+    [3,"I stay quiet but sigh and keep glancing at the clock.","ساکت می‌مانم اما آه می‌کشم و مدام به ساعت نگاه می‌کنم."],
+    [5,"I listen, expecting them to listen to me just as long later.","گوش می‌دهم، با این انتظار که او هم بعداً همین‌قدر به من گوش بدهد."],
+    [6,"I listen to the end, then offer my view.","تا آخر گوش می‌دهم، بعد نظرم را می‌گویم."],
+    [8,"Tired as I am, I listen fully and ask whether they want advice or just an ear.","با همهٔ خستگی، کامل گوش می‌دهم و می‌پرسم راه‌حل می‌خواهد یا فقط کسی که بشنود."],
+    [9,"If I'm too drained, I say so kindly and we pick a time; when we talk, I listen with full presence and no rush to answer.","اگر خیلی خسته‌ام، با مهربانی می‌گویم و وقتی را تعیین می‌کنیم؛ وقتی حرف می‌زنیم، با تمام حضور و بی‌عجله برای جواب دادن گوش می‌دهم."]]},
+  {en:"Someone who has strongly opposed you (a critic, or a former friend) is explaining why they think you're wrong.",
+   fa:"کسی که سرسختانه مخالف شما بوده (یک منتقد یا دوستی سابق) دارد توضیح می‌دهد چرا فکر می‌کند اشتباه می‌کنید.",
+   a:[
+    [0,"I talk over them and make them look foolish.","صدایم را روی صدایش می‌اندازم و او را جلوی دیگران نادان جلوه می‌دهم."],
+    [1,"I interrupt to defend myself before they finish.","پیش از این‌که تمام کند، وسط حرفش از خودم دفاع می‌کنم."],
+    [4,"I let them talk because others are watching, but I'm not really listening.","چون دیگران نگاه می‌کنند می‌گذارم حرف بزند، اما واقعاً گوش نمی‌دهم."],
+    [5,"I listen closely to find the weak points for my reply.","با دقت گوش می‌دهم تا نقطه‌ضعف‌هایش را برای جوابم پیدا کنم."],
+    [6,"I let them finish, then answer fairly.","می‌گذارم تمام کند، بعد منصفانه جواب می‌دهم."],
+    [8,"Even though it hurts, I hear them out fully and acknowledge what's fair in it.","با این‌که دردم می‌آید، تا آخر می‌شنوم و آنچه را منصفانه است می‌پذیرم."],
+    [9,"I listen with an open heart for whatever truth is there, and answer without needing to win.","با دلی باز دنبال هر حقیقتی که در حرفش هست گوش می‌دهم و بی‌نیاز به بردن جواب می‌دهم."]]}
+ ]},
+ {en:"Not grabbing now", fa:"عجله نکردن برای خواسته‌ها", qs:[
+  {en:"You see something you'd like to buy. It isn't urgent, and buying it now would stretch your budget.",
+   fa:"چیزی می‌بینید که دوست دارید بخرید. ضروری نیست و خریدنش در حال حاضر بودجه‌تان را تحت فشار می‌گذارد.",
+   a:[
+    [0,"I buy it with shared household money without mentioning it.","با پول مشترک خانه می‌خرمش و حرفی نمی‌زنم."],
+    [1,"I buy it on the spot.","همان لحظه می‌خرمش."],
+    [2,"I only hold off because my card is maxed out; I'll get it the minute I can.","فقط چون کارتم پر است دست نگه می‌دارم؛ به محض این‌که بشود می‌خرمش."],
+    [3,"I hold off, but complain that I can never have anything.","دست نگه می‌دارم، اما گلایه می‌کنم که هیچ‌وقت نمی‌توانم چیزی داشته باشم."],
+    [5,"I skip it, and then feel I've earned a splurge on something else.","نمی‌خرم، و بعد حس می‌کنم حقم است برای چیز دیگری ولخرجی کنم."],
+    [6,"I wait a few days and then decide calmly.","چند روز صبر می‌کنم و بعد با آرامش تصمیم می‌گیرم."],
+    [7,"I already have a waiting rule for purchases, so it's easy. I add it to a list.","از قبل برای خرید قانون صبر کردن دارم، پس آسان است؛ به فهرستم اضافه‌اش می‌کنم."]]},
+  {en:"You're tired and very hungry at a family gathering. Food is served, there isn't much of the dish you love, and others haven't eaten yet.",
+   fa:"در یک مهمانی خانوادگی خسته و بسیار گرسنه‌اید. غذا را آورده‌اند، از غذای مورد علاقه‌تان زیاد نیست و دیگران هنوز نخورده‌اند.",
+   a:[
+    [0,"I fill my plate first and take most of it.","اول بشقابم را پر می‌کنم و بیشترش را برمی‌دارم."],
+    [1,"I can't wait and start eating before everyone.","طاقت ندارم و قبل از همه شروع می‌کنم."],
+    [3,"I wait, but keep saying how starving I am.","صبر می‌کنم، اما مدام می‌گویم چقدر گرسنه‌ام."],
+    [4,"I wait my turn because people would notice, then take a big portion.","چون دیگران می‌بینند منتظر نوبتم می‌مانم، بعد سهم بزرگی برمی‌دارم."],
+    [6,"I wait my turn and take a fair share.","منتظر نوبتم می‌مانم و سهم منصفانه‌ای برمی‌دارم."],
+    [8,"Hungry as I am, I let someone else who loves it have the last of it.","با همهٔ گرسنگی، می‌گذارم کس دیگری که آن را دوست دارد آخرش را بردارد."],
+    [9,"I hardly feel the pull; I enjoy whatever is left and the company.","کشش چندانی حس نمی‌کنم؛ از هر چه مانده و از جمع لذت می‌برم."]]},
+  {en:"Someone who wronged you posts something online. You know something embarrassing about them, and you feel a strong urge to reply or share it right now.",
+   fa:"کسی که به شما بد کرده، چیزی در فضای مجازی منتشر می‌کند. شما چیز شرم‌آوری دربارهٔ او می‌دانید و میل شدیدی دارید همین حالا جواب بدهید یا آن را منتشر کنید.",
+   a:[
+    [0,"I post it right away.","فوراً منتشرش می‌کنم."],
+    [1,"I don't post it, but I can't stop checking their page for hours.","منتشر نمی‌کنم، اما ساعت‌ها نمی‌توانم از سر زدن به صفحه‌اش دست بکشم."],
+    [3,"I don't post it, but I tell friends what I could have posted.","منتشر نمی‌کنم، اما به دوستانم می‌گویم چه چیزی می‌توانستم منتشر کنم."],
+    [5,"I hold it back to use at a better moment.","نگهش می‌دارم تا در لحظهٔ بهتری از آن استفاده کنم."],
+    [6,"I put the phone down and let it go.","گوشی را کنار می‌گذارم و رهایش می‌کنم."],
+    [8,"Getting even would feel good, but I give up that satisfaction and keep their secret.","تلافی حس خوبی می‌داد، اما از آن لذت می‌گذرم و رازش را نگه می‌دارم."],
+    [9,"The urge passes through me without ruling me; I wish them well and move on.","این میل از من می‌گذرد بی‌آن‌که بر من حکم کند؛ برایش خیر می‌خواهم و می‌گذرم."]]}
+ ]},
+ {en:"Slow progress", fa:"پشتکار در راه طولانی", qs:[
+  {en:"A month ago you started learning something new, like an instrument or a language, and progress is slower than you hoped.",
+   fa:"یک ماه پیش یادگیری چیز تازه‌ای را شروع کرده‌اید، مثل یک ساز یا یک زبان، و پیشرفت کندتر از امیدتان است.",
+   a:[
+    [0,"I tell the friend learning with me that it's pointless and they should quit too.","به دوستی که با من یاد می‌گیرد می‌گویم بی‌فایده است و او هم باید رها کند."],
+    [1,"I quit.","رهایش می‌کنم."],
+    [2,"I keep going only because I've already paid or promised.","فقط چون پولش را داده‌ام یا قول داده‌ام ادامه می‌دهم."],
+    [3,"I keep going, but complain about it to everyone.","ادامه می‌دهم، اما پیش همه از آن گلایه می‌کنم."],
+    [4,"I mostly practice when I can post about it.","بیشتر وقتی تمرین می‌کنم که بتوانم درباره‌اش پست بگذارم."],
+    [6,"I keep practicing steadily and accept that it takes time.","پیوسته تمرین می‌کنم و می‌پذیرم که زمان می‌برد."],
+    [7,"I set a realistic long-term plan and encourage the friend learning with me.","برنامه‌ای واقع‌بینانه و بلندمدت می‌چینم و دوستی را که با من یاد می‌گیرد تشویق می‌کنم."]]},
+  {en:"Something you've worked on for a year (a project, a business, recovering from an injury) has a major setback. Months of work are lost, and you're exhausted.",
+   fa:"چیزی که یک سال رویش کار کرده‌اید (یک پروژه، یک کسب‌وکار، بهبودی از یک آسیب) دچار عقب‌گرد بزرگی می‌شود. ماه‌ها کار از دست رفته و شما خسته‌اید.",
+   a:[
+    [0,"I blame the people around me and take it out on them.","اطرافیانم را مقصر می‌دانم و سر آن‌ها خالی می‌کنم."],
+    [1,"I give up on it entirely.","کلاً کنارش می‌گذارم."],
+    [2,"I keep going only because people expect me to, with no heart in it.","فقط چون دیگران انتظار دارند ادامه می‌دهم، بی‌آن‌که دلم با آن باشد."],
+    [5,"I'll keep going only if I get some recognition or encouragement soon.","فقط اگر به‌زودی قدردانی یا تشویقی ببینم ادامه می‌دهم."],
+    [6,"I rest, then pick it up again at a steady pace.","استراحت می‌کنم، بعد با آهنگی پیوسته دوباره شروع می‌کنم."],
+    [8,"Exhausted as I am, I keep going, while protecting my sleep and health.","با همهٔ خستگی ادامه می‌دهم، و مراقب خواب و سلامتم هم هستم."],
+    [9,"I grieve the lost work, then continue in peace, trusting the effort has value even if I never see the result.","برای کار از دست رفته غصه می‌خورم، بعد با آرامش ادامه می‌دهم، با اعتماد به این‌که تلاش ارزش دارد حتی اگر هرگز نتیجه‌اش را نبینم."]]},
+  {en:"Someone who doubted your long effort from the start keeps asking, \u201cStill nothing to show for it?\u201d",
+   fa:"کسی که از اول به تلاش طولانی شما شک داشت، مدام می‌پرسد: «هنوز چیزی برای نشان دادن نداری؟»",
+   a:[
+    [0,"I mock their life in return.","در عوض زندگی خودش را مسخره می‌کنم."],
+    [1,"It stings enough that I quit, just to stop the comments.","آن‌قدر دلم می‌شکند که رها می‌کنم، فقط تا این حرف‌ها تمام شود."],
+    [3,"I keep going, but tell everyone how unsupported I am.","ادامه می‌دهم، اما به همه می‌گویم چقدر بی‌پشتیبانم."],
+    [5,"I keep going mainly to prove them wrong one day.","بیشتر ادامه می‌دهم تا یک روز ثابت کنم اشتباه می‌کرد."],
+    [6,"I keep going and simply say, \u201cIt takes time.\u201d","ادامه می‌دهم و فقط می‌گویم: «زمان می‌برد.»"],
+    [8,"It hurts, but I keep going and stay kind to them.","دردم می‌آید، اما ادامه می‌دهم و با او مهربان می‌مانم."],
+    [9,"Their words don't steer me. I keep working and genuinely wish them well.","حرف‌هایش مسیرم را تعیین نمی‌کند. به کارم ادامه می‌دهم و از ته دل برایش خیر می‌خواهم."]]}
+ ]},
+ {en:"When life goes wrong", fa:"در سختی‌ها", qs:[
+  {en:"Your car breaks down on the way to something important.",
+   fa:"ماشینتان در راه رفتن به کاری مهم خراب می‌شود.",
+   a:[
+    [0,"I yell at whoever is with me, or at the mechanic, as if it's their fault.","سر کسی که همراهم است یا سر مکانیک داد می‌زنم، انگار تقصیر اوست."],
+    [1,"I panic and can't think what to do.","هول می‌کنم و نمی‌دانم چه کنم."],
+    [2,"I deal with it stiffly, then snap at someone at home that night.","خشک و عصبی کارها را ردیف می‌کنم، بعد شب در خانه سر کسی تند می‌شوم."],
+    [3,"I handle it, then keep telling everyone for days how unlucky I am.","کارش را می‌کنم، بعد تا چند روز به همه می‌گویم چقدر بدشانسم."],
+    [4,"I'm cheerful about it in front of others, then fall apart at home.","جلوی دیگران با خوش‌رویی برخورد می‌کنم، بعد در خانه به هم می‌ریزم."],
+    [6,"I accept it, call for help, and let people know I'll be late.","می‌پذیرم، کمک می‌خواهم و خبر می‌دهم که دیر می‌رسم."],
+    [7,"I'd prepared for something like this, so I handle it calmly and help reassure the others.","از قبل برای چنین چیزی آماده بودم، پس با آرامش حلش می‌کنم و به آرام شدن بقیه کمک می‌کنم."]]},
+  {en:"You receive a serious health diagnosis that will change your plans for the coming year.",
+   fa:"تشخیص پزشکی جدی‌ای می‌گیرید که برنامه‌های سال آینده‌تان را تغییر می‌دهد.",
+   a:[
+    [0,"I take my fear out on the people closest to me.","ترسم را سر نزدیک‌ترین آدم‌هایم خالی می‌کنم."],
+    [1,"I sink into despair and stop functioning.","در ناامیدی فرو می‌روم و از کار می‌افتم."],
+    [4,"I put on a brave face in public and fall apart on my family.","جلوی دیگران قوی نشان می‌دهم و بار همه‌چیز را روی خانواده‌ام می‌ریزم."],
+    [5,"I bear it, but feel that after this, life and others owe me.","تحملش می‌کنم، اما حس می‌کنم بعد از این، زندگی و دیگران به من بدهکارند."],
+    [6,"I grieve honestly, ask for help, and do what I can.","صادقانه غصه می‌خورم، کمک می‌خواهم و هر کاری از دستم برمی‌آید می‌کنم."],
+    [8,"I stay steady and kind to those around me, without bitterness, and I let them help me.","با اطرافیانم استوار و مهربان می‌مانم، بی‌تلخی، و می‌گذارم کمکم کنند."],
+    [9,"I hold fear and trust together; I accept what I can't change, act on what I can, and look for meaning in it.","ترس و توکل را با هم نگه می‌دارم؛ آنچه را نمی‌توانم تغییر دهم می‌پذیرم، برای آنچه می‌توانم اقدام می‌کنم و در آن دنبال معنا می‌گردم."]]},
+  {en:"A former business partner who often opposed you breaks an agreement, and it costs you a significant amount of money.",
+   fa:"شریک تجاری سابقی که اغلب مخالف شما بود، توافقی را زیر پا می‌گذارد و این کار مبلغ قابل‌توجهی برایتان هزینه دارد.",
+   a:[
+    [0,"I try to ruin their reputation.","سعی می‌کنم آبرویش را ببرم."],
+    [1,"I'm consumed by it for months and can't move on.","ماه‌ها درگیرش می‌مانم و نمی‌توانم از آن بگذرم."],
+    [3,"I keep retelling the story so people see how I was wronged.","مدام ماجرا را تعریف می‌کنم تا همه ببینند چه ظلمی به من شد."],
+    [4,"I act fine in public, but it sours my mood at home.","جلوی دیگران عادی رفتار می‌کنم، اما حال و هوای خانه را تلخ می‌کند."],
+    [6,"I take reasonable steps, legal or otherwise, and move on.","قدم‌های معقول، قانونی یا غیر آن، را برمی‌دارم و می‌گذرم."],
+    [8,"The loss hurts, but I pursue what's fair calmly and without bitterness.","این ضرر دردناک است، اما آرام و بی‌تلخی دنبال حق و انصاف می‌روم."],
+    [9,"I seek what's just with a calm heart, let go of the grudge, and put my energy into rebuilding.","با دلی آرام دنبال عدالت می‌روم، کینه را رها می‌کنم و انرژی‌ام را صرف ساختن دوباره می‌کنم."]]}
+ ]}
+];
+
+const UI = {
+ en:{title:"The Path of Patience", sub:"A private self-reflection on صبر",
+  purpose:"This is a private self-reflection on patience across seven areas of daily life. Each question describes a real situation. There are no right or wrong answers. Choose what you would most honestly do, not what you think you should do.",
+  stagesH:"The ten stages", privacyH:"Privacy", privacy:"Your answers stay in this browser. Nothing is sent or saved anywhere. This is for you alone, never for scoring anyone else.",
+  limitsH:"Healthy limits", limits:"Patience never means enduring abuse, harming your health, or staying silent about injustice. The highest stages are freely chosen, never self-destructive, and include calmly saying no, leaving, or working to change things.",
+  start:"Begin", back:"Back", next:"Next", finish:"See my results", none:"None of these fits me",
+  qOf:(i,n)=>`Question ${i} of ${n}`, resultsH:"Your results", overall:"Overall", stage:"Stage",
+  nextH:"Your next step", nextP:a=>`“${a}” is the area where a small step may help most. What you do with that is entirely your choice.`,
+  notScored:"Not scored", llmH:"Take it further with an AI assistant",
+  llmP:"Copy this text into an AI assistant to get small, concrete practices. It already includes the ground rules.",
+  copy:"Copy", copied:"Copied", restart:"Start again", lang:"فارسی", theme:"Theme"},
+ fa:{title:"راه صبر", sub:"یک خودسنجی خصوصی",
+  purpose:"این یک خودسنجی خصوصی دربارهٔ صبر در هفت حوزهٔ زندگی روزمره است. هر پرسش موقعیتی واقعی را توصیف می‌کند. پاسخ درست یا غلطی وجود ندارد. آنچه را صادقانه بیشتر انجام می‌دهید انتخاب کنید، نه آنچه فکر می‌کنید باید انجام دهید.",
+  stagesH:"ده مرتبه", privacyH:"حریم خصوصی", privacy:"پاسخ‌های شما در همین مرورگر می‌ماند و به هیچ جا فرستاده یا ذخیره نمی‌شود. این فقط برای خود شماست، هرگز برای سنجیدن دیگران.",
+  limitsH:"حد سالم", limits:"صبر هرگز به معنای تحمل آزار، آسیب زدن به سلامت خود یا سکوت در برابر بی‌عدالتی نیست. بالاترین مراتب آزادانه انتخاب می‌شوند، هرگز خودویرانگر نیستند و شامل «نه» گفتن آرام، کنار رفتن یا تلاش برای تغییر هم می‌شوند.",
+  start:"شروع", back:"قبلی", next:"بعدی", finish:"دیدن نتیجه", none:"هیچ‌کدام به من نمی‌خورد",
+  qOf:(i,n)=>`پرسش ${i} از ${n}`, resultsH:"نتیجهٔ شما", overall:"کلی", stage:"مرتبه",
+  nextH:"گام بعدی شما", nextP:a=>`«${a}» حوزه‌ای است که یک گام کوچک در آن شاید بیشترین کمک را بکند. این‌که با آن چه کنید کاملاً انتخاب خود شماست.`,
+  notScored:"بی‌امتیاز", llmH:"ادامه با یک دستیار هوش مصنوعی",
+  llmP:"این متن را در یک دستیار هوش مصنوعی بچسبانید تا تمرین‌های کوچک و مشخص پیشنهاد بدهد. قواعد پایه در خود متن آمده است.",
+  copy:"کپی", copied:"کپی شد", restart:"شروع دوباره", lang:"English", theme:"پوسته"}
+};
+
+const QS = [];
+AREAS.forEach((a,ai)=>a.qs.forEach((q,qi)=>QS.push({ai,qi,q})));
+function shuffle(n){const r=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[r[i],r[j]]=[r[j],r[i]];}return r;}
+const S = {lang:"en", screen:"intro", idx:0, ans:QS.map(()=>undefined), order:QS.map(x=>shuffle(x.q.a.length))};
+
+const FA_D="۰۱۲۳۴۵۶۷۸۹";
+const num = v => S.lang==="fa" ? String(v).replace(/\d/g,d=>FA_D[d]) : String(v);
+const t = k => UI[S.lang][k];
+const L = o => S.lang==="fa" ? o.fa : o.en;
+const esc = s => String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;"}[c]));
+const band = s => s===9 ? "90–100" : `${s*10}–${s*10+9}`;
+const stageOf = sc => Math.min(9, Math.floor(sc/10));
+
+function scores(){
+ const areas = AREAS.map((a,ai)=>{
+  const st = QS.map((x,i)=>x.ai===ai?S.ans[i]:undefined).filter(v=>typeof v==="number");
+  if(!st.length) return null;
+  return Math.round(st.reduce((s,v)=>s+(v*10+5),0)/st.length);
+ });
+ const valid = areas.filter(v=>v!==null);
+ const overall = valid.length ? Math.round(valid.reduce((s,v)=>s+v,0)/valid.length) : null;
+ let low = -1;
+ areas.forEach((v,i)=>{ if(v!==null && (low<0 || v<areas[low])) low=i; });
+ return {areas, overall, low};
+}
+
+function render(){
+ const root=document.getElementById("app");
+ document.documentElement.lang=S.lang; document.documentElement.dir=S.lang==="fa"?"rtl":"ltr";
+ document.getElementById("langBtn").textContent=t("lang");
+ document.getElementById("hTitle").textContent=t("title");
+ document.title=t("title");
+ if(S.screen==="intro") root.innerHTML=intro();
+ else if(S.screen==="q") root.innerHTML=question();
+ else root.innerHTML=results();
+ bind(); window.scrollTo(0,0);
+}
+
+function intro(){
+ return `<section class="card">
+  <p class="lead">${t("purpose")}</p>
+  <h2>${t("stagesH")}</h2>
+  <ol class="stages">${STAGES.map((s,i)=>`<li><div class="sh"><span class="band">${num(band(i))}</span><b>${esc(L(s))}</b><span class="alt">${esc(S.lang==="fa"?s.en:s.fa)}</span></div><p>${esc(S.lang==="fa"?s.mfa:s.men)}</p></li>`).join("")}</ol>
+  <div class="note"><h3>${t("privacyH")}</h3><p>${t("privacy")}</p></div>
+  <div class="note"><h3>${t("limitsH")}</h3><p>${t("limits")}</p></div>
+  <button class="primary" data-act="start">${t("start")}</button></section>`;
+}
+
+function question(){
+ const i=S.idx, x=QS[i], a=AREAS[x.ai], n=QS.length;
+ const opts = S.order[i].map(k=>{const [st,en,fa]=x.q.a[k];return `<button class="opt ${S.ans[i]===st?"sel":""}" data-pick="${st}">${esc(S.lang==="fa"?fa:en)}</button>`;}).join("")
+  + `<button class="opt none ${S.ans[i]==="none"?"sel":""}" data-pick="none">${t("none")}</button>`;
+ return `<section class="card">
+  <div class="meta"><span>${esc(L(a))}</span><span>${num(t("qOf")(i+1,n))}</span></div>
+  <div class="prog"><div style="width:${((i+1)/n*100).toFixed(1)}%"></div></div>
+  <p class="q">${esc(L(x.q))}</p>
+  <div class="opts">${opts}</div>
+  <div class="nav"><button class="ghost" data-act="back">${t("back")}</button>
+  <button class="primary" data-act="next" ${S.ans[i]===undefined?"disabled":""}>${i===n-1?t("finish"):t("next")}</button></div></section>`;
+}
+
+function results(){
+ const r=scores();
+ const bars=AREAS.map((a,i)=>{const v=r.areas[i];
+  return `<div class="bar"><div class="bl"><span>${esc(L(a))}</span><span>${v===null?t("notScored"):num(v)+" · "+esc(L(STAGES[stageOf(v)]))}</span></div>
+  <div class="track"><div class="fill ${i===r.low?"low":""}" style="width:${v===null?0:v}%"></div></div></div>`;}).join("");
+ const ov = r.overall===null ? "" : `<div class="overall"><div class="big">${num(r.overall)}</div><div><div class="ol">${t("overall")}</div><b>${t("stage")} ${num(stageOf(r.overall))}: ${esc(L(STAGES[stageOf(r.overall)]))}</b><p>${esc(S.lang==="fa"?STAGES[stageOf(r.overall)].mfa:STAGES[stageOf(r.overall)].men)}</p></div></div>`;
+ const nx = r.low<0 ? "" : `<div class="note next"><h3>${t("nextH")}</h3><p>${esc(t("nextP")(L(AREAS[r.low])))}</p></div>`;
+ return `<section class="card"><h2>${t("resultsH")}</h2>${ov}<div class="bars">${bars}</div>${nx}
+  <h2>${t("llmH")}</h2><p class="muted">${t("llmP")}</p>
+  <textarea id="llm" readonly>${esc(llmText(r))}</textarea>
+  <div class="nav"><button class="ghost" data-act="restart">${t("restart")}</button><button class="primary" data-act="copy">${t("copy")}</button></div></section>`;
+}
+
+function llmText(r){
+ const fa=S.lang==="fa";
+ const date = new Date().toLocaleDateString(fa?"fa-IR":"en-US",{year:"numeric",month:"long",day:"numeric"});
+ const stLine = i => fa ? `مرتبهٔ ${num(i)} (${num(band(i))}): ${STAGES[i].fa} (${STAGES[i].en}): ${STAGES[i].mfa}` : `Stage ${i} (${band(i)}): ${STAGES[i].en} (${STAGES[i].fa}): ${STAGES[i].men}`;
+ const sc = AREAS.map((a,i)=>{const v=r.areas[i];return `- ${L(a)}: ${v===null?t("notScored"):num(v)+" ("+(fa?"مرتبهٔ ":"Stage ")+num(stageOf(v))+", "+L(STAGES[stageOf(v)])+")"}`;}).join("\n");
+ const ans = AREAS.map((a,ai)=>{
+  const lines = QS.map((x,i)=>({x,i})).filter(o=>o.x.ai===ai).map(({x,i})=>{
+   const v=S.ans[i]; let at;
+   if(v==="none"||v===undefined) at = fa?"هیچ‌کدام به من نمی‌خورد (بی‌امتیاز)":"None of these fits me (not scored)";
+   else { const o=x.q.a.find(z=>z[0]===v); at = `${fa?o[2]:o[1]} (${fa?"مرتبهٔ ":"Stage "}${num(v)}, ${L(STAGES[v])})`; }
+   return fa ? `پرسش: ${x.q.fa}\nپاسخ من: ${at}` : `Q: ${x.q.en}\nMy answer: ${at}`;
+  }).join("\n\n");
+  return `[${L(a)}]\n${lines}`;
+ }).join("\n\n");
+ const ovS = r.overall===null?t("notScored"):`${num(r.overall)} (${fa?"مرتبهٔ ":"Stage "}${num(stageOf(r.overall))}, ${L(STAGES[stageOf(r.overall)])})`;
+ const low = r.low<0 ? "-" : L(AREAS[r.low]);
+ if(fa) return `دارم روی رشد در صبر کار می‌کنم. آنچه در ادامه می‌آید خودسنجی خصوصی من است.
+
+تاریخ: ${date}
+
+ده مرتبهٔ صبر:
+${STAGES.map((s,i)=>stLine(i)).join("\n")}
+
+امتیازهای من (هر حوزه = میانگین مرتبهٔ پاسخ‌ها، در وسط بازهٔ آن مرتبه؛ امتیاز کلی = میانگین حوزه‌ها):
+${sc}
+- امتیاز کلی: ${ovS}
+- ضعیف‌ترین حوزه: ${low}
+
+پرسش‌ها و پاسخ‌های من:
+
+${ans}
+
+لطفاً پیشنهاد بده:
+۱. دو یا سه تمرین کوچک و مشخص برای این‌که در ضعیف‌ترین حوزه‌ام (${low}) یک مرتبه بالاتر بروم.
+۲. یک تغییر درونی که بیشترین کمک را به من می‌کند.
+۳. یک تمرین برای مرتبهٔ کلی‌ام.
+
+قواعد پاسخ تو:
+- جهان‌شمولی: بررسی کن که هر پیشنهاد، اگر همهٔ مردم دنیا آن را انجام دهند، دنیا را جای بهتری کند.
+- اختیار: هرگز فشار نیاور و دستور نده. گزینه پیشنهاد کن؛ گام بعدی را خودم انتخاب می‌کنم. این سنجش را خودم انجام داده‌ام، خصوصی است و فقط برای خودم است، هرگز برای سنجیدن دیگران.
+- حد سالم: بالاترین مراتب باید آزادانه انتخاب شوند و هرگز خودویرانگر نباشند. صبر هرگز به معنای تحمل آزار، آسیب زدن به سلامتم یا سکوت در برابر بی‌عدالتی نیست.`;
+ return `I'm working on growing in patience (صبر). Below is my private self-assessment.
+
+Date: ${date}
+
+THE TEN STAGES OF PATIENCE:
+${STAGES.map((s,i)=>stLine(i)).join("\n")}
+
+MY SCORES (each area = average stage of my answers, placed in the middle of that stage's band; overall = average of the areas):
+${sc}
+- Overall: ${ovS}
+- Weakest area: ${low}
+
+MY QUESTIONS AND ANSWERS:
+
+${ans}
+
+PLEASE SUGGEST:
+1. 2–3 small, concrete practices to move up one stage in my weakest area (${low}).
+2. One inner shift that would help me most.
+3. One practice for my overall stage.
+
+RULES FOR YOUR ANSWER:
+- Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.
+- Free will: never pressure or command me. Offer options; I choose my own next step. This assessment is self-scored, private, and only for me, never for scoring others.
+- Healthy limits: the highest stages must be freely chosen and never self-destructive. Patience never means enduring abuse, harming my health, or staying silent about injustice.`;
+}
+
+function bind(){
+ document.querySelectorAll("[data-pick]").forEach(b=>b.onclick=()=>{const v=b.dataset.pick;S.ans[S.idx]=v==="none"?"none":+v;render();});
+ document.querySelectorAll("[data-act]").forEach(b=>b.onclick=()=>{
+  const a=b.dataset.act;
+  if(a==="start"){S.screen="q";S.idx=0;}
+  else if(a==="back"){ if(S.idx===0) S.screen="intro"; else S.idx--; }
+  else if(a==="next"){ if(S.ans[S.idx]===undefined) return; if(S.idx===QS.length-1) S.screen="results"; else S.idx++; }
+  else if(a==="restart"){S.screen="intro";S.idx=0;S.ans=QS.map(()=>undefined);S.order=QS.map(x=>shuffle(x.q.a.length));}
+  else if(a==="copy"){ const ta=document.getElementById("llm"); const done=()=>{b.textContent=t("copied");setTimeout(()=>b.textContent=t("copy"),1800);};
+    if(navigator.clipboard) navigator.clipboard.writeText(ta.value).then(done,()=>{ta.select();document.execCommand("copy");done();});
+    else {ta.select();document.execCommand("copy");done();} return; }
+  render();
+ });
+}
+
+document.getElementById("langBtn").onclick=()=>{S.lang=S.lang==="en"?"fa":"en";render();};
+document.getElementById("themeBtn").onclick=()=>{
+ const r=document.documentElement; const dark = r.dataset.theme ? r.dataset.theme==="dark" : matchMedia("(prefers-color-scheme: dark)").matches;
+ r.dataset.theme = dark ? "light" : "dark";
+};
+render();
+</script>
+</body>
+</html>

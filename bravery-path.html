@@ -1,0 +1,479 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Path of Bravery · مسیر شجاعت</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;800&family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f4ee; --card:#ffffff; --text:#1f1d1a; --muted:#6b655c; --line:#e4ddd0;
+  --accent:#b4532a; --accent-soft:#f6e3d8; --accent-text:#ffffff; --bar-bg:#efe8dc;
+  --sel:#fbefe7; --shadow:0 1px 3px rgba(0,0,0,.06),0 8px 24px rgba(0,0,0,.05);
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#15130f; --card:#1f1c17; --text:#efe9df; --muted:#a59d90; --line:#36312a;
+    --accent:#e0875c; --accent-soft:#3a2a20; --accent-text:#1a120d; --bar-bg:#2c2822;
+    --sel:#2e231c; --shadow:none;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#15130f; --card:#1f1c17; --text:#efe9df; --muted:#a59d90; --line:#36312a;
+  --accent:#e0875c; --accent-soft:#3a2a20; --accent-text:#1a120d; --bar-bg:#2c2822;
+  --sel:#2e231c; --shadow:none;
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0}
+body{background:var(--bg);color:var(--text);font-family:Inter,system-ui,-apple-system,"Segoe UI",sans-serif;line-height:1.55;-webkit-font-smoothing:antialiased}
+html[lang="fa"] body{font-family:Vazirmatn,Tahoma,system-ui,sans-serif;line-height:1.8}
+.wrap{max-width:680px;margin:0 auto;padding:16px 16px 48px}
+header{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:16px}
+.brand{font-weight:800;font-size:15px;letter-spacing:.02em;color:var(--muted)}
+.tools{display:flex;gap:6px}
+.tbtn{border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:999px;padding:6px 12px;font:inherit;font-size:13px;cursor:pointer}
+.tbtn:hover{border-color:var(--accent)}
+.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:22px;box-shadow:var(--shadow);margin-bottom:16px}
+h1{font-size:28px;line-height:1.2;margin:0 0 8px}
+h2{font-size:18px;margin:0 0 12px}
+p{margin:0 0 12px}
+.muted{color:var(--muted)}
+.note{border-inline-start:3px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:8px;font-size:14px;margin:0 0 10px}
+table{width:100%;border-collapse:collapse;font-size:14px}
+td{padding:8px 6px;border-top:1px solid var(--line);vertical-align:top}
+td.band{white-space:nowrap;color:var(--muted);font-variant-numeric:tabular-nums;width:1%}
+td.name{font-weight:600;white-space:nowrap;width:1%}
+.areas{display:flex;flex-wrap:wrap;gap:6px}
+.chip{border:1px solid var(--line);border-radius:999px;padding:4px 10px;font-size:13px}
+.btn{display:inline-flex;align-items:center;justify-content:center;border:0;border-radius:12px;padding:12px 20px;font:inherit;font-weight:600;cursor:pointer;background:var(--accent);color:var(--accent-text);min-width:110px}
+.btn.ghost{background:transparent;color:var(--text);border:1px solid var(--line)}
+.btn:disabled{opacity:.4;cursor:not-allowed}
+.row{display:flex;justify-content:space-between;gap:10px;margin-top:18px}
+.progress{height:6px;background:var(--bar-bg);border-radius:99px;overflow:hidden;margin-bottom:8px}
+.progress>div{height:100%;background:var(--accent);transition:width .25s}
+.qmeta{display:flex;justify-content:space-between;font-size:13px;color:var(--muted);margin-bottom:14px}
+.area-tag{font-size:13px;font-weight:600;color:var(--accent);margin-bottom:6px}
+.qtext{font-size:18px;font-weight:600;margin-bottom:6px}
+.ans{display:block;width:100%;text-align:start;border:1px solid var(--line);background:var(--card);color:var(--text);border-radius:12px;padding:12px 14px;margin:8px 0;font:inherit;cursor:pointer;display:flex;gap:10px;align-items:flex-start}
+.ans:hover{border-color:var(--accent)}
+.ans .dot{flex:0 0 18px;height:18px;border-radius:50%;border:2px solid var(--line);margin-top:3px}
+.ans.sel{border-color:var(--accent);background:var(--sel)}
+.ans.sel .dot{border-color:var(--accent);background:radial-gradient(var(--accent) 45%,transparent 50%)}
+.ans.none{color:var(--muted);font-style:italic}
+.big{font-size:48px;font-weight:800;line-height:1;color:var(--accent)}
+.overall{display:flex;align-items:center;gap:16px;flex-wrap:wrap}
+.bar{margin:12px 0}
+.bar .lbl{display:flex;justify-content:space-between;gap:8px;font-size:14px;margin-bottom:4px}
+.bar .lbl b{font-weight:600}
+.bar .track{height:12px;background:var(--bar-bg);border-radius:99px;overflow:hidden}
+.bar .fill{height:100%;background:var(--accent);border-radius:99px}
+.bar.low .lbl b{color:var(--accent)}
+textarea{width:100%;min-height:220px;border:1px solid var(--line);border-radius:10px;background:var(--bg);color:var(--text);padding:12px;font:13px/1.6 ui-monospace,SFMono-Regular,Menlo,monospace;resize:vertical}
+html[lang="fa"] textarea{font-family:Vazirmatn,Tahoma,sans-serif;font-size:14px}
+.hidden{display:none}
+@media (max-width:480px){h1{font-size:24px}.card{padding:18px}.btn{min-width:90px;padding:12px 14px}td.name{white-space:normal}}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <header>
+    <div class="brand" id="brand"></div>
+    <div class="tools">
+      <button class="tbtn" id="langBtn"></button>
+      <button class="tbtn" id="themeBtn"></button>
+    </div>
+  </header>
+  <main id="app"></main>
+</div>
+
+<script>
+const AREAS=[
+ {en:"Speaking the truth",fa:"گفتن حرف حق"},
+ {en:"Saying no",fa:"«نه» گفتن"},
+ {en:"Owning mistakes",fa:"پذیرفتن اشتباه"},
+ {en:"Standing up for others",fa:"دفاع از دیگری"},
+ {en:"Trying despite failure",fa:"اقدام با وجود ترس از شکست"},
+ {en:"Facing the avoided",fa:"روبه‌رو شدن"},
+ {en:"Asking for help",fa:"کمک خواستن"}
+];
+const STAGES=[
+ {fa:"جُبن",en:"Cowardice",mEn:"Sacrifices others to stay safe: blames, betrays, or abandons someone when fear rises",mFa:"برای در امان ماندن، دیگران را قربانی می‌کند: وقتی ترس بالا می‌گیرد، سرزنش می‌کند، خیانت می‌کند یا رها می‌کند"},
+ {fa:"تهوّر",en:"Recklessness",mEn:"Bold without thought; acts from anger or ego, and others pay the price",mFa:"بی‌فکر جسور است؛ از خشم یا غرور عمل می‌کند و دیگران تاوانش را می‌دهند"},
+ {fa:"ضعف نفس",en:"Faint-heartedness",mEn:"Freezes or hides; stays silent and lets things happen",mFa:"یخ می‌زند یا پنهان می‌شود؛ ساکت می‌ماند و می‌گذارد اتفاق بیفتد"},
+ {fa:"اجبار",en:"Forced",mEn:"Brave only when there's no way out; acts because forced, not by choice",mFa:"فقط وقتی راه فراری نیست شجاع است؛ از سر اجبار عمل می‌کند، نه انتخاب"},
+ {fa:"خودنمایی",en:"Bravado",mEn:"Brave when watched; the act is real but performed for image",mFa:"وقتی دیده می‌شود شجاع است؛ کار واقعی است ولی برای وجهه"},
+ {fa:"حسابگری",en:"Calculated",mEn:"Brave when it pays: when it's safe, wins approval, or brings a return",mFa:"وقتی به صرفه است شجاع است: وقتی امن است، تأیید می‌آورد یا سودی دارد"},
+ {fa:"شجاعت",en:"Courage",mEn:"Feels the fear and does the right thing anyway, when the moment asks",mFa:"ترس را حس می‌کند و باز هم کار درست را انجام می‌دهد، وقتی لحظه‌اش برسد"},
+ {fa:"بلندهمتی",en:"High Resolve",mEn:"Steps forward before being asked; seeks out the hard thing that needs doing",mFa:"پیش از آنکه از او بخواهند جلو می‌آید؛ کار سختی را که باید انجام شود خودش پیدا می‌کند"},
+ {fa:"ثبات",en:"Steadfastness",mEn:"Holds to what's right even at real personal cost: a job, a friendship, comfort",mFa:"حتی به بهای شخصی واقعی پای حق می‌ایستد: کار، دوستی، آسایش"},
+ {fa:"قوی",en:"The Strong",mEn:"Fear no longer decides. Strong enough to be gentle, firm without harshness, and wise about when not to fight. A direction to face, not a badge to claim",mFa:"ترس دیگر تصمیم نمی‌گیرد. آن‌قدر قوی که نرم باشد، محکم بی‌خشونت، و داناست کی نجنگد. جهتی برای رو کردن، نه نشانی برای ادعا"}
+];
+// [stage, English, Farsi]
+const QS=[
+// 1 Speaking the truth
+{a:0,en:"A friend shows you a business plan they're excited about and asks what you honestly think. You see a serious flaw in it.",
+ fa:"دوستی طرح کسب‌وکاری را که خیلی به آن ذوق دارد نشانت می‌دهد و نظر صادقانه‌ات را می‌پرسد. تو یک ایراد جدی در آن می‌بینی.",
+ ans:[[2,"I'd say it looks great. I don't want to ruin their excitement.","می‌گویم عالی است. نمی‌خواهم ذوقش را کور کنم."],
+ [1,"I'd tell them straight that it won't work. Better they hear it bluntly now.","رک می‌گویم این جواب نمی‌دهد؛ بهتر است همین حالا بی‌پرده بشنود."],
+ [3,"If they kept pressing me with direct questions, I'd eventually admit my doubts.","اگر با سؤال‌های مستقیم پافشاری کند، بالاخره تردیدهایم را می‌گویم."],
+ [4,"I'd point out the flaw in front of others, so they see I'm the one who caught it.","ایراد را جلوی بقیه می‌گویم تا ببینند من بودم که متوجهش شدم."],
+ [5,"I'd mention the flaw only if others had already said something similar.","فقط اگر بقیه هم چیزی شبیه این گفته باشند، ایراد را مطرح می‌کنم."],
+ [6,"I'd tell them what I like, then clearly explain the flaw I see.","اول می‌گویم چه چیزهایی را دوست دارم، بعد ایرادی را که می‌بینم روشن توضیح می‌دهم."],
+ [7,"I'd explain the flaw, and also raise another concern they didn't ask about but should know.","ایراد را توضیح می‌دهم، و نگرانی دیگری را هم که نپرسیده ولی باید بداند مطرح می‌کنم."]]},
+{a:0,en:"In a meeting, your manager presents numbers to a client that you know are misleading. Speaking up could hurt your standing or your bonus.",
+ fa:"در جلسه‌ای، مدیرت به یک مشتری عددهایی ارائه می‌دهد که می‌دانی گمراه‌کننده است. حرف زدن ممکن است به جایگاه یا پاداشت ضربه بزند.",
+ ans:[[0,"I'd say nothing, and if it came out later, I'd say the analyst prepared those numbers.","چیزی نمی‌گویم، و اگر بعداً لو رفت، می‌گویم آن عددها را تحلیلگر آماده کرده بود."],
+ [1,"I'd interrupt and say in front of everyone that the numbers are wrong.","همان وسط حرفش را قطع می‌کنم و جلوی همه می‌گویم این عددها غلط است."],
+ [2,"I'd stay quiet. It's not my place.","ساکت می‌مانم. جای من نیست."],
+ [3,"I'd only say something if the client asked me directly.","فقط اگر مشتری مستقیم از من بپرسد، چیزی می‌گویم."],
+ [5,"I'd mention it privately, but only if I were sure it wouldn't come back on me.","خصوصی اشاره‌ای می‌کنم، ولی فقط اگر مطمئن باشم به خودم برنمی‌گردد."],
+ [6,"Right after the meeting, I'd tell my manager privately that the numbers are misleading.","بلافاصله بعد از جلسه، خصوصی به مدیرم می‌گویم که این عددها گمراه‌کننده‌اند."],
+ [8,"I'd ask for a short break and tell my manager. If they wouldn't correct it, I'd make sure the client got the right numbers, even if it cost my bonus.","یک وقفه کوتاه می‌خواهم و به مدیرم می‌گویم. اگر اصلاحش نکرد، مطمئن می‌شوم مشتری عدد درست را بگیرد، حتی اگر به قیمت پاداشم تمام شود."]]},
+{a:0,en:"A coworker who once took credit for your work is being blamed in a meeting for a problem that wasn't their fault. You know the real cause.",
+ fa:"همکاری که یک بار اعتبار کار تو را به نام خودش زد، در جلسه‌ای برای مشکلی سرزنش می‌شود که تقصیر او نبوده. تو علت واقعی را می‌دانی.",
+ ans:[[0,"If the blame might shift toward my team, I'd quietly help keep it on them.","اگر ممکن باشد تقصیر به سمت تیم من برگردد، بی‌سروصدا کمک می‌کنم روی او بماند."],
+ [2,"I'd stay out of it. It's not my fight, especially with them.","دخالت نمی‌کنم. دعوای من نیست، آن هم با او."],
+ [3,"I'd say what I know only if someone asked me directly.","فقط اگر کسی مستقیم بپرسد، چیزی را که می‌دانم می‌گویم."],
+ [4,"I'd correct it in front of everyone. It shows I'm above grudges.","جلوی همه اصلاحش می‌کنم؛ نشان می‌دهد من اهل کینه نیستم."],
+ [5,"I'd correct it, mostly so they'd owe me one.","اصلاحش می‌کنم، بیشتر برای اینکه به من بدهکار شود."],
+ [6,"After the meeting, I'd tell the manager what actually caused the problem.","بعد از جلسه به مدیر می‌گویم علت واقعی مشکل چه بوده."],
+ [9,"I'd say plainly, right there, what really caused it, without bringing up our history or holding it over them.","همان‌جا ساده می‌گویم علت واقعی چه بوده، بی‌آنکه به گذشته‌مان اشاره کنم یا منتی سرش بگذارم."]]},
+// 2 Saying no
+{a:1,en:"A relative asks you to help them move this Saturday, but you already have important plans with your family that day.",
+ fa:"یکی از اقوام از تو می‌خواهد این شنبه در اسباب‌کشی کمکش کنی، ولی برای آن روز از قبل برنامه مهمی با خانواده‌ات داری.",
+ ans:[[1,"I'd say \"You always do this\" and refuse.","می‌گویم «تو همیشه همین‌طوری» و رد می‌کنم."],
+ [2,"I'd say yes and cancel my plans. Saying no feels too awkward.","قبول می‌کنم و برنامه‌ام را لغو می‌کنم. «نه» گفتن خیلی معذبم می‌کند."],
+ [3,"I'd say yes, and only back out if they kept piling more onto me.","قبول می‌کنم، و فقط اگر کارهای بیشتری رویش بگذارد کنار می‌کشم."],
+ [4,"I'd turn it down in a way that makes clear I'm not someone who gets pushed around.","طوری رد می‌کنم که معلوم شود من کسی نیستم که بشود رویم فشار آورد."],
+ [5,"I'd say no, since I know they won't hold it against me.","رد می‌کنم، چون می‌دانم به دل نمی‌گیرد."],
+ [6,"I'd kindly say I already have plans, and suggest another way I could help.","با مهربانی می‌گویم برنامه دارم، و راه دیگری برای کمک پیشنهاد می‌دهم."],
+ [7,"I'd tell them right away, early in the week, so they have time to find someone else.","همان اول هفته خبرش می‌کنم تا وقت داشته باشد کس دیگری را پیدا کند."]]},
+{a:1,en:"Your boss asks you to work this weekend, for the third time this month. You're exhausted, and saying no might affect your upcoming review.",
+ fa:"مدیرت برای سومین بار در این ماه از تو می‌خواهد آخر هفته کار کنی. خیلی خسته‌ای، و رد کردن ممکن است روی ارزیابی پیش‌رویت اثر بگذارد.",
+ ans:[[0,"I'd say yes, then hand the hardest parts to a junior colleague who can't say no to me.","قبول می‌کنم، بعد سخت‌ترین قسمت‌ها را به همکار تازه‌کاری می‌دهم که نمی‌تواند به من «نه» بگوید."],
+ [1,"I'd tell them they're exploiting people and walk out.","می‌گویم دارند از آدم‌ها سوءاستفاده می‌کنند و از اتاق بیرون می‌روم."],
+ [2,"I'd say yes. I can't risk it.","قبول می‌کنم. نمی‌توانم ریسک کنم."],
+ [3,"I'd keep saying yes until I actually got sick. Then I'd have to say no.","آن‌قدر قبول می‌کنم تا واقعاً بیمار شوم؛ آن‌وقت مجبورم «نه» بگویم."],
+ [5,"I'd say no only if I knew others were saying no too.","فقط اگر بدانم بقیه هم رد می‌کنند، «نه» می‌گویم."],
+ [6,"I'd say clearly that I can't this weekend, and explain that I need rest to do good work.","روشن می‌گویم این آخر هفته نمی‌توانم، و توضیح می‌دهم که برای کار خوب به استراحت نیاز دارم."],
+ [8,"I'd say no and hold to it, even if it hurt my review. This pace isn't sustainable.","«نه» می‌گویم و پایش می‌ایستم، حتی اگر به ارزیابی‌ام ضربه بزند. این روند قابل ادامه نیست."]]},
+{a:1,en:"A neighbor who has been cold and critical toward you asks you to sign a petition against another neighbor's family. You think it's unfair. Everyone else on the street has signed.",
+ fa:"همسایه‌ای که با تو سرد و عیب‌جو بوده، از تو می‌خواهد طوماری علیه خانواده همسایه دیگری امضا کنی. به نظرت ناعادلانه است. همه اهل کوچه امضا کرده‌اند.",
+ ans:[[0,"I'd sign. I don't want to be the next target.","امضا می‌کنم. نمی‌خواهم هدف بعدی باشم."],
+ [1,"I'd tell them off for being petty, loud enough for the whole street to hear.","آن‌قدر بلند به خاطر کوته‌نظری‌اش سرزنشش می‌کنم که همه کوچه بشنوند."],
+ [2,"I'd make an excuse, say I'm busy, and avoid giving an answer.","بهانه می‌آورم، می‌گویم سرم شلوغ است، و جوابی نمی‌دهم."],
+ [3,"I'd stall, and only refuse if they kept pressuring me.","طولش می‌دهم، و فقط اگر مدام فشار بیاورد رد می‌کنم."],
+ [5,"I'd refuse only if I were sure the other family would come out ahead anyway.","فقط اگر مطمئن باشم آن خانواده در نهایت دستشان بالاست، رد می‌کنم."],
+ [6,"I'd say politely that I won't sign, because I don't think it's fair.","مؤدبانه می‌گویم امضا نمی‌کنم، چون فکر می‌کنم منصفانه نیست."],
+ [9,"I'd say no calmly and warmly, without worrying what they think of me, and without holding their past coldness against them.","آرام و گرم «نه» می‌گویم، بی‌نگرانی از اینکه درباره‌ام چه فکر می‌کند، و بی‌آنکه سردی گذشته‌اش را به رویش بیاورم."]]},
+// 3 Owning mistakes
+{a:2,en:"A friend asks whether you sent the document you promised them yesterday. You forgot.",
+ fa:"دوستی می‌پرسد آیا مدرکی را که دیروز قولش را داده بودی فرستادی. یادت رفته بود.",
+ ans:[[1,"I'd say \"Yes, I forgot, but you could have reminded me.\"","می‌گویم «آره یادم رفت، ولی تو هم می‌توانستی یادم بیندازی.»"],
+ [2,"I'd say \"It's on its way\" and send it fast, hoping they don't notice it was late.","می‌گویم «دارد می‌رسد» و سریع می‌فرستم، به این امید که نفهمد دیر شده."],
+ [3,"I'd say I sent it, and only admit the truth if they said it never arrived.","می‌گویم فرستادم، و فقط اگر بگوید به دستش نرسیده حقیقت را می‌گویم."],
+ [4,"I'd make a big show of apologizing, so they see how honest I am.","با آب و تاب عذرخواهی می‌کنم تا ببیند چقدر آدم صادقی هستم."],
+ [5,"I'd admit it, since it's a small thing anyway.","اعتراف می‌کنم، چون به هر حال چیز کوچکی است."],
+ [6,"I'd say \"I forgot, sorry. Sending it now.\"","می‌گویم «یادم رفت، ببخشید. همین الان می‌فرستم.»"],
+ [7,"Honestly, I'd have noticed and told them myself before they had to ask.","راستش قبل از اینکه مجبور شود بپرسد، خودم متوجه می‌شدم و خبرش می‌کردم."]]},
+{a:2,en:"At work, you discover that a bug you introduced made a client lose data. No one knows it was you yet. Admitting it could cost you a promotion you've worked hard for.",
+ fa:"در کار متوجه می‌شوی باگی که خودت وارد کرده‌ای باعث شده یک مشتری اطلاعاتش را از دست بدهد. هنوز کسی نمی‌داند کار تو بوده. اعتراف ممکن است ترفیعی را که برایش زحمت کشیده‌ای از دستت بگیرد.",
+ ans:[[0,"I'd point to the last person who touched that code.","به آخرین کسی که روی آن کد کار کرده اشاره می‌کنم."],
+ [2,"I'd fix it quietly and say nothing.","بی‌صدا درستش می‌کنم و چیزی نمی‌گویم."],
+ [3,"I'd admit it only if the logs clearly showed it was me.","فقط اگر لاگ‌ها به‌وضوح نشان دهد کار من بوده، اعتراف می‌کنم."],
+ [4,"I'd confess in the big team channel in a way that shows everyone how accountable I am.","در کانال بزرگ تیم طوری اعتراف می‌کنم که همه ببینند چقدر مسئولیت‌پذیرم."],
+ [5,"I'd admit it if the damage turned out to be small.","اگر معلوم شود خسارت کم بوده، اعتراف می‌کنم."],
+ [6,"I'd tell my lead it was my change and help fix it.","به سرپرستم می‌گویم تغییر من بوده و در رفعش کمک می‌کنم."],
+ [8,"I'd tell my lead right away, help the client recover, and accept that it may cost me the promotion.","فوراً به سرپرستم می‌گویم، در جبران برای مشتری کمک می‌کنم، و می‌پذیرم که شاید ترفیع را از دست بدهم."]]},
+{a:2,en:"In an argument with someone who has hurt you a lot, you realize halfway through that on this specific point, you're wrong and they're right.",
+ fa:"در بحث با کسی که خیلی آزارت داده، وسط بحث می‌فهمی که در همین مورد خاص تو اشتباه می‌کنی و حق با اوست.",
+ ans:[[0,"I'd keep insisting, and later tell others they were the one who got it wrong.","پافشاری می‌کنم، و بعداً به دیگران می‌گویم اشتباه از او بوده."],
+ [1,"I'd admit it, then bring up everything they've ever done wrong.","قبول می‌کنم، ولی بعد همه کارهای اشتباهش را پیش می‌کشم."],
+ [2,"I'd change the subject and never come back to it.","موضوع را عوض می‌کنم و دیگر سراغش نمی‌روم."],
+ [3,"I'd admit it only if they proved it beyond any doubt.","فقط اگر بی‌هیچ شکی ثابتش کند، قبول می‌کنم."],
+ [5,"I'd admit it if it helped me win the bigger argument.","اگر کمکم کند در بحث بزرگ‌تر برنده شوم، قبول می‌کنم."],
+ [6,"I'd say, \"On this point, you're right.\"","می‌گویم «در این مورد حق با توست.»"],
+ [9,"I'd say plainly that I was wrong, without needing them to admit their own wrongs first.","ساده می‌گویم اشتباه کردم، بی‌آنکه لازم باشد او اول اشتباه‌های خودش را بپذیرد."]]},
+// 4 Standing up for others
+{a:3,en:"A new coworker quietly asks for your support: another colleague keeps making jokes about their accent in meetings.",
+ fa:"همکار تازه‌واردی آرام از تو کمک می‌خواهد؛ همکار دیگری در جلسه‌ها مدام لهجه‌اش را مسخره می‌کند.",
+ ans:[[1,"Next meeting, I'd confront the joker loudly and embarrass them in front of everyone.","جلسه بعد با صدای بلند با آن شخص درگیر می‌شوم و جلوی همه خجالتش می‌دهم."],
+ [2,"I'd sympathize privately, but not say anything in meetings.","خصوصی همدردی می‌کنم، ولی در جلسه چیزی نمی‌گویم."],
+ [3,"I'd step in only if the jokes started being about me too.","فقط اگر شوخی‌ها به من هم برسد، دخالت می‌کنم."],
+ [4,"I'd speak up when senior people are in the room to see it.","وقتی مدیران ارشد در جلسه هستند و می‌بینند، حرف می‌زنم."],
+ [5,"I'd say something if the joker is junior to me.","اگر آن شخص از من پایین‌تر باشد، چیزی می‌گویم."],
+ [6,"Next time it happens, I'd calmly say, \"Let's leave the accent jokes out.\"","دفعه بعد آرام می‌گویم: «بیایید شوخی با لهجه را کنار بگذاریم.»"],
+ [7,"I'd talk to the colleague privately before the next meeting, and check whether others get the same treatment.","قبل از جلسه بعد خصوصی با آن همکار حرف می‌زنم، و بررسی می‌کنم آیا با دیگران هم همین رفتار می‌شود."]]},
+{a:3,en:"At a family gathering, an elder you depend on (for childcare or money) harshly mocks a younger relative's career choice. Everyone laughs along.",
+ fa:"در یک دورهمی خانوادگی، بزرگ‌تری که به کمکش وابسته‌ای (مثلاً در نگهداری بچه یا پول) یکی از جوان‌ترهای فامیل را به خاطر انتخاب شغلی‌اش به‌تندی مسخره می‌کند. همه همراهی می‌کنند و می‌خندند.",
+ ans:[[0,"I'd laugh along and add a joke of my own, so the elder stays happy with me.","همراه بقیه می‌خندم و یک شوخی هم اضافه می‌کنم تا آن بزرگ‌تر از من راضی بماند."],
+ [1,"I'd tell the elder, in front of everyone, that they're a bully.","جلوی همه به آن بزرگ‌تر می‌گویم زورگوست."],
+ [2,"I'd stay quiet and look at my phone.","ساکت می‌مانم و سرم را در گوشی‌ام می‌کنم."],
+ [3,"I'd only say something if it were my own child being mocked.","فقط اگر فرزند خودم مسخره می‌شد، چیزی می‌گفتم."],
+ [4,"I'd defend them with a clever line that gets everyone's attention on me.","با یک جمله زیرکانه از او دفاع می‌کنم که توجه همه به من جلب شود."],
+ [6,"I'd say gently, \"I think what they're doing takes guts,\" and change the subject.","به آرامی می‌گویم «به نظرم کاری که می‌کند جرئت می‌خواهد» و موضوع را عوض می‌کنم."],
+ [8,"I'd defend them clearly, even knowing the elder might pull back their help from me.","روشن از او دفاع می‌کنم، حتی با اینکه می‌دانم آن بزرگ‌تر ممکن است کمکش را از من دریغ کند."]]},
+{a:3,en:"Someone who spread rumors about you is now being bullied online. People are sharing an embarrassing photo of them.",
+ fa:"کسی که پشت سرت شایعه پخش کرده بود، حالا در فضای مجازی آزار می‌بیند. آدم‌ها عکس خجالت‌آوری از او دست‌به‌دست می‌کنند.",
+ ans:[[0,"I'd like and share it too. It's safer to be with the crowd.","من هم لایک و بازنشرش می‌کنم. همراه جمع بودن امن‌تر است."],
+ [2,"I'd scroll past. After what they did, it's not my problem.","رد می‌شوم. بعد از کاری که کرد، مشکل من نیست."],
+ [3,"I'd report it only if it started to affect people I care about.","فقط اگر به آدم‌هایی که برایم مهم‌اند ربط پیدا کند، گزارشش می‌کنم."],
+ [4,"I'd post a public statement against bullying, mostly so people see I'm the bigger person.","یک پست عمومی علیه آزار می‌گذارم، بیشتر برای اینکه ببینند من بزرگواری کرده‌ام."],
+ [5,"I'd defend them if it might make them stop spreading rumors about me.","اگر باعث شود دیگر درباره من شایعه نسازد، از او دفاع می‌کنم."],
+ [6,"I'd report the post and ask my friends to stop sharing it.","پست را گزارش می‌کنم و از دوستانم می‌خواهم دیگر بازنشرش نکنند."],
+ [9,"I'd report it, ask people to stop, and privately tell them I'm sorry this is happening, without mentioning the rumors.","گزارشش می‌کنم، از دیگران می‌خواهم دست بردارند، و خصوصی به او می‌گویم متأسفم که این اتفاق افتاده، بی‌آنکه حرفی از شایعه‌ها بزنم."]]},
+// 5 Trying despite failure
+{a:4,en:"A friend asks you to give a short talk at a community event about something you know well. You've never spoken in public.",
+ fa:"دوستی از تو می‌خواهد در یک برنامه محلی درباره موضوعی که خوب بلدی سخنرانی کوتاهی کنی. تا حالا جلوی جمع حرف نزده‌ای.",
+ ans:[[1,"I'd say yes and not prepare at all. I'll figure it out on the spot.","قبول می‌کنم و اصلاً آماده نمی‌شوم. همان‌جا یک کاری‌اش می‌کنم."],
+ [2,"I'd say I'm not the right person, even though I probably am.","می‌گویم آدم مناسبی نیستم، با اینکه احتمالاً هستم."],
+ [3,"I'd agree only if there were no one else who could do it.","فقط اگر کس دیگری نباشد که بتواند، قبول می‌کنم."],
+ [4,"I'd agree and tell everyone about it, then prepare at the last minute.","قبول می‌کنم و به همه خبر می‌دهم، بعد دقیقه آخر آماده می‌شوم."],
+ [5,"I'd agree only if it's a small, friendly crowd where I can't really fail.","فقط اگر جمع کوچک و صمیمی باشد که واقعاً نشود شکست خورد، قبول می‌کنم."],
+ [6,"I'd say yes, prepare, and do it nervous.","قبول می‌کنم، آماده می‌شوم، و با همان استرس انجامش می‌دهم."],
+ [7,"I'd say yes, and ask whether there are other events where I could speak too.","قبول می‌کنم، و می‌پرسم آیا برنامه‌های دیگری هم هست که بتوانم در آن صحبت کنم."]]},
+{a:4,en:"Your project failed publicly last year. You have an idea for a new attempt, but it means using savings and facing the people who saw you fail.",
+ fa:"پروژه‌ات سال گذشته جلوی چشم همه شکست خورد. ایده‌ای برای تلاش دوباره داری، ولی یعنی خرج کردن پس‌انداز و روبه‌رو شدن با کسانی که شکستت را دیدند.",
+ ans:[[1,"I'd put all the family savings into it right away. Go big or go home.","همه پس‌انداز خانواده را فوراً پایش می‌گذارم. یا همه یا هیچ."],
+ [2,"I'd drop the idea. I can't go through that again.","ایده را کنار می‌گذارم. نمی‌توانم دوباره آن را تحمل کنم."],
+ [3,"I'd only try again if I lost my job and had no other choice.","فقط اگر کارم را از دست بدهم و چاره دیگری نداشته باشم، دوباره امتحان می‌کنم."],
+ [4,"I'd announce a big comeback online before I'd worked anything out.","قبل از اینکه چیزی را حل کرده باشم، در فضای مجازی بازگشت بزرگم را اعلام می‌کنم."],
+ [5,"I'd only try if someone else funded it and the risk was theirs.","فقط اگر کس دیگری سرمایه بگذارد و ریسک با او باشد، امتحان می‌کنم."],
+ [6,"I'd start small, with a budget I can afford to lose, and see what happens.","کوچک شروع می‌کنم، با بودجه‌ای که از دست دادنش را تحمل می‌کنم، و می‌بینم چه می‌شود."],
+ [8,"I'd commit to it seriously, within a limit my family can afford, knowing people may watch me fail again.","جدی پایش می‌ایستم، در حدی که خانواده‌ام توانش را دارند، با اینکه می‌دانم شاید دوباره جلوی همه شکست بخورم."]]},
+{a:4,en:"Someone who openly mocked your last attempt is now a judge for a competition or grant you want to apply for.",
+ fa:"کسی که تلاش قبلی‌ات را آشکارا مسخره کرد، حالا داور مسابقه یا کمک‌هزینه‌ای است که می‌خواهی برایش اقدام کنی.",
+ ans:[[0,"I'd skip it, and quietly talk a friend out of applying too, so I'm not the only one who backed off.","شرکت نمی‌کنم، و بی‌صدا دوستم را هم منصرف می‌کنم تا فقط من نباشم که جا زده‌ام."],
+ [1,"I'd apply, but first message them to tell them exactly what I think of their mockery.","شرکت می‌کنم، ولی اول به او پیام می‌دهم که دقیقاً درباره مسخره‌کردنش چه فکری می‌کنم."],
+ [2,"I'd skip it. There's no point with them there.","شرکت نمی‌کنم. با بودن او فایده‌ای ندارد."],
+ [3,"I'd only apply if it were the last chance left.","فقط اگر آخرین فرصت باقی‌مانده باشد، شرکت می‌کنم."],
+ [5,"I'd apply only if I knew they couldn't block me on their own.","فقط اگر بدانم او به تنهایی نمی‌تواند ردم کند، شرکت می‌کنم."],
+ [6,"I'd apply anyway and do my best work.","به هر حال شرکت می‌کنم و بهترین کارم را ارائه می‌دهم."],
+ [9,"I'd apply calmly, give my best, and accept whatever they decide, without needing to prove them wrong.","با آرامش شرکت می‌کنم، بهترینم را می‌گذارم، و هر تصمیمی بگیرد می‌پذیرم، بی‌آنکه نیاز داشته باشم ثابت کنم اشتباه کرده."]]},
+// 6 Facing the avoided
+{a:5,en:"A family member asks you to finally talk about a tension that's been building between you for weeks.",
+ fa:"یکی از اعضای خانواده از تو می‌خواهد بالاخره درباره تنشی که چند هفته است بینتان جمع شده حرف بزنید.",
+ ans:[[1,"I'd unload everything I've been holding in, all at once.","همه چیزهایی را که این مدت در دلم مانده یک‌جا خالی می‌کنم."],
+ [2,"I'd say \"Everything's fine\" and change the subject.","می‌گویم «همه چیز خوب است» و بحث را عوض می‌کنم."],
+ [3,"I'd agree only once it turned into a real fight.","فقط وقتی کار به دعوای واقعی بکشد، قبول می‌کنم."],
+ [4,"I'd say I'm all for open conversation, but keep what I say vague.","می‌گویم طرفدار گفت‌وگوی باز هستم، ولی حرف‌هایم را کلی نگه می‌دارم."],
+ [5,"I'd talk if I were sure it would end well.","اگر مطمئن باشم خوب تمام می‌شود، حرف می‌زنم."],
+ [6,"I'd agree and set a time to talk honestly, even though I'm nervous.","قبول می‌کنم و وقتی برای حرف زدن صادقانه می‌گذارم، با اینکه استرس دارم."],
+ [7,"I'd thank them, and also name the part I've been avoiding, not just what they raised.","تشکر می‌کنم و آن قسمتی را هم که خودم از آن فرار کرده‌ام می‌گویم، نه فقط چیزی که او مطرح کرد."]]},
+{a:5,en:"For months you've had a physical symptom that worries you. Getting it checked means time off work, some cost, and maybe hearing bad news.",
+ fa:"ماه‌هاست علامتی جسمی داری که نگرانت می‌کند. چکاپ یعنی مرخصی از کار، هزینه، و شاید شنیدن خبر بد.",
+ ans:[[0,"I'd ignore it, even though my family would be the ones left dealing with it if it got serious.","نادیده‌اش می‌گیرم، با اینکه اگر جدی شود خانواده‌ام باید با پیامدش کنار بیایند."],
+ [2,"I'd keep putting it off and try not to think about it.","مدام عقبش می‌اندازم و سعی می‌کنم به آن فکر نکنم."],
+ [3,"I'd only go if it got so bad I couldn't function.","فقط اگر آن‌قدر بد شود که نتوانم کارهایم را بکنم، می‌روم."],
+ [4,"I'd talk a lot about getting checked, but not book it.","درباره چکاپ رفتن زیاد حرف می‌زنم، ولی وقت نمی‌گیرم."],
+ [5,"I'd go only if it were free and quick.","فقط اگر رایگان و سریع باشد، می‌روم."],
+ [6,"I'd book the appointment this week.","همین هفته وقت می‌گیرم."],
+ [8,"I'd go, ask for the full truth, and face the results, whatever they cost me.","می‌روم، تمام حقیقت را می‌خواهم، و با نتیجه روبه‌رو می‌شوم، به هر قیمتی که برایم تمام شود."]]},
+{a:5,en:"A former business partner who treated you unfairly needs one final conversation with you to settle accounts. They keep emailing; you haven't opened the emails.",
+ fa:"شریک تجاری سابقی که با تو منصفانه رفتار نکرد، برای تسویه حساب‌ها به یک گفت‌وگوی آخر با تو نیاز دارد. مدام ایمیل می‌زند و تو بازشان نکرده‌ای.",
+ ans:[[0,"I'd keep ignoring it and let our other partner deal with it alone.","نادیده‌اش می‌گیرم و می‌گذارم شریک دیگرمان تنهایی رسیدگی کند."],
+ [1,"I'd send one angry email that says everything.","با یک ایمیل عصبانی همه چیز را می‌گویم."],
+ [2,"I'd leave them unopened. Even thinking about them ruins my day.","بازشان نمی‌کنم. حتی فکرشان روزم را خراب می‌کند."],
+ [3,"I'd only open them if a lawyer forced the issue.","فقط اگر وکیل مجبورم کند، بازشان می‌کنم."],
+ [5,"I'd answer only if there were money coming to me.","فقط اگر پولی به من برسد، جواب می‌دهم."],
+ [6,"I'd open them, reply clearly, and set a time to settle things.","بازشان می‌کنم، روشن جواب می‌دهم، و برای تسویه وقت می‌گذارم."],
+ [9,"I'd meet them steadily, settle what's fair, and close it without needing to win or punish them.","با آرامش با او روبه‌رو می‌شوم، آنچه منصفانه است را تسویه می‌کنم، و بی‌نیاز به بردن یا تنبیه کردنش تمامش می‌کنم."]]},
+// 7 Asking for help
+{a:6,en:"A coworker sees you struggling with a task and asks, \"Do you want a hand?\"",
+ fa:"همکاری می‌بیند با کاری کلنجار می‌روی و می‌پرسد: «کمک می‌خواهی؟»",
+ ans:[[1,"I'd say \"Finally!\" and hand the whole thing over.","می‌گویم «بالاخره!» و کل کار را دستش می‌دهم."],
+ [2,"I'd say \"I'm fine, thanks\" and keep struggling.","می‌گویم «نه ممنون، خوبم» و به کلنجار رفتن ادامه می‌دهم."],
+ [3,"I'd say no for now, and only ask later if the deadline were about to slip.","فعلاً رد می‌کنم، و فقط وقتی ددلاین در حال از دست رفتن باشد کمک می‌خواهم."],
+ [4,"I'd say no, then complain loudly about how much is on my plate.","رد می‌کنم، بعد بلند گله می‌کنم که چقدر کار سرم ریخته."],
+ [5,"I'd accept, since they offered and it costs me nothing.","قبول می‌کنم، چون خودش پیشنهاد داده و برایم هزینه‌ای ندارد."],
+ [6,"I'd say \"Yes, thank you\" and explain where I'm stuck.","می‌گویم «آره، ممنون» و توضیح می‌دهم کجا گیر کرده‌ام."],
+ [7,"I'd accept, admit I should have asked days ago, and mention another part I'm unsure about.","قبول می‌کنم، می‌گویم باید چند روز پیش می‌پرسیدم، و قسمت دیگری را هم که مطمئن نیستم مطرح می‌کنم."]]},
+{a:6,en:"You're working full-time and caring for a sick parent, and you're running on empty. Asking your siblings to share the load means admitting you can't do it alone, something you've always been proud of.",
+ fa:"تمام‌وقت کار می‌کنی و هم‌زمان از پدر یا مادر بیمارت مراقبت می‌کنی، و دیگر توانی برایت نمانده. اینکه از خواهر و برادرهایت بخواهی سهمی بردارند یعنی بپذیری که تنهایی از پسش برنمی‌آیی؛ چیزی که همیشه به آن افتخار کرده‌ای.",
+ ans:[[0,"I'd keep going alone, even if it means mistakes in my parent's care.","تنهایی ادامه می‌دهم، حتی اگر به قیمت اشتباه در مراقبت از او تمام شود."],
+ [1,"I'd snap at my siblings that they've done nothing, and demand they take over.","سر خواهر و برادرهایم داد می‌زنم که هیچ کاری نکرده‌اند و می‌خواهم همه چیز را تحویل بگیرند."],
+ [2,"I'd keep quiet and push through. That's just who I am.","ساکت می‌مانم و تحمل می‌کنم. من همینم."],
+ [3,"I'd only ask once I'd completely collapsed.","فقط وقتی کاملاً از پا بیفتم، کمک می‌خواهم."],
+ [4,"I'd post about how exhausting caregiving is, but not actually ask anyone.","درباره سختی مراقبت پست می‌گذارم، ولی واقعاً از کسی کمک نمی‌خواهم."],
+ [6,"I'd call my siblings and clearly ask them to take on specific tasks.","به خواهر و برادرهایم زنگ می‌زنم و روشن می‌خواهم کارهای مشخصی را بر عهده بگیرند."],
+ [8,"I'd ask, admit I can't do it alone, and accept the hit to my pride.","کمک می‌خواهم، می‌پذیرم که تنهایی نمی‌توانم، و ضربه به غرورم را قبول می‌کنم."]]},
+{a:6,en:"You're stuck on a problem at work, and the one person who knows how to solve it is a colleague who has openly opposed you.",
+ fa:"در کار روی مسئله‌ای گیر کرده‌ای، و تنها کسی که راه‌حلش را می‌داند همکاری است که آشکارا با تو مخالفت کرده.",
+ ans:[[0,"I'd stay stuck and let the delay land on my team rather than ask them.","گیر می‌مانم و می‌گذارم تأخیر گردن تیمم بیفتد، ولی از او نمی‌پرسم."],
+ [1,"I'd go to them and demand they explain it. It's their job anyway.","سراغش می‌روم و طلبکارانه می‌خواهم توضیح بدهد. به هر حال وظیفه‌اش است."],
+ [2,"I'd struggle alone for days rather than go to them.","روزها تنهایی کلنجار می‌روم، ولی سراغش نمی‌روم."],
+ [3,"I'd only ask if my manager made me.","فقط اگر مدیرم مجبورم کند، می‌پرسم."],
+ [5,"I'd ask, but frame it as if I'm doing them a favor.","می‌پرسم، ولی طوری که انگار دارم لطفی به او می‌کنم."],
+ [6,"I'd ask them directly and thank them.","مستقیم از او می‌پرسم و تشکر می‌کنم."],
+ [9,"I'd ask simply and warmly, without feeling smaller for needing them, and offer my help whenever they need it.","ساده و گرم از او می‌پرسم، بی‌آنکه خودم را کوچک‌تر حس کنم، و هر وقت لازم داشت کمکم را پیشنهاد می‌دهم."]]}
+];
+
+const UI={
+en:{brand:"The Path of Bravery",lang:"فارسی",themeAuto:"◐ Auto",themeLight:"☀ Light",themeDark:"☾ Dark",
+ title:"The Path of Bravery",
+ purpose:"Bravery (شجاعت) is the middle path between cowardice and recklessness. This private self-assessment helps you see where you stand in seven everyday areas, so you can choose your own next step toward The Strong (القوی): a direction to face, not a badge to claim.",
+ privacy:"Private: your answers never leave this browser. Nothing is sent or saved. This is only for you, never for scoring others.",
+ limits:"Healthy limits: the highest stages are always freely chosen and never self-destructive. Courage is not recklessness, and sometimes the strongest choice is to walk away.",
+ areasT:"The seven areas",stagesT:"The ten stages",start:"Begin",
+ howto:"21 situations, 3 per area. Choose what you would most honestly do. There are no wrong answers.",
+ q:"Question",of:"of",back:"Back",next:"Next",results:"See results",none:"None of these fits me",
+ resT:"Your results",overall:"Overall",stage:"Stage",byArea:"By area",notScored:"not scored",
+ nextT:"Your next step",
+ nextTxt:(a,s,n)=>`Your lowest area is <b>${a}</b>, at <b>${s}</b>. The next stage there is <b>${n.en}</b>: ${n.mEn}.`,
+ topTxt:a=>`Your lowest area, <b>${a}</b>, is already facing The Strong. Keep walking gently; it is a direction, not a finish line.`,
+ nextChoose:"This is only a suggestion. You choose your own next step.",
+ copyT:"Take it further",copyHelp:"Copy this text and paste it into Claude or another AI assistant for gentle, concrete practices.",
+ copy:"Copy",copied:"Copied ✓",restart:"Start over",empty:"No answers scored yet. Go back and choose at least one answer."},
+fa:{brand:"مسیر شجاعت",lang:"English",themeAuto:"◐ خودکار",themeLight:"☀ روشن",themeDark:"☾ تیره",
+ title:"مسیر شجاعت",
+ purpose:"شجاعت راه میانه بین جُبن و تهوّر است. این خودارزیابی خصوصی کمک می‌کند ببینی در هفت حوزه روزمره کجا ایستاده‌ای، تا قدم بعدی‌ات را به سوی «القوی» خودت انتخاب کنی؛ جهتی برای رو کردن، نه نشانی برای ادعا.",
+ privacy:"خصوصی: پاسخ‌هایت هرگز از این مرورگر بیرون نمی‌رود. چیزی فرستاده یا ذخیره نمی‌شود. این فقط برای خودت است، هرگز برای سنجیدن دیگران.",
+ limits:"حدود سالم: بالاترین مراحل همیشه آزادانه انتخاب می‌شوند و هرگز به خود آسیب نمی‌زنند. شجاعت تهوّر نیست، و گاهی قوی‌ترین انتخاب کنار کشیدن است.",
+ areasT:"هفت حوزه",stagesT:"ده مرحله",start:"شروع",
+ howto:"۲۱ موقعیت، در هر حوزه ۳ تا. صادقانه‌ترین کاری را که می‌کنی انتخاب کن. جواب غلط وجود ندارد.",
+ q:"سؤال",of:"از",back:"قبلی",next:"بعدی",results:"دیدن نتیجه",none:"هیچ‌کدام به من نمی‌خورد",
+ resT:"نتیجه تو",overall:"کلی",stage:"مرحله",byArea:"به تفکیک حوزه",notScored:"بدون امتیاز",
+ nextT:"قدم بعدی تو",
+ nextTxt:(a,s,n)=>`پایین‌ترین حوزه تو <b>${a}</b> است، در مرحله <b>${s}</b>. مرحله بعدی در آن <b>${n.fa}</b> است: ${n.mFa}.`,
+ topTxt:a=>`پایین‌ترین حوزه تو، <b>${a}</b>، هم‌اکنون رو به «القوی» است. آرام ادامه بده؛ این یک جهت است، نه خط پایان.`,
+ nextChoose:"این فقط یک پیشنهاد است. قدم بعدی را خودت انتخاب می‌کنی.",
+ copyT:"ادامه مسیر",copyHelp:"این متن را کپی کن و در Claude یا دستیار هوش مصنوعی دیگری بچسبان تا تمرین‌های ملایم و مشخص بگیری.",
+ copy:"کپی",copied:"کپی شد ✓",restart:"شروع دوباره",empty:"هنوز پاسخی امتیاز نگرفته. برگرد و دست‌کم یک پاسخ انتخاب کن."}
+};
+
+let lang="en", theme="auto", pos=-1; // -1 intro, 0..20 questions, 21 results
+const answers=new Array(QS.length).fill(undefined);
+const order=QS.map(q=>{const o=q.ans.map((_,i)=>i);for(let i=o.length-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[o[i],o[j]]=[o[j],o[i]]}return o});
+
+const T=()=>UI[lang];
+const num=v=>{const s=String(v);return lang==="fa"?s.replace(/\d/g,d=>"۰۱۲۳۴۵۶۷۸۹"[d]):s};
+const band=i=>i===9?num("90–100"):num(`${i*10}–${i*10+9}`);
+const sName=i=>STAGES[i][lang];
+const esc=s=>s.replace(/&/g,"&amp;").replace(/</g,"&lt;");
+const app=document.getElementById("app");
+
+function scores(){
+  const areas=AREAS.map((_,ai)=>{
+    const st=[];QS.forEach((q,qi)=>{if(q.a===ai&&typeof answers[qi]==="number")st.push(q.ans[answers[qi]][0])});
+    if(!st.length)return null;
+    const avg=st.reduce((x,y)=>x+y,0)/st.length;
+    return Math.min(100,avg*10+5);
+  });
+  const valid=areas.filter(v=>v!==null);
+  const overall=valid.length?valid.reduce((x,y)=>x+y,0)/valid.length:null;
+  let low=-1;areas.forEach((v,i)=>{if(v!==null&&(low<0||v<areas[low]))low=i});
+  return{areas,overall,low};
+}
+const stageOf=s=>Math.min(9,Math.floor(s/10));
+
+function renderHeader(){
+  document.documentElement.lang=lang;document.documentElement.dir=lang==="fa"?"rtl":"ltr";
+  document.getElementById("brand").textContent=T().brand;
+  document.getElementById("langBtn").textContent=T().lang;
+  document.getElementById("themeBtn").textContent=theme==="auto"?T().themeAuto:theme==="light"?T().themeLight:T().themeDark;
+  if(theme==="auto")document.documentElement.removeAttribute("data-theme");else document.documentElement.setAttribute("data-theme",theme);
+}
+
+function intro(){
+  const t=T();
+  app.innerHTML=`<div class="card"><h1>${t.title}</h1><p>${t.purpose}</p>
+   <p class="note">🔒 ${t.privacy}</p><p class="note">🌱 ${t.limits}</p>
+   <p class="muted">${t.howto}</p>
+   <div class="row" style="justify-content:flex-end"><button class="btn" id="go">${t.start}</button></div></div>
+   <div class="card"><h2>${t.areasT}</h2><div class="areas">${AREAS.map((a,i)=>`<span class="chip">${num(i+1)}. ${a[lang]}</span>`).join("")}</div></div>
+   <div class="card"><h2>${t.stagesT}</h2><table>${STAGES.map((s,i)=>`<tr><td class="band">${band(i)}</td><td class="name">${s[lang]}<div class="muted" style="font-weight:400;font-size:12px">${lang==="fa"?s.en:s.fa}</div></td><td>${lang==="fa"?s.mFa:s.mEn}</td></tr>`).join("")}</table></div>`;
+  document.getElementById("go").onclick=()=>{pos=0;render()};
+}
+
+function question(){
+  const t=T(),q=QS[pos],sel=answers[pos];
+  const opts=order[pos].map(i=>`<button class="ans${sel===i?" sel":""}" data-i="${i}"><span class="dot"></span><span>${esc(q.ans[i][lang==="fa"?2:1])}</span></button>`).join("")
+   +`<button class="ans none${sel==="none"?" sel":""}" data-i="none"><span class="dot"></span><span>${t.none}</span></button>`;
+  const last=pos===QS.length-1;
+  app.innerHTML=`<div class="card"><div class="progress"><div style="width:${(pos+1)/QS.length*100}%"></div></div>
+   <div class="qmeta"><span>${t.q} ${num(pos+1)} ${t.of} ${num(QS.length)}</span><span>${num(q.a+1)}/${num(7)}</span></div>
+   <div class="area-tag">${AREAS[q.a][lang]}</div><div class="qtext">${esc(q[lang])}</div>
+   <div>${opts}</div>
+   <div class="row"><button class="btn ghost" id="back">${t.back}</button><button class="btn" id="next" ${sel===undefined?"disabled":""}>${last?t.results:t.next}</button></div></div>`;
+  app.querySelectorAll(".ans").forEach(b=>b.onclick=()=>{const v=b.dataset.i;answers[pos]=v==="none"?"none":+v;question()});
+  document.getElementById("back").onclick=()=>{pos--;render()};
+  document.getElementById("next").onclick=()=>{pos++;render();window.scrollTo(0,0)};
+}
+
+function llmText(sc){
+  const fa=lang==="fa";
+  const d=new Date().toLocaleDateString(fa?"fa-IR":"en-US",{year:"numeric",month:"long",day:"numeric"});
+  const L=[];
+  if(!fa){
+    L.push(`I took a private self-assessment of bravery (شجاعت) on ${d}. It measures 7 areas of daily life on a 10-stage scale, from Cowardice to The Strong (القوی). I'd like your help choosing my next step.`,"",
+    "Standing rules for your reply:",
+    "- Universalizability: check that every suggestion, if everyone in the world did it, would make the world a better place.",
+    "- Free will: never pressure or command. This assessment is self-scored, private, and only for myself, never for scoring others. I choose my own next step; offer, don't prescribe.",
+    "- Healthy limits: the highest stages must be freely chosen and never self-destructive. Courage is not recklessness.","",
+    "The ten stages:");
+    STAGES.forEach((s,i)=>L.push(`${band(i)}  ${s.en} (${s.fa}): ${s.mEn}`));
+    L.push("","My results:");
+    L.push(`Overall: ${Math.round(sc.overall)}/100, Stage ${stageOf(sc.overall)}: ${STAGES[stageOf(sc.overall)].en}`);
+    AREAS.forEach((a,i)=>L.push(sc.areas[i]===null?`- ${a.en}: not scored`:`- ${a.en}: ${Math.round(sc.areas[i])}/100, Stage ${stageOf(sc.areas[i])}: ${STAGES[stageOf(sc.areas[i])].en}`));
+    L.push(`Weakest area: ${AREAS[sc.low].en}`,"","My answers:");
+    QS.forEach((q,qi)=>{const v=answers[qi];L.push(`[${AREAS[q.a].en}] ${q.en}`);
+      L.push(typeof v==="number"?`  → ${q.ans[v][1]} (Stage ${q.ans[v][0]}: ${STAGES[q.ans[v][0]].en})`:v==="none"?"  → None of these fits me (not scored)":"  → (skipped)")});
+    const ws=stageOf(sc.areas[sc.low]);
+    L.push("","Please give me:",
+    `1. 2–3 small, concrete practices to move up one stage in my weakest area, ${AREAS[sc.low].en} (from ${STAGES[ws].en}${ws<9?` toward ${STAGES[ws+1].en}`:""}).`,
+    "2. One inner shift that would help me most.",
+    `3. One practice for my overall stage (${STAGES[stageOf(sc.overall)].en}).`,
+    "Keep each practice small enough to try this week, and follow the standing rules above.");
+  }else{
+    L.push(`در تاریخ ${d} یک خودارزیابی خصوصی درباره شجاعت انجام دادم. این ارزیابی هفت حوزه زندگی روزمره را در ده مرحله، از جُبن تا «القوی»، می‌سنجد. می‌خواهم در انتخاب قدم بعدی‌ام کمکم کنی.`,"",
+    "قواعد ثابت برای پاسخ تو:",
+    "- جهان‌شمولی: بررسی کن که هر پیشنهاد، اگر همه مردم جهان انجامش دهند، جهان را جای بهتری کند.",
+    "- اختیار: هرگز فشار نیاور و دستور نده. این ارزیابی را خودم نمره داده‌ام، خصوصی است و فقط برای خودم است، هرگز برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم؛ پیشنهاد بده، تجویز نکن.",
+    "- حدود سالم: بالاترین مراحل باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. شجاعت تهوّر نیست.","",
+    "ده مرحله:");
+    STAGES.forEach((s,i)=>L.push(`${band(i)}  ${s.fa} (${s.en}): ${s.mFa}`));
+    L.push("","نتیجه من:");
+    L.push(`کلی: ${num(Math.round(sc.overall))} از ${num(100)}، مرحله ${num(stageOf(sc.overall))}: ${STAGES[stageOf(sc.overall)].fa}`);
+    AREAS.forEach((a,i)=>L.push(sc.areas[i]===null?`- ${a.fa}: بدون امتیاز`:`- ${a.fa}: ${num(Math.round(sc.areas[i]))} از ${num(100)}، مرحله ${num(stageOf(sc.areas[i]))}: ${STAGES[stageOf(sc.areas[i])].fa}`));
+    L.push(`ضعیف‌ترین حوزه: ${AREAS[sc.low].fa}`,"","پاسخ‌های من:");
+    QS.forEach((q,qi)=>{const v=answers[qi];L.push(`[${AREAS[q.a].fa}] ${q.fa}`);
+      L.push(typeof v==="number"?`  ← ${q.ans[v][2]} (مرحله ${num(q.ans[v][0])}: ${STAGES[q.ans[v][0]].fa})`:v==="none"?"  ← هیچ‌کدام به من نمی‌خورد (بدون امتیاز)":"  ← (بی‌پاسخ)")});
+    const ws=stageOf(sc.areas[sc.low]);
+    L.push("","لطفاً به من بده:",
+    `۱. دو یا سه تمرین کوچک و مشخص برای یک مرحله بالاتر رفتن در ضعیف‌ترین حوزه‌ام، ${AREAS[sc.low].fa} (از ${STAGES[ws].fa}${ws<9?` به سوی ${STAGES[ws+1].fa}`:""}).`,
+    "۲. یک تغییر درونی که بیشترین کمک را به من می‌کند.",
+    `۳. یک تمرین برای مرحله کلی‌ام (${STAGES[stageOf(sc.overall)].fa}).`,
+    "هر تمرین را آن‌قدر کوچک نگه دار که بشود همین هفته امتحانش کرد، و قواعد ثابت بالا را رعایت کن. لطفاً به فارسی پاسخ بده.");
+  }
+  return L.join("\n");
+}
+
+function results(){
+  const t=T(),sc=scores();
+  if(sc.overall===null){app.innerHTML=`<div class="card"><p>${t.empty}</p><div class="row"><button class="btn ghost" id="back">${t.back}</button></div></div>`;document.getElementById("back").onclick=()=>{pos=QS.length-1;render()};return}
+  const os=stageOf(sc.overall),ls=stageOf(sc.areas[sc.low]);
+  const bars=AREAS.map((a,i)=>{const v=sc.areas[i];
+    return `<div class="bar${i===sc.low?" low":""}"><div class="lbl"><b>${a[lang]}</b><span class="muted">${v===null?t.notScored:`${num(Math.round(v))} · ${sName(stageOf(v))}`}</span></div><div class="track"><div class="fill" style="width:${v===null?0:v}%"></div></div></div>`}).join("");
+  const nextHTML=ls<9?t.nextTxt(AREAS[sc.low][lang],sName(ls),STAGES[ls+1]):t.topTxt(AREAS[sc.low][lang]);
+  app.innerHTML=`<div class="card"><h1>${t.resT}</h1>
+    <div class="overall"><div class="big">${num(Math.round(sc.overall))}</div><div><div class="muted">${t.overall} · ${t.stage} ${num(os)} (${band(os)})</div><div style="font-size:20px;font-weight:700">${sName(os)}</div><div class="muted" style="font-size:14px">${lang==="fa"?STAGES[os].mFa:STAGES[os].mEn}</div></div></div></div>
+   <div class="card"><h2>${t.byArea}</h2>${bars}</div>
+   <div class="card"><h2>${t.nextT}</h2><p>${nextHTML}</p><p class="muted" style="font-size:14px">${t.nextChoose}</p></div>
+   <div class="card"><h2>${t.copyT}</h2><p class="muted">${t.copyHelp}</p><textarea id="llm" readonly></textarea>
+    <div class="row"><button class="btn ghost" id="back">${t.back}</button><div style="display:flex;gap:8px"><button class="btn ghost" id="restart">${t.restart}</button><button class="btn" id="copy">${t.copy}</button></div></div></div>`;
+  const ta=document.getElementById("llm");ta.value=llmText(sc);ta.dir=lang==="fa"?"rtl":"ltr";
+  document.getElementById("copy").onclick=async e=>{
+    try{await navigator.clipboard.writeText(ta.value)}catch(_){ta.select();document.execCommand("copy")}
+    e.target.textContent=t.copied;setTimeout(()=>e.target.textContent=t.copy,1800)};
+  document.getElementById("back").onclick=()=>{pos=QS.length-1;render()};
+  document.getElementById("restart").onclick=()=>{answers.fill(undefined);pos=-1;render();window.scrollTo(0,0)};
+}
+
+function render(){renderHeader();if(pos<0)intro();else if(pos<QS.length)question();else results()}
+document.getElementById("langBtn").onclick=()=>{lang=lang==="en"?"fa":"en";render()};
+document.getElementById("themeBtn").onclick=()=>{theme=theme==="auto"?"light":theme==="light"?"dark":"auto";renderHeader()};
+render();
+</script>
+</body>
+</html>
