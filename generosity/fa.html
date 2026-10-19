@@ -4,615 +4,286 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>مراتب کرم</title>
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../core/core.css">
 <style>
-  :root {
-    --bg: #faf7f2; --card: #ffffff; --text: #2b2620; --muted: #7a7064;
-    --accent: #9a6b2f; --accent-soft: #f3e7d5; --border: #e6ddd0;
-    --bar-bg: #efe8dc; --sel: #fbf1e2;
-  }
-  @media (prefers-color-scheme: dark) {
-    :root:not([data-theme="light"]) {
-      --bg: #1c1915; --card: #26221d; --text: #eee7dc; --muted: #a89d8e;
-      --accent: #d9a660; --accent-soft: #3a3026; --border: #3a342c;
-      --bar-bg: #332d26; --sel: #3a3026;
-    }
-  }
-  :root[data-theme="dark"] {
-    --bg: #1c1915; --card: #26221d; --text: #eee7dc; --muted: #a89d8e;
-    --accent: #d9a660; --accent-soft: #3a3026; --border: #3a342c;
-    --bar-bg: #332d26; --sel: #3a3026;
-  }
-  * { box-sizing: border-box; }
-  body {
-    margin: 0; background: var(--bg); color: var(--text);
-    font-family: Inter, Vazirmatn, Tahoma, sans-serif; line-height: 1.6;
-  }
-  html[lang="fa"] body { font-family: Vazirmatn, Tahoma, sans-serif; }
-  .wrap { max-width: 720px; margin: 0 auto; padding: 24px 16px 64px; }
-  header { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 20px; }
-  h1 { font-size: 1.4rem; margin: 0; }
-  h2 { font-size: 1.15rem; margin: 0 0 8px; }
-  .lang { display: flex; border: 1px solid var(--border); border-radius: 999px; overflow: hidden; flex-shrink: 0; }
-  .lang button { background: none; border: 0; padding: 6px 14px; cursor: pointer; color: var(--text); font: inherit; }
-  .lang button.on { background: var(--accent); color: #fff; }
-  .card { background: var(--card); border: 1px solid var(--border); border-radius: 14px; padding: 22px; }
-  .muted { color: var(--muted); }
-  .btn {
-    background: var(--accent); color: #fff; border: 0; border-radius: 10px;
-    padding: 10px 20px; font: inherit; font-weight: 600; cursor: pointer;
-  }
-  .btn.ghost { background: transparent; color: var(--accent); border: 1px solid var(--accent); }
-  .btn:disabled { opacity: .4; cursor: not-allowed; }
-  .row { display: flex; justify-content: space-between; gap: 10px; margin-top: 20px; }
-  .progress { height: 6px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; margin-bottom: 16px; }
-  .progress div { height: 100%; background: var(--accent); transition: width .25s; }
-  .tag { display: inline-block; background: var(--accent-soft); color: var(--accent); border-radius: 99px; padding: 2px 12px; font-size: .85rem; font-weight: 600; margin-bottom: 10px; }
-  .q { font-size: 1.08rem; font-weight: 600; margin: 4px 0 16px; }
-  .opt {
-    display: block; width: 100%; text-align: start; background: var(--card); color: var(--text);
-    border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; margin-bottom: 8px;
-    font: inherit; cursor: pointer;
-  }
-  .opt:hover { border-color: var(--accent); }
-  .opt.sel { background: var(--sel); border-color: var(--accent); font-weight: 600; }
-  .opt.skip { color: var(--muted); font-style: italic; }
-  .item-res { margin: 14px 0; }
-  .item-res .top { display: flex; justify-content: space-between; gap: 8px; font-weight: 600; }
-  .bar { height: 10px; background: var(--bar-bg); border-radius: 99px; overflow: hidden; margin-top: 4px; }
-  .bar div { height: 100%; background: var(--accent); }
-  .overall { text-align: center; padding: 16px 0 8px; }
-  .overall .num { font-size: 2.6rem; font-weight: 700; color: var(--accent); line-height: 1.1; }
-  .overall .stage { font-size: 1.2rem; font-weight: 600; }
-  .next { background: var(--accent-soft); border-radius: 10px; padding: 12px 14px; margin-top: 16px; }
-  textarea {
-    width: 100%; min-height: 260px; margin-top: 8px; padding: 12px; border-radius: 10px;
-    border: 1px solid var(--border); background: var(--bg); color: var(--text);
-    font: .88rem/1.5 ui-monospace, Menlo, Consolas, monospace;
-  }
-  html[lang="fa"] textarea { font-family: Vazirmatn, Tahoma, sans-serif; font-size: .92rem; }
-  table.stages { width: 100%; border-collapse: collapse; font-size: .92rem; margin-top: 12px; }
-  table.stages td { padding: 6px 4px; border-bottom: 1px solid var(--border); vertical-align: top; }
-  table.stages td:first-child { white-space: nowrap; color: var(--muted); width: 70px; }
-  .hidden { display: none; }
-  .note { font-size: .9rem; margin-top: 12px; }
+/* This page's colors (see ../core/core.css for the full list of tokens) */
+:root{ --bg:#faf7f2; --card:#ffffff; --text:#2b2620; --muted:#7a7064; --line:#e6ddd0; --accent:#9a6b2f; --accent-soft:#f3e7d5; --accent-ink:#ffffff; --bar:#efe8dc; --sel:#fbf1e2; --warn:#a4492e }
+@media (prefers-color-scheme: dark){ :root:not([data-theme="light"]){ --bg:#1c1915; --card:#26221d; --text:#eee7dc; --muted:#a89d8e; --line:#3a342c; --accent:#d9a660; --accent-soft:#3a3026; --accent-ink:#1c1915; --bar:#332d26; --sel:#3a3026; --warn:#e08a68 } }
+:root[data-theme="dark"]{ --bg:#1c1915; --card:#26221d; --text:#eee7dc; --muted:#a89d8e; --line:#3a342c; --accent:#d9a660; --accent-soft:#3a3026; --accent-ink:#1c1915; --bar:#332d26; --sel:#3a3026; --warn:#e08a68 }
 </style>
 </head>
 <body>
 <div class="wrap">
-  <header>
-    <h1 id="title"></h1>
-    <div class="lang">
-      <button id="btn-en" onclick="setLang('en')">EN</button>
-      <button id="btn-fa" onclick="setLang('fa')">فارسی</button>
-    </div>
-  </header>
-
-  <section id="intro" class="card"></section>
-  <section id="quiz" class="card hidden"></section>
-  <section id="results" class="hidden"></section>
+  <header id="top"></header>
+  <main id="app"></main>
 </div>
 
+<!-- Shared UI widgets -->
+<script src="../core/widgets.js"></script>
+
+<!-- This page's content (Farsi only) -->
 <script>
-const STAGES = [
-  { en: "The Grasper", fa: "شحیح", den: "Covets or takes what belongs to others", dfa: "به داشتهٔ دیگران چشم دارد یا آن را می‌گیرد" },
-  { en: "The Withholder", fa: "بخیل", den: "Keeps what is theirs and gives nothing unless forced", dfa: "داشتهٔ خود را نگه می‌دارد و جز به اجبار نمی‌بخشد" },
-  { en: "The Obliged", fa: "ناچاردهنده", den: "Gives only what duty requires", dfa: "فقط آنچه وظیفه است می‌دهد" },
-  { en: "The Reminder", fa: "منّت‌گذار", den: "Gives, then reminds people of it", dfa: "می‌بخشد و سپس منّت می‌گذارد" },
-  { en: "The Show-Giver", fa: "ریاکار", den: "Gives to be seen and praised", dfa: "برای دیده‌شدن و ستایش می‌بخشد" },
-  { en: "The Trader", fa: "معامله‌گر", den: "Gives quietly, but expects a return", dfa: "بی‌سروصدا می‌بخشد اما انتظار جبران دارد" },
-  { en: "The Generous", fa: "سخی", den: "Gives easily and gladly when asked", dfa: "وقتی از او بخواهند، به‌آسانی و با شادی می‌بخشد" },
-  { en: "The Openhanded", fa: "جواد", den: "Gives before being asked", dfa: "پیش از درخواست می‌بخشد" },
-  { en: "The Self-Giver", fa: "ایثارگر", den: "Gives even what they need, freely chosen", dfa: "حتی آنچه خود نیاز دارد را آزادانه می‌بخشد" },
-  { en: "The Bountiful", fa: "کریم", den: "Gives without limit and expects nothing", dfa: "بی‌حد می‌بخشد و هیچ انتظاری ندارد" }
-];
+window.CONTENT = {
+  otherPage: "en.html",
 
-// Each option: [stage, English, Farsi]
-const ITEMS = [
-  { en: "Attention", fa: "توجه", qs: [
-    { en: "When someone starts telling you about a problem, what do you usually do?",
-      fa: "وقتی کسی شروع می‌کند از مشکلش برایتان بگوید، معمولاً چه می‌کنید؟",
-      opts: [
-        [0, "I turn the conversation to my own story or opinions.", "گفت‌وگو را به سمت ماجرا یا نظر خودم می‌برم."],
-        [1, "I half-listen while doing something else.", "در حالی که کار دیگری می‌کنم، نیمه‌گوش می‌دهم."],
-        [2, "I listen properly only if I have to, such as at work or out of family duty.", "فقط اگر مجبور باشم، مثلاً در کار یا از سر وظیفهٔ خانوادگی، درست گوش می‌دهم."],
-        [3, "I listen, and later remind them how much time I gave them.", "گوش می‌دهم و بعداً یادشان می‌آورم چقدر برایشان وقت گذاشتم."],
-        [4, "I listen more attentively when others can see me doing it.", "وقتی دیگران می‌بینند، با دقت بیشتری گوش می‌دهم."],
-        [6, "I give them my full attention.", "تمام توجهم را به آنها می‌دهم."],
-        [7, "I often notice someone needs to talk before they say so, and I make room for it.", "اغلب پیش از آنکه چیزی بگویند، می‌فهمم نیاز به حرف‌زدن دارند و برایشان فضا باز می‌کنم."]
-      ]},
-    { en: "You are exhausted, and someone close needs to be heard.",
-      fa: "خیلی خسته‌اید و کسی نزدیک به شما نیاز دارد شنیده شود.",
-      opts: [
-        [0, "I'm the one who needs attention, so I make them listen to me instead.", "خودم به توجه نیاز دارم، پس کاری می‌کنم که آنها به من گوش دهند."],
-        [1, "I tell them it's not a good time and move on.", "می‌گویم الان وقت مناسبی نیست و رد می‌شوم."],
-        [2, "I listen only if it's someone I'm obliged to.", "فقط اگر کسی باشد که در برابرش وظیفه دارم، گوش می‌دهم."],
-        [5, "I listen, knowing they'll owe me the same later.", "گوش می‌دهم، چون می‌دانم بعداً همین را به من بدهکارند."],
-        [6, "I listen if they ask me to.", "اگر از من بخواهند، گوش می‌دهم."],
-        [8, "I set my tiredness aside and give them my full presence.", "خستگی‌ام را کنار می‌گذارم و با تمام وجود حاضر می‌شوم."]
-      ]},
-    { en: "Someone who once ignored or dismissed you now needs to be heard.",
-      fa: "کسی که زمانی شما را نادیده گرفته یا تحقیر کرده، حالا نیاز دارد شنیده شود.",
-      opts: [
-        [1, "I ignore them back.", "من هم نادیده‌اش می‌گیرم."],
-        [3, "I let them talk, but make sure they know I'm doing them a favor.", "می‌گذارم حرف بزند، اما مطمئن می‌شوم بداند لطف کرده‌ام."],
-        [4, "I listen if others will notice my kindness.", "اگر دیگران مهربانی‌ام را ببینند، گوش می‌دهم."],
-        [5, "I listen, hoping they'll treat me better from now on.", "گوش می‌دهم به این امید که از این به بعد با من بهتر رفتار کند."],
-        [6, "I listen politely if they ask.", "اگر بخواهد، مؤدبانه گوش می‌دهم."],
-        [9, "I give them the same full presence I would give anyone, holding nothing back.", "همان حضور کاملی را که به هر کسی می‌دهم، بی‌دریغ به او هم می‌دهم."]
-      ]}
-  ]},
-  { en: "Credit", fa: "قدردانی", qs: [
-    { en: "A teammate's idea made your shared project succeed, and your boss praises you.",
-      fa: "ایدهٔ یکی از همکاران باعث موفقیت پروژهٔ مشترک شده و مدیر از شما تعریف می‌کند.",
-      opts: [
-        [0, "I accept the praise and say nothing about them.", "تعریف را می‌پذیرم و چیزی دربارهٔ او نمی‌گویم."],
-        [2, "I mention them only if someone asks directly.", "فقط اگر کسی مستقیم بپرسد، از او نام می‌برم."],
-        [3, "I mention them, and later remind them that I gave them the credit.", "از او نام می‌برم و بعداً یادش می‌آورم که اعتبار را به او دادم."],
-        [4, "I name them, mostly because it makes me look gracious.", "از او نام می‌برم، بیشتر چون مرا بزرگوار نشان می‌دهد."],
-        [5, "I name them, hoping they'll do the same for me one day.", "از او نام می‌برم به این امید که روزی همین کار را برایم بکند."],
-        [6, "I say clearly that the idea was theirs.", "به‌روشنی می‌گویم ایده مال او بود."],
-        [8, "I give them the credit, even for parts that were partly mine.", "اعتبار را به او می‌دهم، حتی برای بخش‌هایی که تا حدی کار من بود."]
-      ]},
-    { en: "How often do you praise people's good work without being asked?",
-      fa: "چقدر بدون اینکه کسی بخواهد، از کار خوب دیگران تعریف می‌کنید؟",
-      opts: [
-        [1, "Almost never. I don't see the need.", "تقریباً هرگز. نیازی نمی‌بینم."],
-        [2, "Only when it's expected, such as in reviews or ceremonies.", "فقط وقتی انتظار می‌رود، مثلاً در ارزیابی‌ها یا مراسم."],
-        [4, "Mostly when others will hear it.", "بیشتر وقتی دیگران بشنوند."],
-        [5, "When it helps me build good relationships I may need later.", "وقتی کمک می‌کند رابطه‌ای بسازم که بعداً لازمم شود."],
-        [6, "When someone asks for my opinion.", "وقتی کسی نظرم را بخواهد."],
-        [7, "I look for quiet, unseen contributions and name them.", "دنبال زحمت‌های دیده‌نشده می‌گردم و آنها را نام می‌برم."]
-      ]},
-    { en: "A rival, or someone who criticized you, does excellent work.",
-      fa: "رقیب شما، یا کسی که از شما انتقاد کرده، کار بسیار خوبی انجام می‌دهد.",
-      opts: [
-        [0, "I downplay it or claim part of it.", "آن را کوچک جلوه می‌دهم یا بخشی‌اش را به نام خودم می‌زنم."],
-        [1, "I stay silent.", "سکوت می‌کنم."],
-        [4, "I praise it publicly so I look fair.", "جلوی جمع تعریف می‌کنم تا منصف به نظر برسم."],
-        [5, "I praise it, hoping they'll soften toward me.", "تعریف می‌کنم به این امید که با من نرم‌تر شود."],
-        [6, "I praise it if someone asks my opinion.", "اگر کسی نظرم را بپرسد، تعریف می‌کنم."],
-        [9, "I praise it sincerely and fully, from the heart.", "صادقانه و کامل، از ته دل تعریف می‌کنم."]
-      ]}
-  ]},
-  { en: "Forgiveness", fa: "گذشت", qs: [
-    { en: "A friend lets you down.",
-      fa: "دوستی شما را ناامید می‌کند.",
-      opts: [
-        [0, "I assume the worst and tell others about it.", "بدترین گمان را می‌برم و ماجرا را به دیگران می‌گویم."],
-        [1, "I assume the worst and hold on to it.", "بدترین گمان را می‌برم و آن را در دل نگه می‌دارم."],
-        [2, "I forgive only because I have to keep the relationship.", "فقط چون مجبورم رابطه را حفظ کنم، می‌بخشم."],
-        [3, "I forgive, but bring it up again in later arguments.", "می‌بخشم، اما در دعواهای بعدی دوباره پیش می‌کشم."],
-        [5, "I forgive once they've apologized and made it up to me.", "وقتی عذرخواهی کرد و جبران کرد، می‌بخشم."],
-        [6, "I forgive when they ask.", "وقتی بخواهد، می‌بخشم."],
-        [7, "I assume they had a reason and let it go before they ask.", "گمان می‌کنم دلیلی داشته و پیش از آنکه بخواهد، می‌گذرم."]
-      ]},
-    { en: "Someone borrowed money from you and now can't pay it back. Letting it go would be a real loss for you.",
-      fa: "کسی از شما پول قرض گرفته و حالا نمی‌تواند پس بدهد. گذشتن از آن برایتان زیانی واقعی است.",
-      opts: [
-        [1, "I demand it back, whatever their situation.", "پولم را می‌خواهم، وضعش هر چه باشد."],
-        [2, "I let it go only because I can't get it back anyway.", "فقط چون به هر حال نمی‌توانم پس بگیرم، می‌گذرم."],
-        [3, "I let it go, but remind them of it from time to time.", "می‌گذرم، اما هر از گاهی یادش می‌آورم."],
-        [4, "I let it go in front of others, so they see I'm the bigger person.", "جلوی دیگران می‌گذرم تا ببینند من بزرگ‌ترم."],
-        [5, "I let it go, but expect them to owe me a favor.", "می‌گذرم، اما انتظار دارم در عوض لطفی به من بدهکار باشد."],
-        [6, "I let it go if they sincerely ask me to.", "اگر صادقانه از من بخواهد، می‌گذرم."],
-        [8, "I tell them to forget the debt, even though I needed that money.", "به او می‌گویم بدهی را فراموش کند، حتی با اینکه به آن پول نیاز داشتم."]
-      ]},
-    { en: "Someone deliberately wronged you.",
-      fa: "کسی عمداً به شما بدی کرده است.",
-      opts: [
-        [0, "I want them to suffer, and I tell others what they did.", "می‌خواهم رنج ببرد و کارش را به دیگران می‌گویم."],
-        [1, "I cut them off and keep the grudge.", "رابطه را قطع می‌کنم و کینه را نگه می‌دارم."],
-        [3, "I say I forgive, but I keep reminding them.", "می‌گویم بخشیدم، اما مدام یادش می‌آورم."],
-        [4, "I forgive outwardly, so I'm seen as kind.", "ظاهراً می‌بخشم تا مهربان دیده شوم."],
-        [6, "I forgive if they apologize.", "اگر عذرخواهی کند، می‌بخشم."],
-        [9, "I forgive, and when I can, I do them good.", "می‌بخشم و هر وقت بتوانم، به او نیکی می‌کنم."]
-      ]}
-  ]},
-  { en: "Time and skill", fa: "وقت و مهارت", qs: [
-    { en: "Someone asks for help with something you're good at.",
-      fa: "کسی در کاری که در آن مهارت دارید از شما کمک می‌خواهد.",
-      opts: [
-        [0, "I try to get them to help me with my things instead.", "سعی می‌کنم به‌جایش او را وادار کنم در کارهای من کمک کند."],
-        [1, "I say I'm busy, even when I'm not.", "می‌گویم سرم شلوغ است، حتی وقتی نیست."],
-        [2, "I help only if it's part of my job.", "فقط اگر جزو وظیفه‌ام باشد، کمک می‌کنم."],
-        [3, "I help, then remind them of it later.", "کمک می‌کنم و بعداً یادش می‌آورم."],
-        [4, "I help if it will be seen or recognized.", "اگر دیده یا قدردانی شود، کمک می‌کنم."],
-        [5, "I help so they'll owe me one.", "کمک می‌کنم تا به من بدهکار شود."],
-        [6, "I help gladly.", "با شادی کمک می‌کنم."]
-      ]},
-    { en: "You notice someone struggling with something you know how to do, and they haven't asked.",
-      fa: "می‌بینید کسی در کاری که بلدید گیر کرده و از شما کمکی نخواسته است.",
-      opts: [
-        [1, "It's not my business.", "به من ربطی ندارد."],
-        [2, "I step in only if I'm responsible for it.", "فقط اگر مسئولیتش با من باشد، وارد می‌شوم."],
-        [4, "I offer only if someone important is watching.", "فقط اگر کسی مهم ببیند، پیشنهاد کمک می‌دهم."],
-        [6, "I wait for them to ask, then help.", "صبر می‌کنم بخواهد، بعد کمک می‌کنم."],
-        [7, "I offer help without being asked.", "بدون درخواست، پیشنهاد کمک می‌دهم."],
-        [8, "I offer, even if it means giving up time I needed for myself.", "پیشنهاد می‌دهم، حتی اگر وقتی را که خودم نیاز داشتم از دست بدهم."]
-      ]},
-    { en: "Someone wants to learn what you know, but they might become your competitor.",
-      fa: "کسی می‌خواهد آنچه را می‌دانید یاد بگیرد، اما ممکن است رقیب شما شود.",
-      opts: [
-        [0, "I learn what I can from them and keep my own knowledge to myself.", "هرچه بتوانم از او یاد می‌گیرم و دانسته‌های خودم را نگه می‌دارم."],
-        [1, "I refuse. My knowledge is mine.", "نمی‌پذیرم. دانش من مال خودم است."],
-        [3, "I teach them, and make sure they remember where they learned it.", "یادش می‌دهم و مطمئن می‌شوم یادش بماند از کجا یاد گرفته."],
-        [5, "I teach only the parts that keep them needing me.", "فقط بخش‌هایی را یاد می‌دهم که همچنان به من نیاز داشته باشد."],
-        [6, "I teach them if they ask.", "اگر بخواهد، یادش می‌دهم."],
-        [9, "I teach them freely and fully.", "آزادانه و کامل یادش می‌دهم."]
-      ]}
-  ]},
-  { en: "Material", fa: "مال", qs: [
-    { en: "Someone in need asks you for help with money or things you can afford to give.",
-      fa: "نیازمندی از شما کمک مالی یا چیزی می‌خواهد که توان دادنش را دارید.",
-      opts: [
-        [1, "I avoid them.", "از او دوری می‌کنم."],
-        [2, "I give the minimum to get out of it.", "کمترین مقدار را می‌دهم تا خلاص شوم."],
-        [3, "I give, and make sure they feel they owe me.", "می‌دهم و کاری می‌کنم احساس بدهکاری کند."],
-        [4, "I give where others can see.", "جایی می‌دهم که دیگران ببینند."],
-        [5, "I give, hoping for something back.", "می‌دهم به امید اینکه چیزی برگردد."],
-        [6, "I give gladly.", "با شادی می‌دهم."]
-      ]},
-    { en: "Beyond what you are required to give (taxes, required dues), how do you give?",
-      fa: "فراتر از آنچه بر شما واجب است (مالیات، حقوق واجب)، چگونه می‌بخشید؟",
-      opts: [
-        [0, "I think more about getting what others have.", "بیشتر به به‌دست‌آوردن داشتهٔ دیگران فکر می‌کنم."],
-        [2, "I don't give beyond what's required.", "بیش از آنچه واجب است نمی‌دهم."],
-        [4, "I give when it will be noticed.", "وقتی دیده شود، می‌دهم."],
-        [6, "I give when asked.", "وقتی از من بخواهند، می‌دهم."],
-        [7, "I look for needs and give before anyone asks.", "دنبال نیازها می‌گردم و پیش از درخواست می‌دهم."],
-        [8, "I sometimes give what I actually needed myself.", "گاهی چیزی را می‌دهم که خودم واقعاً نیاز داشتم."]
-      ]},
-    { en: "Someone who once cheated or wronged you is now in need.",
-      fa: "کسی که زمانی به شما بدی یا کلاه‌برداری کرده، حالا نیازمند است.",
-      opts: [
-        [0, "I feel they deserve it, and I'd take back more if I could.", "حس می‌کنم حقش است و اگر می‌توانستم، بیشتر هم پس می‌گرفتم."],
-        [1, "I give nothing.", "هیچ نمی‌دهم."],
-        [3, "I give, but remind them of what they did and what I gave.", "می‌دهم، اما کارش و بخشش خودم را یادش می‌آورم."],
-        [5, "I give, hoping they'll finally make things right.", "می‌دهم به امید اینکه بالاخره جبران کند."],
-        [6, "I give if they ask humbly.", "اگر فروتنانه بخواهد، می‌دهم."],
-        [9, "I give generously, and then forget about it.", "سخاوتمندانه می‌دهم و بعد فراموشش می‌کنم."]
-      ]}
-  ]},
-  { en: "Giving without announcing it", fa: "بخشش پنهان", qs: [
-    { en: "After you give something, what usually happens?",
-      fa: "بعد از اینکه چیزی می‌بخشید، معمولاً چه اتفاقی می‌افتد؟",
-      opts: [
-        [3, "I tell people about it, and remind the receiver.", "به دیگران می‌گویم و به گیرنده یادآوری می‌کنم."],
-        [4, "I mostly give when it will be seen.", "بیشتر وقتی می‌بخشم که دیده شود."],
-        [5, "I don't announce it, but I hope someone finds out.", "اعلامش نمی‌کنم، اما امیدوارم کسی بفهمد."],
-        [6, "I'm fine if nobody knows.", "اگر کسی نفهمد، برایم مهم نیست."],
-        [7, "I arrange it so nobody knows it was me.", "طوری ترتیب می‌دهم که کسی نفهمد کار من بوده."],
-        [9, "I soon forget I gave at all.", "خیلی زود فراموش می‌کنم که اصلاً چیزی داده‌ام."]
-      ]},
-    { en: "Someone thinks you are stingy, but you have quietly given a lot.",
-      fa: "کسی فکر می‌کند شما خسیس هستید، در حالی که بی‌صدا بسیار بخشیده‌اید.",
-      opts: [
-        [3, "I correct them and list everything I've given.", "اصلاحش می‌کنم و هرچه داده‌ام را برمی‌شمارم."],
-        [4, "I make sure the right people find out.", "مطمئن می‌شوم آدم‌های مهم بفهمند."],
-        [5, "I stay quiet, but I'm hurt that nobody knows.", "سکوت می‌کنم، اما دلخورم که کسی نمی‌داند."],
-        [6, "I stay quiet. It doesn't matter much.", "سکوت می‌کنم. چندان مهم نیست."],
-        [8, "I keep it hidden, even though being misjudged costs me.", "پنهانش نگه می‌دارم، حتی اگر قضاوت نادرست برایم گران تمام شود."]
-      ]},
-    { en: "Which is closest to how you relate to your own giving?",
-      fa: "کدام به رابطهٔ شما با بخشش‌های خودتان نزدیک‌تر است؟",
-      opts: [
-        [0, "I sometimes let people think others' good deeds were mine.", "گاهی می‌گذارم دیگران خیال کنند کار خیر دیگران مال من بوده."],
-        [1, "I don't really give, so there's nothing to hide.", "واقعاً نمی‌بخشم، پس چیزی برای پنهان کردن نیست."],
-        [2, "I give only through official channels where it's recorded.", "فقط از راه‌های رسمی می‌بخشم که ثبت شود."],
-        [5, "I keep a private count of what I've given, and feel proud of it.", "در دلم حساب بخشش‌هایم را نگه می‌دارم و به آن افتخار می‌کنم."],
-        [7, "I prefer anonymous ways of giving.", "راه‌های بی‌نام را ترجیح می‌دهم."],
-        [9, "I don't keep track. I forget.", "حسابش را نگه نمی‌دارم. فراموش می‌کنم."]
-      ]}
-  ]}
-];
-
-const UI = {
-  en: {
-    title: "Stages of Generosity",
-    introH: "A self-assessment of generosity",
-    intro: "This questionnaire helps you see which stage of generosity you are at in each kind of giving: attention, credit, forgiveness, time and skill, material, and giving without announcing it. There are 18 questions. Choose the answer that is honestly true of you, not the one you wish were true.",
-    privacy: "Your answers stay in your browser and are not sent anywhere. This is a mirror for finding your next step, not a judgment. Please use it only for yourself, never to score others.",
-    boundary: "A note: forgiveness and self-giving never mean staying in harm. Generosity counts only when it is freely chosen.",
-    stagesH: "The ten stages",
-    start: "Start", next: "Next", back: "Back", finish: "See results",
-    skip: "None of these fits me",
-    of: "of",
-    resultsH: "Your results",
-    overall: "Overall",
-    nextH: "Your next step",
-    nextTxt: (item, s) => `Your lowest area is <b>${item}</b>, at the stage of <b>${s}</b>. Growing here will lift everything else.`,
-    promptH: "Get suggestions for growth",
-    promptTxt: "Copy this text and give it to an AI assistant (LLM). It will suggest ways to grow toward the next stage.",
-    copy: "Copy text", copied: "Copied", restart: "Start again",
-    noData: "No answers"
-  },
-  fa: {
+  // Words used on the screens
+  text: {
+    brand: "کرم",
     title: "مراتب کرم",
-    introH: "خودسنجی بخشندگی",
-    intro: "این پرسشنامه به شما کمک می‌کند ببینید در هر نوع بخشش در کدام مرتبه هستید: توجه، قدردانی، گذشت، وقت و مهارت، مال، و بخشش پنهان. ۱۸ پرسش دارد. پاسخی را انتخاب کنید که صادقانه دربارهٔ شما درست است، نه آنچه آرزو دارید درست باشد.",
-    privacy: "پاسخ‌های شما فقط در مرورگرتان می‌ماند و جایی فرستاده نمی‌شود. این آینه‌ای برای یافتن قدم بعدی است، نه داوری. لطفاً فقط برای خودتان از آن استفاده کنید، نه برای سنجیدن دیگران.",
-    boundary: "یادآوری: گذشت و ایثار هرگز به معنای ماندن در آسیب نیست. بخشش تنها وقتی ارزش دارد که آزادانه انتخاب شود.",
-    stagesH: "ده مرتبه",
-    start: "شروع", next: "بعدی", back: "قبلی", finish: "دیدن نتیجه",
-    skip: "هیچ‌کدام دربارهٔ من صدق نمی‌کند",
-    of: "از",
-    resultsH: "نتیجهٔ شما",
+    sub: "خودسنجی بخشندگی",
+    purpose: "این پرسشنامه به شما کمک می‌کند ببینید در هر نوع بخشش در کدام مرتبه هستید: توجه، قدردانی، گذشت، وقت و مهارت، مال، و بخشش پنهان. ۱۸ پرسش دارد. پاسخی را انتخاب کنید که صادقانه دربارهٔ شما درست است، نه آنچه آرزو دارید درست باشد.",
+    privT: "حریم خصوصی و اختیار",
+    priv: "پاسخ‌های شما فقط در مرورگرتان می‌ماند و جایی فرستاده نمی‌شود. این آینه‌ای برای یافتن قدم بعدی است، نه داوری. لطفاً فقط برای خودتان از آن استفاده کنید، نه برای سنجیدن دیگران.",
+    limT: "مرزهای سالم",
+    lim: "گذشت و ایثار هرگز به معنای ماندن در آسیب نیست. بخشش تنها وقتی ارزش دارد که آزادانه انتخاب شود.",
+    stagesT: "ده مرتبه",
+    start: "شروع",
+    back: "قبلی",
+    next: "بعدی",
+    finish: "دیدن نتیجه",
+    none: "هیچ‌کدام دربارهٔ من صدق نمی‌کند",
+    qOf: "{n} از {t}",
+    resT: "نتیجهٔ شما",
     overall: "مرتبهٔ کلی",
-    nextH: "قدم بعدی شما",
-    nextTxt: (item, s) => `پایین‌ترین بخش شما <b>${item}</b> است، در مرتبهٔ <b>${s}</b>. رشد در این بخش، همه‌چیز را بالا می‌برد.`,
-    promptH: "دریافت پیشنهاد برای رشد",
-    promptTxt: "این متن را کپی کنید و به یک دستیار هوش مصنوعی بدهید تا راه‌های رسیدن به مرتبهٔ بعد را پیشنهاد کند.",
-    copy: "کپی متن", copied: "کپی شد", restart: "شروع دوباره",
-    noData: "بدون پاسخ"
+    stage: "مرتبه",
+    nextT: "قدم بعدی شما",
+    nextTxt: "پایین‌ترین بخش شما {area} است، در مرتبهٔ {name} (مرتبهٔ {s}). رشد در این بخش، همه‌چیز را بالا می‌برد. مرتبهٔ بالاتر {s2}، {name2}: {mark2}.",
+    nextTop: "پایین‌ترین بخش شما {area} است که در مرتبهٔ ۹، کریم، قرار دارد. آزادانه ببخشید و انتظاری نداشته باشید.",
+    notScored: "بدون پاسخ",
+    llmT: "دریافت پیشنهاد برای رشد",
+    llmHint: "این متن را کپی کنید و به یک دستیار هوش مصنوعی بدهید تا راه‌های رسیدن به مرتبهٔ بعد را پیشنهاد کند.",
+    copy: "کپی متن",
+    copied: "کپی شد",
+    restart: "شروع دوباره",
+    lang: "English",
+    home: "→ همهٔ مسیرها",
+    theme: "پوسته"
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "توجه",  // 0
+    "قدردانی",  // 1
+    "گذشت",  // 2
+    "وقت و مهارت",  // 3
+    "مال",  // 4
+    "بخشش پنهان"  // 5
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "شحیح", desc: "به داشتهٔ دیگران چشم دارد یا آن را می‌گیرد" },  // 0
+    { name: "بخیل", desc: "داشتهٔ خود را نگه می‌دارد و جز به اجبار نمی‌بخشد" },  // 1
+    { name: "ناچاردهنده", desc: "فقط آنچه وظیفه است می‌دهد" },  // 2
+    { name: "منّت‌گذار", desc: "می‌بخشد و سپس منّت می‌گذارد" },  // 3
+    { name: "ریاکار", desc: "برای دیده‌شدن و ستایش می‌بخشد" },  // 4
+    { name: "معامله‌گر", desc: "بی‌سروصدا می‌بخشد اما انتظار جبران دارد" },  // 5
+    { name: "سخی", desc: "وقتی از او بخواهند، به‌آسانی و با شادی می‌بخشد" },  // 6
+    { name: "جواد", desc: "پیش از درخواست می‌بخشد" },  // 7
+    { name: "ایثارگر", desc: "حتی آنچه خود نیاز دارد را آزادانه می‌بخشد" },  // 8
+    { name: "کریم", desc: "بی‌حد می‌بخشد و هیچ انتظاری ندارد" }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "وقتی کسی شروع می‌کند از مشکلش برایتان بگوید، معمولاً چه می‌کنید؟",
+      options: [
+        [0, "گفت‌وگو را به سمت ماجرا یا نظر خودم می‌برم."],
+        [1, "در حالی که کار دیگری می‌کنم، نیمه‌گوش می‌دهم."],
+        [2, "فقط اگر مجبور باشم، مثلاً در کار یا از سر وظیفهٔ خانوادگی، درست گوش می‌دهم."],
+        [3, "گوش می‌دهم و بعداً یادشان می‌آورم چقدر برایشان وقت گذاشتم."],
+        [4, "وقتی دیگران می‌بینند، با دقت بیشتری گوش می‌دهم."],
+        [6, "تمام توجهم را به آنها می‌دهم."],
+        [7, "اغلب پیش از آنکه چیزی بگویند، می‌فهمم نیاز به حرف‌زدن دارند و برایشان فضا باز می‌کنم."]
+      ] },
+    { area: 0, text: "خیلی خسته‌اید و کسی نزدیک به شما نیاز دارد شنیده شود.",
+      options: [
+        [0, "خودم به توجه نیاز دارم، پس کاری می‌کنم که آنها به من گوش دهند."],
+        [1, "می‌گویم الان وقت مناسبی نیست و رد می‌شوم."],
+        [2, "فقط اگر کسی باشد که در برابرش وظیفه دارم، گوش می‌دهم."],
+        [5, "گوش می‌دهم، چون می‌دانم بعداً همین را به من بدهکارند."],
+        [6, "اگر از من بخواهند، گوش می‌دهم."],
+        [8, "خستگی‌ام را کنار می‌گذارم و با تمام وجود حاضر می‌شوم."]
+      ] },
+    { area: 0, text: "کسی که زمانی شما را نادیده گرفته یا تحقیر کرده، حالا نیاز دارد شنیده شود.",
+      options: [
+        [1, "من هم نادیده‌اش می‌گیرم."],
+        [3, "می‌گذارم حرف بزند، اما مطمئن می‌شوم بداند لطف کرده‌ام."],
+        [4, "اگر دیگران مهربانی‌ام را ببینند، گوش می‌دهم."],
+        [5, "گوش می‌دهم به این امید که از این به بعد با من بهتر رفتار کند."],
+        [6, "اگر بخواهد، مؤدبانه گوش می‌دهم."],
+        [9, "همان حضور کاملی را که به هر کسی می‌دهم، بی‌دریغ به او هم می‌دهم."]
+      ] },
+    { area: 1, text: "ایدهٔ یکی از همکاران باعث موفقیت پروژهٔ مشترک شده و مدیر از شما تعریف می‌کند.",
+      options: [
+        [0, "تعریف را می‌پذیرم و چیزی دربارهٔ او نمی‌گویم."],
+        [2, "فقط اگر کسی مستقیم بپرسد، از او نام می‌برم."],
+        [3, "از او نام می‌برم و بعداً یادش می‌آورم که اعتبار را به او دادم."],
+        [4, "از او نام می‌برم، بیشتر چون مرا بزرگوار نشان می‌دهد."],
+        [5, "از او نام می‌برم به این امید که روزی همین کار را برایم بکند."],
+        [6, "به‌روشنی می‌گویم ایده مال او بود."],
+        [8, "اعتبار را به او می‌دهم، حتی برای بخش‌هایی که تا حدی کار من بود."]
+      ] },
+    { area: 1, text: "چقدر بدون اینکه کسی بخواهد، از کار خوب دیگران تعریف می‌کنید؟",
+      options: [
+        [1, "تقریباً هرگز. نیازی نمی‌بینم."],
+        [2, "فقط وقتی انتظار می‌رود، مثلاً در ارزیابی‌ها یا مراسم."],
+        [4, "بیشتر وقتی دیگران بشنوند."],
+        [5, "وقتی کمک می‌کند رابطه‌ای بسازم که بعداً لازمم شود."],
+        [6, "وقتی کسی نظرم را بخواهد."],
+        [7, "دنبال زحمت‌های دیده‌نشده می‌گردم و آنها را نام می‌برم."]
+      ] },
+    { area: 1, text: "رقیب شما، یا کسی که از شما انتقاد کرده، کار بسیار خوبی انجام می‌دهد.",
+      options: [
+        [0, "آن را کوچک جلوه می‌دهم یا بخشی‌اش را به نام خودم می‌زنم."],
+        [1, "سکوت می‌کنم."],
+        [4, "جلوی جمع تعریف می‌کنم تا منصف به نظر برسم."],
+        [5, "تعریف می‌کنم به این امید که با من نرم‌تر شود."],
+        [6, "اگر کسی نظرم را بپرسد، تعریف می‌کنم."],
+        [9, "صادقانه و کامل، از ته دل تعریف می‌کنم."]
+      ] },
+    { area: 2, text: "دوستی شما را ناامید می‌کند.",
+      options: [
+        [0, "بدترین گمان را می‌برم و ماجرا را به دیگران می‌گویم."],
+        [1, "بدترین گمان را می‌برم و آن را در دل نگه می‌دارم."],
+        [2, "فقط چون مجبورم رابطه را حفظ کنم، می‌بخشم."],
+        [3, "می‌بخشم، اما در دعواهای بعدی دوباره پیش می‌کشم."],
+        [5, "وقتی عذرخواهی کرد و جبران کرد، می‌بخشم."],
+        [6, "وقتی بخواهد، می‌بخشم."],
+        [7, "گمان می‌کنم دلیلی داشته و پیش از آنکه بخواهد، می‌گذرم."]
+      ] },
+    { area: 2, text: "کسی از شما پول قرض گرفته و حالا نمی‌تواند پس بدهد. گذشتن از آن برایتان زیانی واقعی است.",
+      options: [
+        [1, "پولم را می‌خواهم، وضعش هر چه باشد."],
+        [2, "فقط چون به هر حال نمی‌توانم پس بگیرم، می‌گذرم."],
+        [3, "می‌گذرم، اما هر از گاهی یادش می‌آورم."],
+        [4, "جلوی دیگران می‌گذرم تا ببینند من بزرگ‌ترم."],
+        [5, "می‌گذرم، اما انتظار دارم در عوض لطفی به من بدهکار باشد."],
+        [6, "اگر صادقانه از من بخواهد، می‌گذرم."],
+        [8, "به او می‌گویم بدهی را فراموش کند، حتی با اینکه به آن پول نیاز داشتم."]
+      ] },
+    { area: 2, text: "کسی عمداً به شما بدی کرده است.",
+      options: [
+        [0, "می‌خواهم رنج ببرد و کارش را به دیگران می‌گویم."],
+        [1, "رابطه را قطع می‌کنم و کینه را نگه می‌دارم."],
+        [3, "می‌گویم بخشیدم، اما مدام یادش می‌آورم."],
+        [4, "ظاهراً می‌بخشم تا مهربان دیده شوم."],
+        [6, "اگر عذرخواهی کند، می‌بخشم."],
+        [9, "می‌بخشم و هر وقت بتوانم، به او نیکی می‌کنم."]
+      ] },
+    { area: 3, text: "کسی در کاری که در آن مهارت دارید از شما کمک می‌خواهد.",
+      options: [
+        [0, "سعی می‌کنم به‌جایش او را وادار کنم در کارهای من کمک کند."],
+        [1, "می‌گویم سرم شلوغ است، حتی وقتی نیست."],
+        [2, "فقط اگر جزو وظیفه‌ام باشد، کمک می‌کنم."],
+        [3, "کمک می‌کنم و بعداً یادش می‌آورم."],
+        [4, "اگر دیده یا قدردانی شود، کمک می‌کنم."],
+        [5, "کمک می‌کنم تا به من بدهکار شود."],
+        [6, "با شادی کمک می‌کنم."]
+      ] },
+    { area: 3, text: "می‌بینید کسی در کاری که بلدید گیر کرده و از شما کمکی نخواسته است.",
+      options: [
+        [1, "به من ربطی ندارد."],
+        [2, "فقط اگر مسئولیتش با من باشد، وارد می‌شوم."],
+        [4, "فقط اگر کسی مهم ببیند، پیشنهاد کمک می‌دهم."],
+        [6, "صبر می‌کنم بخواهد، بعد کمک می‌کنم."],
+        [7, "بدون درخواست، پیشنهاد کمک می‌دهم."],
+        [8, "پیشنهاد می‌دهم، حتی اگر وقتی را که خودم نیاز داشتم از دست بدهم."]
+      ] },
+    { area: 3, text: "کسی می‌خواهد آنچه را می‌دانید یاد بگیرد، اما ممکن است رقیب شما شود.",
+      options: [
+        [0, "هرچه بتوانم از او یاد می‌گیرم و دانسته‌های خودم را نگه می‌دارم."],
+        [1, "نمی‌پذیرم. دانش من مال خودم است."],
+        [3, "یادش می‌دهم و مطمئن می‌شوم یادش بماند از کجا یاد گرفته."],
+        [5, "فقط بخش‌هایی را یاد می‌دهم که همچنان به من نیاز داشته باشد."],
+        [6, "اگر بخواهد، یادش می‌دهم."],
+        [9, "آزادانه و کامل یادش می‌دهم."]
+      ] },
+    { area: 4, text: "نیازمندی از شما کمک مالی یا چیزی می‌خواهد که توان دادنش را دارید.",
+      options: [
+        [1, "از او دوری می‌کنم."],
+        [2, "کمترین مقدار را می‌دهم تا خلاص شوم."],
+        [3, "می‌دهم و کاری می‌کنم احساس بدهکاری کند."],
+        [4, "جایی می‌دهم که دیگران ببینند."],
+        [5, "می‌دهم به امید اینکه چیزی برگردد."],
+        [6, "با شادی می‌دهم."]
+      ] },
+    { area: 4, text: "فراتر از آنچه بر شما واجب است (مالیات، حقوق واجب)، چگونه می‌بخشید؟",
+      options: [
+        [0, "بیشتر به به‌دست‌آوردن داشتهٔ دیگران فکر می‌کنم."],
+        [2, "بیش از آنچه واجب است نمی‌دهم."],
+        [4, "وقتی دیده شود، می‌دهم."],
+        [6, "وقتی از من بخواهند، می‌دهم."],
+        [7, "دنبال نیازها می‌گردم و پیش از درخواست می‌دهم."],
+        [8, "گاهی چیزی را می‌دهم که خودم واقعاً نیاز داشتم."]
+      ] },
+    { area: 4, text: "کسی که زمانی به شما بدی یا کلاه‌برداری کرده، حالا نیازمند است.",
+      options: [
+        [0, "حس می‌کنم حقش است و اگر می‌توانستم، بیشتر هم پس می‌گرفتم."],
+        [1, "هیچ نمی‌دهم."],
+        [3, "می‌دهم، اما کارش و بخشش خودم را یادش می‌آورم."],
+        [5, "می‌دهم به امید اینکه بالاخره جبران کند."],
+        [6, "اگر فروتنانه بخواهد، می‌دهم."],
+        [9, "سخاوتمندانه می‌دهم و بعد فراموشش می‌کنم."]
+      ] },
+    { area: 5, text: "بعد از اینکه چیزی می‌بخشید، معمولاً چه اتفاقی می‌افتد؟",
+      options: [
+        [3, "به دیگران می‌گویم و به گیرنده یادآوری می‌کنم."],
+        [4, "بیشتر وقتی می‌بخشم که دیده شود."],
+        [5, "اعلامش نمی‌کنم، اما امیدوارم کسی بفهمد."],
+        [6, "اگر کسی نفهمد، برایم مهم نیست."],
+        [7, "طوری ترتیب می‌دهم که کسی نفهمد کار من بوده."],
+        [9, "خیلی زود فراموش می‌کنم که اصلاً چیزی داده‌ام."]
+      ] },
+    { area: 5, text: "کسی فکر می‌کند شما خسیس هستید، در حالی که بی‌صدا بسیار بخشیده‌اید.",
+      options: [
+        [3, "اصلاحش می‌کنم و هرچه داده‌ام را برمی‌شمارم."],
+        [4, "مطمئن می‌شوم آدم‌های مهم بفهمند."],
+        [5, "سکوت می‌کنم، اما دلخورم که کسی نمی‌داند."],
+        [6, "سکوت می‌کنم. چندان مهم نیست."],
+        [8, "پنهانش نگه می‌دارم، حتی اگر قضاوت نادرست برایم گران تمام شود."]
+      ] },
+    { area: 5, text: "کدام به رابطهٔ شما با بخشش‌های خودتان نزدیک‌تر است؟",
+      options: [
+        [0, "گاهی می‌گذارم دیگران خیال کنند کار خیر دیگران مال من بوده."],
+        [1, "واقعاً نمی‌بخشم، پس چیزی برای پنهان کردن نیست."],
+        [2, "فقط از راه‌های رسمی می‌بخشم که ثبت شود."],
+        [5, "در دلم حساب بخشش‌هایم را نگه می‌دارم و به آن افتخار می‌کنم."],
+        [7, "راه‌های بی‌نام را ترجیح می‌دهم."],
+        [9, "حسابش را نگه نمی‌دارم. فراموش می‌کنم."]
+      ] }
+  ],
+
+  // Text copied for an AI coach on the results screen
+  coach: {
+    "header": "من یک خودسنجی بخشندگی انجام دادم. این خودسنجی بر پایهٔ مقیاسی ده‌مرتبه‌ای از ۰ تا ۱۰۰ است که به سوی کریم بالا می‌رود؛ کسی که بخششش حدی ندارد و انتظاری ندارد.",
+    "date": "تاریخ: ",
+    "rulesT": "لطفاً در همهٔ پاسخ این اصول را رعایت کنید:",
+    "rules": [
+      "هر پیشنهاد باید چیزی باشد که اگر همهٔ مردم جهان انجامش دهند، جهان جای بهتری برای زندگی شود.",
+      "به اختیار من احترام بگذارید: گزینه‌هایی برای انتخاب پیشنهاد دهید، نه دستور یا فشار.",
+      "بخشش باید آزادانه باشد و هرگز به خود آسیب نزند. گذشت و ایثار هرگز به معنای ماندن در آسیب نیست.",
+      "تمرین‌ها کوچک و واقع‌بینانه باشند تا بتوانم از همین امروز شروع کنم."
+    ],
+    "stagesT": "مرتبه‌ها",
+    "scoresT": "نتیجهٔ من",
+    "qaT": "پاسخ‌های من",
+    "notAnswered": "(بی‌پاسخ)",
+    "requestT": "آنچه از شما می‌خواهم",
+    "request": [
+      "۱. کوتاه و بدون داوری بگویید این پاسخ‌ها دربارهٔ شیوهٔ بخشش من چه نشان می‌دهند.",
+      "۲. روی ضعیف‌ترین بخش من («{area}»، اکنون مرتبهٔ {s}) تمرکز کنید و ۲ تا ۳ تمرین کوچک و مشخص روزانه یا هفتگی پیشنهاد دهید که کمکم کند در آن بخش یک مرتبه بالاتر بروم.",
+      "۳. به پاسخ‌هایی که کمترین امتیاز را داشتند نگاه کنید و بگویید چه تغییر درونی (مثلاً رها کردن انتظار جبران، یا نیاز به دیده‌شدن) بیشترین کمک را به من می‌کند.",
+      "۴. یک تمرین پیشنهاد دهید که مرتبهٔ کلی مرا (مرتبهٔ {os}، {oname}) بالا ببرد.",
+      "لطفاً به فارسی پاسخ دهید."
+    ]
   }
 };
-
-// Flatten questions and shuffle option order once per load
-const QUESTIONS = [];
-ITEMS.forEach((item, ii) => item.qs.forEach(q => {
-  const order = q.opts.map((_, i) => i);
-  for (let i = order.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
-    [order[i], order[j]] = [order[j], order[i]];
-  }
-  QUESTIONS.push({ ii, q, order });
-}));
-
-let lang = "en";
-let current = 0;
-let answers = new Array(QUESTIONS.length).fill(null); // option index, -1 = skip
-let view = "intro";
-
-function setLang(l) {
-  lang = l;
-  document.documentElement.lang = l;
-  document.documentElement.dir = l === "fa" ? "rtl" : "ltr";
-  document.getElementById("btn-en").classList.toggle("on", l === "en");
-  document.getElementById("btn-fa").classList.toggle("on", l === "fa");
-  render();
-}
-
-function toFa(n) {
-  return lang === "fa" ? String(n).replace(/\d/g, d => "۰۱۲۳۴۵۶۷۸۹"[d]) : String(n);
-}
-
-function stageName(s) {
-  return lang === "fa" ? STAGES[s].fa : STAGES[s].en;
-}
-
-function show(id) {
-  ["intro", "quiz", "results"].forEach(x => document.getElementById(x).classList.toggle("hidden", x !== id));
-  view = id;
-}
-
-function render() {
-  const t = UI[lang];
-  document.getElementById("title").textContent = t.title;
-  document.title = t.title;
-  if (view === "intro") renderIntro();
-  else if (view === "quiz") renderQuiz();
-  else renderResults();
-}
-
-function renderIntro() {
-  const t = UI[lang];
-  const rows = STAGES.map((s, i) =>
-    `<tr><td>${toFa(i * 10)}–${toFa(i === 9 ? 100 : i * 10 + 9)}</td><td><b>${lang === "fa" ? s.fa : s.en}</b> · ${lang === "fa" ? s.dfa : s.den}</td></tr>`
-  ).join("");
-  document.getElementById("intro").innerHTML = `
-    <h2>${t.introH}</h2>
-    <p>${t.intro}</p>
-    <p class="muted note">${t.privacy}</p>
-    <p class="muted note">${t.boundary}</p>
-    <h2 style="margin-top:20px">${t.stagesH}</h2>
-    <table class="stages">${rows}</table>
-    <div class="row" style="justify-content:flex-end"><button class="btn" onclick="startQuiz()">${t.start}</button></div>`;
-}
-
-function startQuiz() { current = 0; show("quiz"); renderQuiz(); }
-
-function renderQuiz() {
-  const t = UI[lang];
-  const { ii, q, order } = QUESTIONS[current];
-  const item = ITEMS[ii];
-  const pct = Math.round((current / QUESTIONS.length) * 100);
-  const opts = order.map(oi => {
-    const o = q.opts[oi];
-    return `<button class="opt ${answers[current] === oi ? "sel" : ""}" onclick="choose(${oi})">${lang === "fa" ? o[2] : o[1]}</button>`;
-  }).join("");
-  const last = current === QUESTIONS.length - 1;
-  document.getElementById("quiz").innerHTML = `
-    <div class="progress"><div style="width:${pct}%"></div></div>
-    <div class="muted" style="font-size:.85rem">${toFa(current + 1)} ${t.of} ${toFa(QUESTIONS.length)}</div>
-    <span class="tag">${lang === "fa" ? item.fa : item.en}</span>
-    <div class="q">${lang === "fa" ? q.fa : q.en}</div>
-    ${opts}
-    <button class="opt skip ${answers[current] === -1 ? "sel" : ""}" onclick="choose(-1)">${t.skip}</button>
-    <div class="row">
-      <button class="btn ghost" onclick="go(-1)" ${current === 0 ? "disabled" : ""}>${t.back}</button>
-      <button class="btn" onclick="go(1)" ${answers[current] === null ? "disabled" : ""}>${last ? t.finish : t.next}</button>
-    </div>`;
-}
-
-function choose(oi) { answers[current] = oi; renderQuiz(); }
-
-function go(d) {
-  if (d === 1 && current === QUESTIONS.length - 1) { show("results"); renderResults(); window.scrollTo(0, 0); return; }
-  current = Math.max(0, Math.min(QUESTIONS.length - 1, current + d));
-  renderQuiz();
-}
-
-function compute() {
-  const items = ITEMS.map((item, ii) => {
-    const stages = [];
-    QUESTIONS.forEach((Q, qi) => {
-      if (Q.ii === ii && answers[qi] !== null && answers[qi] >= 0) stages.push(Q.q.opts[answers[qi]][0]);
-    });
-    if (!stages.length) return { ii, score: null, stage: null };
-    const mean = stages.reduce((a, b) => a + b, 0) / stages.length;
-    const score = Math.min(100, Math.round(mean * 10 + 5));
-    return { ii, score, stage: Math.min(9, Math.floor(score / 10)) };
-  });
-  const valid = items.filter(x => x.score !== null);
-  let overall = null, overallStage = null, weakest = null;
-  if (valid.length) {
-    overall = Math.round(valid.reduce((a, b) => a + b.score, 0) / valid.length);
-    overallStage = Math.min(9, Math.floor(overall / 10));
-    weakest = valid.reduce((a, b) => (b.score < a.score ? b : a));
-  }
-  return { items, overall, overallStage, weakest };
-}
-
-function renderResults() {
-  const t = UI[lang];
-  const r = compute();
-  const bars = r.items.map(x => {
-    const name = lang === "fa" ? ITEMS[x.ii].fa : ITEMS[x.ii].en;
-    if (x.score === null) return `<div class="item-res"><div class="top"><span>${name}</span><span class="muted">${t.noData}</span></div></div>`;
-    return `<div class="item-res">
-      <div class="top"><span>${name}</span><span>${toFa(x.score)}</span></div>
-      <div class="bar"><div style="width:${x.score}%"></div></div>
-      <div class="muted" style="font-size:.88rem">${stageName(x.stage)}</div></div>`;
-  }).join("");
-  const overallHtml = r.overall === null ? "" : `
-    <div class="overall">
-      <div class="muted">${t.overall}</div>
-      <div class="num">${toFa(r.overall)}</div>
-      <div class="stage">${stageName(r.overallStage)}</div>
-      <div class="muted" style="font-size:.9rem">${lang === "fa" ? STAGES[r.overallStage].dfa : STAGES[r.overallStage].den}</div>
-    </div>`;
-  const nextHtml = r.weakest ? `<div class="next"><b>${t.nextH}</b><br>${t.nextTxt(lang === "fa" ? ITEMS[r.weakest.ii].fa : ITEMS[r.weakest.ii].en, stageName(r.weakest.stage))}</div>` : "";
-  document.getElementById("results").innerHTML = `
-    <div class="card">
-      <h2>${t.resultsH}</h2>
-      ${overallHtml}
-      ${bars}
-      ${nextHtml}
-    </div>
-    <div class="card" style="margin-top:16px">
-      <h2>${t.promptH}</h2>
-      <p class="muted" style="margin:0">${t.promptTxt}</p>
-      <textarea id="prompt" readonly>${escapeHtml(buildPrompt(r))}</textarea>
-      <div class="row">
-        <button class="btn ghost" onclick="restart()">${t.restart}</button>
-        <button class="btn" id="copyBtn" onclick="copyPrompt()">${t.copy}</button>
-      </div>
-    </div>`;
-}
-
-function escapeHtml(s) {
-  return s.replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;");
-}
-
-function buildPrompt(r) {
-  const date = new Date().toISOString().slice(0, 10);
-  const fa = lang === "fa";
-  const L = [];
-  const stageList = STAGES.map((s, i) => `${i * 10}–${i === 9 ? 100 : i * 10 + 9}: ${fa ? s.fa : s.en} — ${fa ? s.dfa : s.den}`).join("\n");
-
-  if (!fa) {
-    L.push(`I completed a self-assessment of my generosity on ${date}. It uses a 10-stage scale from 0 to 100, rising toward The Bountiful, whose giving has no limit and expects no return.`);
-    L.push("", "THE STAGES", stageList);
-    L.push("", "MY RESULTS");
-    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].en}: ${x.score === null ? "no answers" : `${x.score}/100 — ${STAGES[x.stage].en}`}`));
-    if (r.overall !== null) L.push(`- Overall: ${r.overall}/100 — ${STAGES[r.overallStage].en}`);
-    if (r.weakest) L.push(`- Weakest area: ${ITEMS[r.weakest.ii].en}`);
-    L.push("", "MY ANSWERS");
-    QUESTIONS.forEach((Q, qi) => {
-      const a = answers[qi];
-      const ans = a === null ? "(not answered)" : a === -1 ? "(none of the options fit me)" : `${Q.q.opts[a][1]} [stage ${Q.q.opts[a][0]}]`;
-      L.push(`[${ITEMS[Q.ii].en}] ${Q.q.en}\n  → ${ans}`);
-    });
-    L.push("", "WHAT I'D LIKE FROM YOU",
-      "1. Briefly reflect back what these answers suggest about how I give, without judging me.",
-      "2. Focus on my weakest area. Suggest 2–3 small, concrete daily or weekly practices that would help me move up one stage there.",
-      "3. Look at the answers where I scored lowest and explain what inner shift (for example, letting go of expecting a return, or of needing to be seen) would help me most.",
-      "4. Suggest one practice that would lift my overall stage.",
-      "",
-      "Please follow these principles:",
-      "- Every suggestion should be something that, if everyone in the world did it, would make the world a better place.",
-      "- Respect my free will: offer options for me to choose from; don't command or pressure me.",
-      "- Generosity must be freely chosen and never self-destructive. Forgiveness and self-giving never mean staying in harm.",
-      "- Keep practices small and realistic, so I can start today.");
-  } else {
-    L.push(`من در تاریخ ${date} یک خودسنجی بخشندگی انجام دادم. این خودسنجی بر پایهٔ مقیاسی ده‌مرتبه‌ای از ۰ تا ۱۰۰ است که به سوی کریم بالا می‌رود؛ کسی که بخششش حدی ندارد و انتظاری ندارد.`);
-    L.push("", "مرتبه‌ها", stageList);
-    L.push("", "نتیجهٔ من");
-    r.items.forEach(x => L.push(`- ${ITEMS[x.ii].fa}: ${x.score === null ? "بدون پاسخ" : `${x.score} از ۱۰۰ — ${STAGES[x.stage].fa}`}`));
-    if (r.overall !== null) L.push(`- مرتبهٔ کلی: ${r.overall} از ۱۰۰ — ${STAGES[r.overallStage].fa}`);
-    if (r.weakest) L.push(`- ضعیف‌ترین بخش: ${ITEMS[r.weakest.ii].fa}`);
-    L.push("", "پاسخ‌های من");
-    QUESTIONS.forEach((Q, qi) => {
-      const a = answers[qi];
-      const ans = a === null ? "(بی‌پاسخ)" : a === -1 ? "(هیچ‌کدام صدق نمی‌کرد)" : `${Q.q.opts[a][2]} [مرتبهٔ ${Q.q.opts[a][0]}]`;
-      L.push(`[${ITEMS[Q.ii].fa}] ${Q.q.fa}\n  ← ${ans}`);
-    });
-    L.push("", "آنچه از شما می‌خواهم",
-      "۱. کوتاه و بدون داوری بگویید این پاسخ‌ها دربارهٔ شیوهٔ بخشش من چه نشان می‌دهند.",
-      "۲. روی ضعیف‌ترین بخش من تمرکز کنید و ۲ تا ۳ تمرین کوچک و مشخص روزانه یا هفتگی پیشنهاد دهید که کمکم کند در آن بخش یک مرتبه بالاتر بروم.",
-      "۳. به پاسخ‌هایی که کمترین امتیاز را داشتند نگاه کنید و بگویید چه تغییر درونی (مثلاً رها کردن انتظار جبران، یا نیاز به دیده‌شدن) بیشترین کمک را به من می‌کند.",
-      "۴. یک تمرین پیشنهاد دهید که مرتبهٔ کلی مرا بالا ببرد.",
-      "",
-      "لطفاً این اصول را رعایت کنید:",
-      "- هر پیشنهاد باید چیزی باشد که اگر همهٔ مردم جهان انجامش دهند، جهان جای بهتری برای زندگی شود.",
-      "- به اختیار من احترام بگذارید: گزینه‌هایی برای انتخاب پیشنهاد دهید، نه دستور یا فشار.",
-      "- بخشش باید آزادانه باشد و هرگز به خود آسیب نزند. گذشت و ایثار هرگز به معنای ماندن در آسیب نیست.",
-      "- تمرین‌ها کوچک و واقع‌بینانه باشند تا بتوانم از همین امروز شروع کنم.",
-      "",
-      "لطفاً به فارسی پاسخ دهید.");
-  }
-  return L.join("\n");
-}
-
-function copyPrompt() {
-  const ta = document.getElementById("prompt");
-  const done = () => {
-    const b = document.getElementById("copyBtn");
-    b.textContent = UI[lang].copied;
-    setTimeout(() => { b.textContent = UI[lang].copy; }, 1800);
-  };
-  if (navigator.clipboard && navigator.clipboard.writeText) {
-    navigator.clipboard.writeText(ta.value).then(done, () => { ta.select(); document.execCommand("copy"); done(); });
-  } else { ta.select(); document.execCommand("copy"); done(); }
-}
-
-function restart() {
-  answers = new Array(QUESTIONS.length).fill(null);
-  current = 0;
-  show("intro");
-  render();
-  window.scrollTo(0, 0);
-}
-
-setLang("en");
 </script>
-<!-- bbp-nav: home link + language link (fa page) -->
-<style>
-  .bbp-home{display:block;max-width:860px;margin:0 auto;padding:12px 16px 0;font:500 .88rem/1.4 Inter,Vazirmatn,system-ui,sans-serif}
-  html[lang="fa"] .bbp-home{font-family:Vazirmatn,Tahoma,sans-serif}
-  .bbp-home a{color:inherit;opacity:.65;text-decoration:none}
-  .bbp-home a:hover{opacity:1;text-decoration:underline}
-</style>
-<script>
-(function(){
-  var PAGE_LANG="fa", OTHER="en.html";
-  // Show this page in its own language (the shared code starts in English).
-  if(document.documentElement.lang!==PAGE_LANG){
-    var t=document.getElementById("btn-"+PAGE_LANG)||document.getElementById("langBtn");
-    if(t)t.click();
-  }
-  try{localStorage.setItem("bbp-lang",PAGE_LANG)}catch(e){}
-  // The language button now opens the other language's page.
-  ["langBtn","btn-en"].forEach(function(id){
-    var b=document.getElementById(id);
-    if(b){b.removeAttribute("onclick");b.onclick=function(){location.href=OTHER};}
-  });
-  var g=document.getElementById("btn-fa");if(g){g.removeAttribute("onclick");g.onclick=null;}
-  var bar=document.createElement("nav");bar.className="bbp-home";
-  var a=document.createElement("a");a.href="../index.html";a.textContent="→ همهٔ مسیرها";
-  bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);
-})();
-</script>
+
+<!-- Shared screens and scoring -->
+<script src="../core/assessment.js"></script>
 </body>
 </html>

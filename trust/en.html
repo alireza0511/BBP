@@ -4,458 +4,291 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Trust in a Higher Power</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Vazirmatn:wght@400;600;700&display=swap" rel="stylesheet">
-<style>
-:root{
-  --bg:#f7f5f0; --card:#ffffff; --text:#1f2328; --muted:#5d6670; --line:#e4e0d6;
-  --accent:#2f6f5e; --accent-soft:#e3efe9; --bar:#e9e5dc; --sel:#eef6f2; --warn:#8a5a14;
-}
-@media (prefers-color-scheme: dark){
-  :root:not([data-theme="light"]){
-    --bg:#15181b; --card:#1e2226; --text:#e8eaed; --muted:#a0a8b0; --line:#2e343a;
-    --accent:#6fc2a8; --accent-soft:#1f3530; --bar:#2a3036; --sel:#1f3530; --warn:#e0b467;
-  }
-}
-:root[data-theme="dark"]{
-  --bg:#15181b; --card:#1e2226; --text:#e8eaed; --muted:#a0a8b0; --line:#2e343a;
-  --accent:#6fc2a8; --accent-soft:#1f3530; --bar:#2a3036; --sel:#1f3530; --warn:#e0b467;
-}
-*{box-sizing:border-box}
-body{margin:0;background:var(--bg);color:var(--text);font:16px/1.6 system-ui,-apple-system,"Segoe UI",Roboto,sans-serif}
-html[lang="fa"] body{font-family:Vazirmatn,Tahoma,system-ui,sans-serif}
-.wrap{max-width:720px;margin:0 auto;padding:16px}
-.top{display:flex;justify-content:space-between;align-items:center;gap:8px;margin-bottom:12px}
-.top .brand{font-weight:700;color:var(--accent)}
-.top .tools{display:flex;gap:8px}
-button{font:inherit;cursor:pointer;border-radius:10px;border:1px solid var(--line);background:var(--card);color:var(--text);padding:8px 14px}
-button.primary{background:var(--accent);border-color:var(--accent);color:#fff}
-html[data-theme="dark"] button.primary{color:#10201b}
-@media (prefers-color-scheme: dark){:root:not([data-theme="light"]) button.primary{color:#10201b}}
-button:disabled{opacity:.45;cursor:not-allowed}
-.card{background:var(--card);border:1px solid var(--line);border-radius:16px;padding:20px;margin-bottom:16px}
-h1{font-size:1.6rem;margin:0 0 4px}
-h2{font-size:1.15rem;margin:0 0 10px}
-.muted{color:var(--muted)}
-.stages{width:100%;border-collapse:collapse;font-size:.92rem}
-.stages td{padding:7px 6px;border-top:1px solid var(--line);vertical-align:top}
-.stages td.b{white-space:nowrap;color:var(--muted)}
-.stages td.n{font-weight:600;white-space:nowrap}
-.note{border-inline-start:4px solid var(--accent);background:var(--accent-soft);padding:10px 14px;border-radius:8px;margin:10px 0}
-.note.limit{border-color:var(--warn)}
-.progress{height:8px;background:var(--bar);border-radius:6px;overflow:hidden;margin:6px 0 14px}
-.progress span{display:block;height:100%;background:var(--accent);transition:width .25s}
-.area-tag{display:inline-block;font-size:.8rem;padding:2px 10px;border-radius:20px;background:var(--accent-soft);color:var(--accent);font-weight:600;margin-bottom:8px}
-.situation{font-size:1.08rem;font-weight:600;margin:4px 0 14px}
-.opt{display:block;width:100%;text-align:start;padding:12px 14px;margin:8px 0;border-radius:12px;line-height:1.5}
-.opt.sel{border-color:var(--accent);background:var(--sel);box-shadow:0 0 0 1px var(--accent) inset}
-.opt.none{color:var(--muted);font-style:italic}
-html[lang="fa"] .opt.none{font-style:normal}
-.nav{display:flex;justify-content:space-between;gap:10px;margin-top:14px}
-.row{margin:12px 0}
-.row .lbl{display:flex;justify-content:space-between;gap:8px;font-size:.95rem}
-.row .lbl b{font-weight:600}
-.bar{height:12px;background:var(--bar);border-radius:8px;overflow:hidden;margin-top:4px}
-.bar span{display:block;height:100%;background:var(--accent);border-radius:8px}
-.row.low .bar span{background:var(--warn)}
-.big{font-size:2.2rem;font-weight:700;color:var(--accent);line-height:1.2}
-textarea{width:100%;min-height:260px;font:13px/1.5 ui-monospace,Menlo,Consolas,monospace;padding:10px;border-radius:10px;border:1px solid var(--line);background:var(--bg);color:var(--text);resize:vertical}
-html[lang="fa"] textarea{font-family:Vazirmatn,Tahoma,sans-serif;font-size:14px}
-.actions{display:flex;gap:10px;flex-wrap:wrap;margin-top:10px}
-@media (max-width:480px){.wrap{padding:12px 16px}.card{padding:16px}h1{font-size:1.35rem}.stages td.b{white-space:normal}}
-</style>
+<link rel="stylesheet" href="../core/core.css">
 </head>
 <body>
 <div class="wrap">
-  <div class="top">
-    <div class="brand" id="brand"></div>
-    <div class="tools">
-      <button id="langBtn" type="button"></button>
-      <button id="themeBtn" type="button" aria-label="Theme">◐</button>
-    </div>
-  </div>
-  <div id="app"></div>
+  <header id="top"></header>
+  <main id="app"></main>
 </div>
+
+<!-- Shared UI widgets -->
+<script src="../core/widgets.js"></script>
+
+<!-- This page's content (English only) -->
 <script>
-const AREAS=[
- {en:"Worry",fa:"نگرانی"},
- {en:"Effort and outcome",fa:"تلاش و نتیجه"},
- {en:"Livelihood",fa:"روزی"},
- {en:"Loss",fa:"از دست دادن"},
- {en:"Letting others choose",fa:"رها کردن دیگران"},
- {en:"Doing right at a cost",fa:"درستکاری با هزینه"}
-];
-const STAGES=[
- {fa:"قانِط",en:"The Despairing",mEn:"Believes no one is looking after anything, so grabs, cheats or controls, and spreads hopelessness.",mFa:"باور دارد کسی مراقب چیزی نیست؛ پس چنگ می‌زند، فریب می‌دهد یا کنترل می‌کند و ناامیدی می‌پراکند."},
- {fa:"متواکل",en:"The Idle Truster",mEn:"Calls inaction trust; other people pay the cost.",mFa:"بی‌عملی را توکل می‌نامد؛ هزینه‌اش را دیگران می‌پردازند."},
- {fa:"متظاهر",en:"The Performer",mEn:"Shows trust in public, stays anxious and controlling in private.",mFa:"در جمع توکل نشان می‌دهد، در خلوت نگران و کنترل‌گر است."},
- {fa:"سوداگر",en:"The Bargainer",mEn:"Trusts as a deal: I did right, so I'm owed a good result.",mFa:"توکل را معامله می‌بیند: کار درست کردم، پس نتیجهٔ خوب طلب دارم."},
- {fa:"مقلّد",en:"The Habitual",mEn:"Says the right words from habit; the heart still carries the worry.",mFa:"از سر عادت کلمات درست را می‌گوید؛ دل هنوز بار نگرانی را می‌کشد."},
- {fa:"متزلزل",en:"The Wavering",mEn:"Trusts when life is good, shaken when it is tested.",mFa:"در روزهای خوب توکل دارد، در آزمون می‌لرزد."},
- {fa:"متوکّل",en:"The Trusting",mEn:"Ties the camel, then trusts: full effort, then lets go of the outcome.",mFa:"زانوی اشتر را می‌بندد و توکل می‌کند: تلاش کامل، سپس رها کردن نتیجه."},
- {fa:"مُفَوِّض",en:"The Entrusting",mEn:"Hands affairs over before trouble comes, and steadies others without being asked.",mFa:"پیش از آمدن سختی کار را می‌سپارد و بی‌آنکه از او بخواهند به دیگران آرامش می‌دهد."},
- {fa:"مُسَلِّم",en:"The Surrendered",mEn:"Does right at real cost and accepts the loss without bitterness.",mFa:"به بهای واقعی کار درست را انجام می‌دهد و بی‌تلخی می‌پذیرد."},
- {fa:"راضی",en:"The Content",mEn:"At peace with whatever comes, facing al-Wakil (The Trustee). A direction to face, not a badge to claim.",mFa:"با هرچه پیش آید در آرامش است، رو به سوی الوکیل. جهتی برای رفتن، نه نشانی برای ادعا."}
-];
-// [stage, en, fa]
-const QUESTIONS=[
-{a:0,en:"A friend calls you, worried about rumors of layoffs at their company, and asks what you think they should do.",fa:"دوستی به شما زنگ می‌زند؛ نگران شایعهٔ تعدیل نیرو در شرکتش است و نظر شما را می‌پرسد که چه کند.",o:[
- [0,"Honestly, layoffs are happening everywhere. I tell them to expect the worst, because nobody's going to look out for them.","راستش تعدیل همه‌جا هست. می‌گویم منتظر بدترین باشد، چون هیچ‌کس هوایش را ندارد."],
- [1,"I tell them not to think about it, God will handle it. No need to update their résumé.","می‌گویم فکرش را نکند، خدا درستش می‌کند. لازم نیست رزومه‌اش را به‌روز کند."],
- [2,"I tell them God is in control and not to worry, though something like that would keep me up at night.","می‌گویم همه‌چیز دست خداست و نگران نباشد، هرچند اگر جای او بودم شب خوابم نمی‌برد."],
- [4,"I say \u201cwhatever God wills,\u201d and later catch myself worrying about my own job too.","می‌گویم «هرچه خدا بخواهد»، ولی بعد می‌بینم خودم هم نگران کار خودم شده‌ام."],
- [5,"I tell them it'll be fine, it's just a rumor. If it were me, I'm not sure I'd be this calm.","می‌گویم درست می‌شود، فقط شایعه است. اگر برای خودم بود، مطمئن نیستم این‌قدر آرام بودم."],
- [6,"I help them think of one or two sensible steps, like updating the résumé and saving a little, then suggest they let the rest go.","کمکش می‌کنم یکی دو قدم معقول بردارد، مثل به‌روز کردن رزومه و کمی پس‌انداز، و بعد بقیه را رها کند."],
- [7,"I help them make a calm plan, and check in later in the week without being asked.","کمکش می‌کنم با آرامش برنامه بریزد و چند روز بعد، بی‌آنکه بخواهد، حالش را می‌پرسم."]]},
-{a:0,en:"Your doctor orders tests for something that could be serious. The results will take ten days.",fa:"پزشک برای چیزی که ممکن است جدی باشد آزمایش نوشته است. جواب ده روز دیگر می‌آید.",o:[
- [1,"I skip the follow-up appointment. If it's meant to be, it's meant to be.","به وقت پیگیری نمی‌روم. هرچه قسمت باشد، همان می‌شود."],
- [3,"I've tried to live right, so I tell myself I'm owed good news, and I'd be shaken if it isn't.","سعی کرده‌ام درست زندگی کنم، پس به خودم می‌گویم حقم خبر خوب است؛ اگر نباشد، به هم می‌ریزم."],
- [4,"I pray and say it's in God's hands, but I spend most nights searching symptoms online.","دعا می‌کنم و می‌گویم دست خداست، ولی بیشتر شب‌ها در اینترنت دنبال علائم می‌گردم."],
- [5,"I'm okay during the day, but at night the fear takes over completely.","روزها خوبم، ولی شب‌ها ترس کاملاً بر من چیره می‌شود."],
- [6,"I go to every appointment, tell someone close, and when the fear comes I remind myself I've done my part.","به همهٔ وقت‌ها می‌روم، به یکی از نزدیکانم می‌گویم و وقتی ترس می‌آید یادم می‌آورم که سهم خودم را انجام داده‌ام."],
- [8,"I keep showing up fully for my family and work during the wait, and make my peace with either result.","در این مدت کاملاً برای خانواده و کارم حاضرم و با هر دو نتیجه کنار آمده‌ام."],
- [9,"The fear visits, but underneath it there's a quiet rest. Whatever the result, I feel held.","ترس سر می‌زند، ولی زیرش آرامشی بی‌صداست. نتیجه هرچه باشد، حس می‌کنم در پناهم."]]},
-{a:0,en:"A coworker who has undermined you before is spreading the idea that your team will be cut, and people are starting to panic.",fa:"همکاری که قبلاً زیرآب شما را زده، این حرف را پخش می‌کند که تیم شما منحل می‌شود و همه کم‌کم وحشت کرده‌اند.",o:[
- [0,"I fight fire with fire and make sure people know it's really his job that's on the line.","مقابله به مثل می‌کنم و کاری می‌کنم همه بدانند در واقع جای خود اوست که در خطر است."],
- [2,"In meetings I say whatever happens is God's will, but privately I'm scrambling to protect my position.","در جلسه‌ها می‌گویم هرچه شود خواست خداست، ولی در خلوت با عجله دنبال حفظ جایگاهم هستم."],
- [5,"I stay calm until I hear it might come from management, and then I lose sleep.","آرامم تا وقتی بشنوم ممکن است از طرف مدیریت باشد؛ از آن به بعد خوابم نمی‌برد."],
- [6,"I check the facts with my manager, do my work well, and don't let his rumor run my days.","واقعیت را از مدیرم می‌پرسم، کارم را خوب انجام می‌دهم و نمی‌گذارم شایعهٔ او روزهایم را بگرداند."],
- [7,"I calmly tell worried teammates what I actually know and help them focus on the work.","با آرامش به هم‌تیمی‌های نگران می‌گویم واقعاً چه می‌دانم و کمکشان می‌کنم روی کار تمرکز کنند."],
- [8,"Even if it costs me some standing, I won't spread fear about him in return, and I keep doing good work.","حتی اگر کمی از جایگاهم کم شود، متقابلاً دربارهٔ او ترس پخش نمی‌کنم و کارم را خوب ادامه می‌دهم."],
- [9,"I wish him well and feel no need to win. Whatever happens to the team, I'm at peace.","برایش خیر می‌خواهم و نیازی به بردن ندارم. هرچه بر سر تیم بیاید، در آرامشم."]]},
-{a:1,en:"Your manager asks you to prepare a proposal for an important client meeting next week.",fa:"مدیرتان از شما می‌خواهد برای جلسهٔ مهمی با یک مشتری در هفتهٔ آینده پیشنهادی آماده کنید.",o:[
- [0,"I take a colleague's earlier work and present it as mine. Results are what count.","کار قبلی یک همکار را برمی‌دارم و به اسم خودم ارائه می‌کنم. نتیجه است که اهمیت دارد."],
- [1,"I put something together at the last minute. If it's meant to go well, it will.","دقیقهٔ نود چیزی سرهم می‌کنم. اگر قسمت باشد، خوب پیش می‌رود."],
- [2,"I tell everyone the outcome is in God's hands, and if we win, I make sure my part gets noticed.","به همه می‌گویم نتیجه دست خداست و اگر موفق شدیم، مطمئن می‌شوم سهمم دیده شود."],
- [3,"I work hard on it and expect that effort to be rewarded with a win.","سخت رویش کار می‌کنم و انتظار دارم این تلاش با موفقیت جبران شود."],
- [4,"I work hard, then rewrite it again and again the night before, unable to let it go.","سخت کار می‌کنم، بعد شب قبل بارها بازنویسی‌اش می‌کنم و نمی‌توانم رهایش کنم."],
- [6,"I do my best work, submit it on time, and let the result be what it is.","بهترین کارم را می‌کنم، به‌موقع تحویل می‌دهم و نتیجه را به حال خودش می‌گذارم."],
- [7,"I start early, do it well, and feel good about the work itself, whether or not we win.","زود شروع می‌کنم، خوب انجامش می‌دهم و از خودِ کار راضی‌ام، چه موفق شویم چه نه."]]},
-{a:1,en:"You spent six months of evenings preparing for a professional exam and failed by a few points. The next attempt is six months away.",fa:"شش ماه، هر شب، برای یک آزمون حرفه‌ای درس خوانده‌اید و با چند نمره کم رد شده‌اید. نوبت بعدی شش ماه دیگر است.",o:[
- [1,"I stop studying. If it's meant for me, it'll come without wearing myself out.","درس را کنار می‌گذارم. اگر قسمتم باشد، بی‌آنکه خودم را از پا بیندازم می‌رسد."],
- [3,"I studied honestly and prayed. I can't understand why God didn't let me pass, and I'm not sure I'll try again.","صادقانه خواندم و دعا کردم. نمی‌فهمم چرا خدا نگذاشت قبول شوم؛ مطمئن نیستم دوباره امتحان کنم."],
- [4,"I sign up again, but I'm anxious and keep replaying every wrong answer.","دوباره ثبت‌نام می‌کنم، ولی مضطربم و مدام جواب‌های غلطم را مرور می‌کنم."],
- [5,"Small setbacks I can handle, but this one knocked me down for weeks.","شکست‌های کوچک را تاب می‌آورم، ولی این یکی هفته‌ها زمینم زد."],
- [6,"I'm disappointed, I rest a little, then I make a new study plan.","ناامید می‌شوم، کمی استراحت می‌کنم و بعد برنامهٔ تازه‌ای می‌ریزم."],
- [8,"I prepare again with full effort, knowing I might fail again, and I'm okay with that.","دوباره با تمام توان آماده می‌شوم، با اینکه می‌دانم ممکن است باز رد شوم، و با این کنار آمده‌ام."],
- [9,"I'm at peace. The months of study were worth it in themselves, whatever the score says.","در آرامشم. آن ماه‌ها درس خواندن به خودی خود ارزش داشت، نمره هرچه بگوید."]]},
-{a:1,en:"A colleague who often criticizes you is put in charge of the project you've been building, and will likely get the credit for your work.",fa:"همکاری که اغلب از شما انتقاد می‌کند، مسئول پروژه‌ای شده که شما ساخته‌اید و احتمالاً اعتبار کارتان به نام او ثبت می‌شود.",o:[
- [0,"I do just enough to make sure the project struggles under his lead.","فقط آن‌قدر کار می‌کنم که پروژه زیر دست او لنگ بزند."],
- [2,"I say it's all in God's hands, but I make sure the boss knows which parts were really mine.","می‌گویم همه‌چیز دست خداست، ولی مطمئن می‌شوم رئیس بداند کدام بخش‌ها واقعاً کار من بوده."],
- [3,"I keep working hard, but I feel I'm owed recognition and resent it when it doesn't come.","سخت کار می‌کنم، ولی حس می‌کنم طلبکار قدردانی‌ام و وقتی نمی‌آید دلخور می‌شوم."],
- [5,"I do good work at first, but as he takes the credit, I slowly pull back.","اول خوب کار می‌کنم، ولی وقتی او اعتبار را می‌برد، کم‌کم کنار می‌کشم."],
- [6,"I do my full part well and let the credit fall where it falls.","سهم خودم را کامل و خوب انجام می‌دهم و می‌گذارم اعتبار به هرکه رسید برسد."],
- [8,"I give my full effort and even help him succeed, knowing he'll get the credit.","با تمام توان کار می‌کنم و حتی کمکش می‌کنم موفق شود، با اینکه می‌دانم اعتبارش به او می‌رسد."],
- [9,"I'm glad the work is good. Who gets the credit doesn't disturb my peace.","خوشحالم که کار خوب است. اینکه اعتبار به نام چه کسی باشد آرامشم را به هم نمی‌زند."]]},
-{a:2,en:"Your family asks you to plan the household budget for the coming year.",fa:"خانواده از شما می‌خواهند بودجهٔ خانه را برای سال آینده برنامه‌ریزی کنید.",o:[
- [0,"I delay paying people we owe, like the contractor, as long as I can, to keep more for us.","پرداخت طلب دیگران، مثل پیمانکار، را تا جایی که بشود عقب می‌اندازم تا بیشتر برای خودمان بماند."],
- [1,"I don't make a plan. God provides, and my spouse will figure out the bills.","برنامه نمی‌ریزم. روزی‌رسان خداست و همسرم هم قبض‌ها را یک‌جوری درست می‌کند."],
- [2,"I talk about trusting God with money, but I secretly stress and check our accounts every day.","از توکل به خدا در پول حرف می‌زنم، ولی پنهانی استرس دارم و هر روز حساب‌ها را چک می‌کنم."],
- [3,"I set aside money for charity, expecting God to pay us back more.","پولی برای خیرات کنار می‌گذارم، به این امید که خدا بیشترش را برگرداند."],
- [4,"I believe God provides, but fear of not having enough decides most of my choices.","باور دارم روزی از خداست، ولی ترس از کم آوردن بیشتر تصمیم‌هایم را می‌گیرد."],
- [6,"I make a sensible plan, save some, give some, and don't let fear run it.","برنامه‌ای معقول می‌ریزم، کمی پس‌انداز می‌کنم، کمی می‌بخشم و نمی‌گذارم ترس آن را بگرداند."],
- [7,"I make a plan with room to give and share, and feel no anxiety about running short.","برنامه‌ای می‌ریزم که جای بخشیدن و سهیم شدن داشته باشد و از کم آوردن نگرانی ندارم."]]},
-{a:2,en:"Your income drops by a third for several months, and the bills are tight.",fa:"درآمدتان برای چند ماه یک‌سوم کم شده و پرداخت قبض‌ها سخت است.",o:[
- [0,"I stop paying people I owe and keep the money for us. Everyone looks out for themselves.","طلب دیگران را نمی‌دهم و پول را برای خودمان نگه می‌دارم. هرکس به فکر خودش است."],
- [1,"I don't change anything. God will provide, even if my family has to borrow to cover it.","چیزی را عوض نمی‌کنم. خدا می‌رساند، حتی اگر خانواده‌ام مجبور شوند قرض کنند."],
- [3,"I was giving to charity regularly. That should have protected us, so I stop giving.","مرتب خیرات می‌دادم و این باید از ما محافظت می‌کرد؛ پس دیگر نمی‌دهم."],
- [5,"When money was good I was relaxed and generous. Now I'm anxious and tight with everything.","وقتی پول بود، آرام و دست‌ودل‌باز بودم. حالا نگرانم و به همه‌چیز سخت می‌گیرم."],
- [6,"I cut costs, look for more work, keep paying what I owe, and try not to let fear decide.","هزینه‌ها را کم می‌کنم، دنبال کار بیشتر می‌گردم، بدهی‌ام را می‌دهم و نمی‌گذارم ترس تصمیم بگیرد."],
- [8,"I'm offered fast money through a dishonest deal and turn it down, even though we really need it.","پیشنهاد پول سریعی از راه نادرست به من می‌شود و ردش می‌کنم، با اینکه واقعاً به آن نیاز داریم."],
- [9,"We tighten our belts and keep working, and I'm at peace. I know we're held.","کمربندها را سفت می‌کنیم و کار می‌کنیم و من در آرامشم. می‌دانم در پناهیم."]]},
-{a:2,en:"A former business partner who cheated you out of money now runs a competing business and is undercutting your prices.",fa:"شریک سابقی که سر پول کلاهتان را برداشت، حالا کسب‌وکار رقیب دارد و قیمت‌هایش را از شما پایین‌تر گذاشته است.",o:[
- [0,"I spread stories about his business to drive his customers away.","دربارهٔ کسب‌وکارش حرف پخش می‌کنم تا مشتری‌هایش را فراری بدهم."],
- [2,"In public I say God will sort it out, but privately I'm obsessed with beating him.","جلوی دیگران می‌گویم خدا درستش می‌کند، ولی در خلوت فکرم فقط شکست دادن اوست."],
- [3,"I've done business honestly, so I expect God to make his business fail.","من صادقانه کار کرده‌ام، پس انتظار دارم خدا کسب‌وکار او را زمین بزند."],
- [4,"I keep my business honest, but I lie awake worrying he'll ruin me.","کارم را درست نگه می‌دارم، ولی شب‌ها بیدارم که نکند مرا نابود کند."],
- [6,"I focus on serving my customers well and keep my prices fair.","روی خدمت خوب به مشتری‌هایم تمرکز می‌کنم و قیمت‌هایم را منصفانه نگه می‌دارم."],
- [8,"I refuse to copy his tricks, even though I'm losing customers to him.","حقه‌های او را تکرار نمی‌کنم، با اینکه مشتری‌هایم را به او می‌بازم."],
- [9,"I wish him no harm. I do honest work, and whatever comes to me is enough.","بدی‌اش را نمی‌خواهم. کار درست می‌کنم و هرچه به من برسد کافی است."]]},
-{a:3,en:"Your child asks you why their pet died.",fa:"فرزندتان از شما می‌پرسد چرا حیوان خانگی‌اش مرد.",o:[
- [0,"I tell them the truth as I see it: life is cruel and nothing protects you.","حقیقت را همان‌طور که می‌بینم می‌گویم: زندگی بی‌رحم است و هیچ‌چیز از تو محافظت نمی‌کند."],
- [1,"I say it was God's will, even though we didn't take it to the vet when it got sick.","می‌گویم خواست خدا بود، با اینکه وقتی مریض شد پیش دامپزشک نبردیمش."],
- [2,"I calmly tell them it was God's plan, though inside I'm angry it happened.","با آرامش می‌گویم تقدیر خدا بود، هرچند در دلم از این اتفاق عصبانی‌ام."],
- [3,"I tell them we took good care of it, so it shouldn't have happened, and I don't understand why God allowed it.","می‌گویم خوب مراقبش بودیم و نباید این‌طور می‌شد؛ نمی‌فهمم چرا خدا اجازه داد."],
- [4,"I say the right words, that it's in God's hands, but I'm stuck in my own sadness and can't talk more.","حرف درست را می‌زنم که دست خداست، ولی خودم در غصه گیر کرده‌ام و نمی‌توانم بیشتر حرف بزنم."],
- [6,"We cry together, I let them be sad, and I tell them even sad things are held by something bigger.","با هم گریه می‌کنیم، می‌گذارم غمگین باشد و می‌گویم حتی چیزهای غم‌انگیز هم در دست چیزی بزرگ‌ترند."],
- [7,"I'd already talked with them about how pets don't live forever, so I help them grieve gently and remember.","از قبل با او حرف زده بودم که حیوان‌ها همیشه زنده نمی‌مانند، پس آرام کمکش می‌کنم سوگواری کند و به یاد بیاورد."]]},
-{a:3,en:"A close family member dies unexpectedly.",fa:"یکی از نزدیکان خانواده ناگهان از دنیا می‌رود.",o:[
- [0,"I blame the doctors and the family, and I make sure they feel it.","پزشک‌ها و خانواده را مقصر می‌دانم و کاری می‌کنم این را حس کنند."],
- [3,"We did everything right for them. It feels like God broke a promise.","ما برایش هر کار درستی کردیم. حس می‌کنم خدا به قولش عمل نکرد."],
- [4,"I say \u201cwe belong to God and to Him we return,\u201d but months later I'm still bitter.","می‌گویم «إنّا لله و إنّا إلیه راجعون»، ولی ماه‌ها بعد هنوز دلم تلخ است."],
- [5,"My faith was steady before. This has shaken it completely.","ایمانم قبلاً محکم بود. این اتفاق آن را کاملاً لرزاند."],
- [6,"I grieve, I take care of what needs doing, and slowly trust comes back.","سوگواری می‌کنم، کارهای لازم را انجام می‌دهم و کم‌کم اعتماد برمی‌گردد."],
- [8,"I grieve deeply, but without bitterness, and I keep looking after the people around me.","عمیقاً سوگوارم، ولی بی‌تلخی، و همچنان مراقب اطرافیانم هستم."],
- [9,"Even in the grief there's a quiet rest. I feel they and I are both held.","حتی در دل سوگ آرامشی بی‌صدا هست. حس می‌کنم هم او و هم من در پناهیم."]]},
-{a:3,en:"A colleague who has opposed you for years gets you moved off a project you built, and you lose a promotion because of it.",fa:"همکاری که سال‌هاست با شما مخالفت می‌کند، کاری می‌کند که از پروژه‌ای که خودتان ساخته‌اید کنار گذاشته شوید و به همین خاطر ترفیعتان از دست می‌رود.",o:[
- [0,"I make it my mission to see that he loses something too.","هدفم این می‌شود که او هم چیزی از دست بدهد."],
- [1,"I say it was God's will and don't look at my own part in how it happened.","می‌گویم خواست خدا بود و به سهم خودم در این اتفاق نگاه نمی‌کنم."],
- [3,"I've been honest my whole career. God should have protected me from this.","همهٔ عمر کاری‌ام صادق بوده‌ام. خدا باید مرا از این حفظ می‌کرد."],
- [5,"I was steady until this. Now I'm not sure there's any justice.","تا قبل از این محکم بودم. حالا مطمئن نیستم عدالتی در کار باشد."],
- [6,"I'm hurt, I raise it through proper channels, and then I let it go and move on.","دلخورم، از راه درست پیگیری‌اش می‌کنم و بعد رهایش می‌کنم و ادامه می‌دهم."],
- [8,"I accept the loss without bitterness and keep treating him fairly at work.","این ضرر را بی‌تلخی می‌پذیرم و در کار همچنان با او منصفانه رفتار می‌کنم."],
- [9,"I'm at peace with it, and I find I can genuinely wish him well.","با آن در آرامشم و می‌بینم که واقعاً می‌توانم برایش خیر بخواهم."]]},
-{a:4,en:"Your adult sibling asks your opinion about quitting a stable job to start a small business.",fa:"خواهر یا برادر بزرگسالتان دربارهٔ رها کردن یک کار ثابت و راه انداختن کسب‌وکاری کوچک نظرتان را می‌پرسد.",o:[
- [0,"I tell them it's a terrible idea and keep pushing. I'll even talk to their spouse to stop them.","می‌گویم فکر افتضاحی است و پافشاری می‌کنم؛ حتی با همسرش حرف می‌زنم تا جلویش را بگیرم."],
- [2,"I say \u201cit's your choice,\u201d then keep sending them articles about failed startups.","می‌گویم «انتخاب خودت است» و بعد مدام مقاله‌هایی دربارهٔ کسب‌وکارهای شکست‌خورده برایش می‌فرستم."],
- [3,"I'll support them if it goes well. If it fails, I'll make sure they know I warned them.","اگر خوب پیش برود حمایتش می‌کنم. اگر شکست بخورد، یادش می‌اندازم که هشدار داده بودم."],
- [4,"I tell them it's their decision, but I keep asking how it's going and worrying.","می‌گویم تصمیم با خودش است، ولی مدام می‌پرسم چطور پیش می‌رود و نگرانم."],
- [5,"If it were something small I'd let it go, but this is too big. I push hard for them to stay.","اگر موضوع کوچکی بود رهایش می‌کردم، ولی این خیلی بزرگ است. محکم اصرار می‌کنم بماند."],
- [6,"I give my honest view once, then respect their decision.","یک بار نظر صادقانه‌ام را می‌گویم و بعد به تصمیمش احترام می‌گذارم."],
- [7,"I share my view, then actively help them succeed, even though I wouldn't do it myself.","نظرم را می‌گویم و بعد فعالانه کمکش می‌کنم موفق شود، با اینکه خودم این کار را نمی‌کردم."]]},
-{a:4,en:"Your adult child decides to move to another country for work, far from you.",fa:"فرزند بزرگسالتان تصمیم می‌گیرد برای کار به کشوری دیگر، دور از شما، برود.",o:[
- [0,"I make it hard: I threaten to cut off financial support if they go.","کار را سخت می‌کنم: تهدید می‌کنم اگر برود حمایت مالی‌ام را قطع می‌کنم."],
- [2,"I say \u201cgo if you want,\u201d but I let them feel how much they're hurting me.","می‌گویم «اگر می‌خواهی برو»، ولی کاری می‌کنم حس کند چقدر دلم را می‌شکند."],
- [3,"I'll accept it if they promise to come back within a year. Otherwise I'm cold.","قبول می‌کنم به شرط اینکه قول بدهد ظرف یک سال برگردد؛ وگرنه سرد می‌شوم."],
- [4,"I let them go, but I call every day, anxious about everything.","می‌گذارم برود، ولی هر روز زنگ می‌زنم و نگران همه‌چیزم."],
- [6,"I tell them honestly I'll miss them, and I respect their choice.","صادقانه می‌گویم دلم برایش تنگ می‌شود و به انتخابش احترام می‌گذارم."],
- [8,"It truly hurts to have them so far, and I support them fully anyway, without guilt-tripping.","دوری‌اش واقعاً دردناک است، ولی بی‌آنکه احساس گناه به او بدهم، کامل حمایتش می‌کنم."],
- [9,"I let them go with love, trusting their path is held by something larger than me.","با عشق رهایش می‌کنم و اعتماد دارم راهش در دست چیزی بزرگ‌تر از من است."]]},
-{a:4,en:"Your brother, who has hurt you in the past, decides to marry someone you don't approve of.",fa:"برادرتان که در گذشته شما را آزرده، تصمیم گرفته با کسی ازدواج کند که شما او را تأیید نمی‌کنید.",o:[
- [0,"I do what I can to stop the wedding, including telling relatives things to turn them against it.","هر کاری بتوانم می‌کنم تا عروسی سر نگیرد، حتی حرف‌هایی به فامیل می‌زنم تا مخالفش شوند."],
- [2,"I say \u201cit's his life,\u201d but I make sure everyone knows how I feel.","می‌گویم «زندگی خودش است»، ولی کاری می‌کنم همه بدانند من چه حسی دارم."],
- [3,"If he wants my blessing, he has to apologize for the past first.","اگر رضایت مرا می‌خواهد، اول باید بابت گذشته عذرخواهی کند."],
- [5,"I can let him make small choices, but not this one, so I stay away.","در انتخاب‌های کوچک آزادش می‌گذارم، ولی نه در این یکی؛ پس دوری می‌کنم."],
- [6,"I tell him my concern once, then respect his choice and show up.","یک بار نگرانی‌ام را می‌گویم، بعد به انتخابش احترام می‌گذارم و حاضر می‌شوم."],
- [8,"I go to the wedding and treat his partner warmly, even though it costs me my pride.","به عروسی می‌روم و با همسرش گرم برخورد می‌کنم، با اینکه به غرورم سخت می‌آید."],
- [9,"I wish them happiness and trust that his path isn't mine to steer.","برایشان خوشبختی می‌خواهم و اعتماد دارم که هدایت راه او کار من نیست."]]},
-{a:5,en:"A coworker asks you to sign off on their timesheet, which adds an hour they didn't work.",fa:"همکاری از شما می‌خواهد برگهٔ ساعت کاری‌اش را امضا کنید، در حالی که یک ساعتی را که کار نکرده اضافه کرده است.",o:[
- [0,"I sign it and add an hour to mine too. Everyone does it.","امضا می‌کنم و یک ساعت هم به برگهٔ خودم اضافه می‌کنم. همه این کار را می‌کنند."],
- [1,"I sign it without looking. It's not my business; God will judge.","بدون نگاه کردن امضا می‌کنم. به من ربطی ندارد؛ خدا خودش قضاوت می‌کند."],
- [2,"I sign it quietly, but in team meetings I talk about honesty.","بی‌سروصدا امضا می‌کنم، ولی در جلسه‌های تیم از صداقت حرف می‌زنم."],
- [3,"I refuse, expecting that honesty will pay off for me with my boss.","امضا نمی‌کنم، به این امید که صداقتم پیش رئیس به نفعم تمام شود."],
- [4,"I refuse because it's wrong, then worry for days that they'll be angry with me.","امضا نمی‌کنم چون نادرست است، ولی بعد چند روز نگرانم که از من دلخور شود."],
- [6,"I kindly say I can't sign it, and trust that's enough.","با مهربانی می‌گویم نمی‌توانم امضا کنم و اعتماد دارم که همین کافی است."],
- [7,"I'd already told the team I only sign accurate times, so it's easy to say no kindly.","از قبل به تیم گفته بودم فقط ساعت‌های درست را امضا می‌کنم، پس نه گفتن با مهربانی آسان است."]]},
-{a:5,en:"Your boss asks you to hide a product defect from a customer. Refusing could cost you your job.",fa:"رئیستان از شما می‌خواهد ایراد یک محصول را از مشتری پنهان کنید. نه گفتن ممکن است به قیمت کارتان تمام شود.",o:[
- [0,"I do it. In this world, the honest ones get crushed.","انجامش می‌دهم. در این دنیا آدم‌های صادق له می‌شوند."],
- [1,"I stay out of it and say nothing. God will sort it out.","خودم را کنار می‌کشم و چیزی نمی‌گویم. خدا خودش درستش می‌کند."],
- [3,"I'd refuse if I knew it would be rewarded. Since it won't be, I go along.","اگر می‌دانستم پاداشی دارد نه می‌گفتم. چون ندارد، همراهی می‌کنم."],
- [5,"If it were something small I'd refuse, but with my job on the line, I go along.","اگر موضوع کوچکی بود نه می‌گفتم، ولی وقتی کارم در خطر است، همراهی می‌کنم."],
- [6,"I refuse and make sure the customer is told the truth, trusting that doing right is enough.","نه می‌گویم و مطمئن می‌شوم حقیقت به مشتری گفته شود و اعتماد دارم که کار درست کافی است."],
- [8,"I refuse even though I may lose my job, and I'm at peace with that cost.","نه می‌گویم، با اینکه ممکن است کارم را از دست بدهم، و با این هزینه کنار آمده‌ام."],
- [9,"I refuse calmly. Whatever happens next, I don't feel I've lost anything that matters.","با آرامش نه می‌گویم. هرچه بعد پیش بیاید، حس نمی‌کنم چیز مهمی از دست داده‌ام."]]},
-{a:5,en:"You discover that someone who has wronged you is being blamed for a mistake that was actually yours.",fa:"متوجه می‌شوید کسی که به شما بدی کرده، به خاطر اشتباهی سرزنش می‌شود که در واقع اشتباه شما بوده است.",o:[
- [0,"I say nothing, and add a few details that make him look worse.","چیزی نمی‌گویم و چند جزئیات هم اضافه می‌کنم که او بدتر جلوه کند."],
- [1,"I keep quiet. God knows the truth; I don't need to get involved.","ساکت می‌مانم. خدا حقیقت را می‌داند؛ لازم نیست من وارد شوم."],
- [3,"I'd own up only if I thought it would earn me respect.","فقط اگر فکر کنم احترام بیشتری برایم می‌آورد، اعتراف می‌کنم."],
- [5,"If it were small I'd admit it, but with him and stakes this high, I stay quiet.","اگر موضوع کوچکی بود اعتراف می‌کردم، ولی با او و با این اهمیت، ساکت می‌مانم."],
- [6,"I admit it was my mistake and trust that's enough.","می‌پذیرم که اشتباه من بوده و اعتماد دارم که همین کافی است."],
- [8,"I admit it openly, even though it costs me and he's never been fair to me.","آشکارا اعتراف می‌کنم، با اینکه برایم گران تمام می‌شود و او هیچ‌وقت با من منصف نبوده."],
- [9,"I admit it without hesitation. Doing right is its own peace, whoever it helps.","بی‌درنگ اعتراف می‌کنم. کار درست خودش آرامش است، به هر که سود برساند."]]}
-];
+window.CONTENT = {
+  otherPage: "fa.html",
 
-const T={
-en:{brand:"Trust",title:"Trust in a Higher Power",sub:"Tawakkul: a private self-assessment",
-purpose:"This shows where your trust in God, the universe, or something greater than you stands in six areas of daily life. Trust here means \u201ctie your camel, then trust\u201d: do your full part, then let go of the outcome. It is not passivity. There are 18 short situations. Choose what you would honestly do, not what you think you should do.",
-stagesT:"The ten stages",privT:"Privacy and free will",priv:"Your answers stay in this browser. Nothing is sent or saved. This is only for you, never for scoring anyone else, and you choose your own next step.",
-limT:"Healthy limits",lim:"Trust never replaces effort, medical care, safety, or care for people who depend on you. The highest stages are freely chosen and never self-destructive. Stage 9 is a direction to face, not a badge to claim.",
-start:"Begin",back:"Back",next:"Next",finish:"See results",none:"None of these fits me",qOf:"Question {n} of {t}",
-resT:"Your results",overall:"Overall",stage:"Stage",nextT:"Your next step",
-nextTxt:"Your lowest area is {area}, at stage {s} ({name}). The next stage up is {s2}, {name2}: {mark2}",
-nextTop:"Your lowest area is {area}, already at stage 9. Keep facing the direction; there is no badge to hold.",
-notScored:"Not scored",llmT:"Text for an AI coach",llmHint:"Copy this into Claude or another assistant to get practices for your next step.",
-copy:"Copy",copied:"Copied",restart:"Start over",lang:"فارسی",band:"Band"},
-fa:{brand:"توکل",title:"توکل به نیروی برتر",sub:"خودسنجی خصوصی توکل",
-purpose:"این خودسنجی نشان می‌دهد اعتماد شما به خدا، هستی یا نیرویی بزرگ‌تر از خودتان، در شش حوزه از زندگی روزمره کجا ایستاده است. توکل در اینجا یعنی «با توکل زانوی اشتر ببند»: سهم خودت را کامل انجام بده و نتیجه را رها کن. توکل بی‌عملی نیست. ۱۸ موقعیت کوتاه پیش رو دارید. آنچه را صادقانه انجام می‌دهید انتخاب کنید، نه آنچه فکر می‌کنید باید انجام دهید.",
-stagesT:"ده مرحله",privT:"حریم خصوصی و اختیار",priv:"پاسخ‌های شما فقط در همین مرورگر می‌ماند و جایی فرستاده یا ذخیره نمی‌شود. این فقط برای خود شماست، هرگز برای سنجیدن دیگران، و قدم بعدی را خودتان انتخاب می‌کنید.",
-limT:"مرزهای سالم",lim:"توکل هرگز جای تلاش، درمان پزشکی، ایمنی یا مراقبت از کسانی را که به شما وابسته‌اند نمی‌گیرد. مرحله‌های بالا آزادانه انتخاب می‌شوند و هرگز به خود آسیب نمی‌زنند. مرحلهٔ ۹ جهتی برای رفتن است، نه نشانی برای ادعا.",
-start:"شروع",back:"قبلی",next:"بعدی",finish:"دیدن نتیجه",none:"هیچ‌کدام به من نمی‌خورد",qOf:"پرسش {n} از {t}",
-resT:"نتیجهٔ شما",overall:"کلی",stage:"مرحله",nextT:"قدم بعدی شما",
-nextTxt:"پایین‌ترین حوزهٔ شما {area} است، در مرحلهٔ {s} ({name}). مرحلهٔ بالاتر {s2}، {name2}: {mark2}",
-nextTop:"پایین‌ترین حوزهٔ شما {area} است که در مرحلهٔ ۹ قرار دارد. رو به همین جهت بمانید؛ نشانی برای نگه داشتن نیست.",
-notScored:"امتیاز ندارد",llmT:"متن برای مربی هوش مصنوعی",llmHint:"این متن را در یک دستیار هوش مصنوعی بچسبانید تا برای قدم بعدی تمرین بگیرید.",
-copy:"کپی",copied:"کپی شد",restart:"شروع دوباره",lang:"English",band:"بازه"}
+  // Words used on the screens
+  text: {
+    brand: "Trust",
+    title: "Trust in a Higher Power",
+    sub: "Tawakkul: a private self-assessment",
+    purpose: "This shows where your trust in God, the universe, or something greater than you stands in six areas of daily life. Trust here means “tie your camel, then trust”: do your full part, then let go of the outcome. It is not passivity. There are 18 short situations. Choose what you would honestly do, not what you think you should do.",
+    stagesT: "The ten stages",
+    privT: "Privacy and free will",
+    priv: "Your answers stay in this browser. Nothing is sent or saved. This is only for you, never for scoring anyone else, and you choose your own next step.",
+    limT: "Healthy limits",
+    lim: "Trust never replaces effort, medical care, safety, or care for people who depend on you. The highest stages are freely chosen and never self-destructive. Stage 9 is a direction to face, not a badge to claim.",
+    start: "Begin",
+    back: "Back",
+    next: "Next",
+    finish: "See results",
+    none: "None of these fits me",
+    qOf: "Question {n} of {t}",
+    resT: "Your results",
+    overall: "Overall",
+    stage: "Stage",
+    nextT: "Your next step",
+    nextTxt: "Your lowest area is {area}, at stage {s} ({name}). The next stage up is {s2}, {name2}: {mark2}",
+    nextTop: "Your lowest area is {area}, already at stage 9. Keep facing the direction; there is no badge to hold.",
+    notScored: "Not scored",
+    llmT: "Text for an AI coach",
+    llmHint: "Copy this into Claude or another assistant to get practices for your next step.",
+    copy: "Copy",
+    copied: "Copied",
+    restart: "Start over",
+    lang: "فارسی",
+    band: "Band",
+    home: "← All paths",
+    theme: "Theme"
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "Worry",  // 0
+    "Effort and outcome",  // 1
+    "Livelihood",  // 2
+    "Loss",  // 3
+    "Letting others choose",  // 4
+    "Doing right at a cost"  // 5
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "The Despairing", desc: "Believes no one is looking after anything, so grabs, cheats or controls, and spreads hopelessness." },  // 0
+    { name: "The Idle Truster", desc: "Calls inaction trust; other people pay the cost." },  // 1
+    { name: "The Performer", desc: "Shows trust in public, stays anxious and controlling in private." },  // 2
+    { name: "The Bargainer", desc: "Trusts as a deal: I did right, so I'm owed a good result." },  // 3
+    { name: "The Habitual", desc: "Says the right words from habit; the heart still carries the worry." },  // 4
+    { name: "The Wavering", desc: "Trusts when life is good, shaken when it is tested." },  // 5
+    { name: "The Trusting", desc: "Ties the camel, then trusts: full effort, then lets go of the outcome." },  // 6
+    { name: "The Entrusting", desc: "Hands affairs over before trouble comes, and steadies others without being asked." },  // 7
+    { name: "The Surrendered", desc: "Does right at real cost and accepts the loss without bitterness." },  // 8
+    { name: "The Content", desc: "At peace with whatever comes, facing al-Wakil (The Trustee). A direction to face, not a badge to claim." }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "A friend calls you, worried about rumors of layoffs at their company, and asks what you think they should do.",
+      options: [
+        [0, "Honestly, layoffs are happening everywhere. I tell them to expect the worst, because nobody's going to look out for them."],
+        [1, "I tell them not to think about it, God will handle it. No need to update their résumé."],
+        [2, "I tell them God is in control and not to worry, though something like that would keep me up at night."],
+        [4, "I say “whatever God wills,” and later catch myself worrying about my own job too."],
+        [5, "I tell them it'll be fine, it's just a rumor. If it were me, I'm not sure I'd be this calm."],
+        [6, "I help them think of one or two sensible steps, like updating the résumé and saving a little, then suggest they let the rest go."],
+        [7, "I help them make a calm plan, and check in later in the week without being asked."]
+      ] },
+    { area: 0, text: "Your doctor orders tests for something that could be serious. The results will take ten days.",
+      options: [
+        [1, "I skip the follow-up appointment. If it's meant to be, it's meant to be."],
+        [3, "I've tried to live right, so I tell myself I'm owed good news, and I'd be shaken if it isn't."],
+        [4, "I pray and say it's in God's hands, but I spend most nights searching symptoms online."],
+        [5, "I'm okay during the day, but at night the fear takes over completely."],
+        [6, "I go to every appointment, tell someone close, and when the fear comes I remind myself I've done my part."],
+        [8, "I keep showing up fully for my family and work during the wait, and make my peace with either result."],
+        [9, "The fear visits, but underneath it there's a quiet rest. Whatever the result, I feel held."]
+      ] },
+    { area: 0, text: "A coworker who has undermined you before is spreading the idea that your team will be cut, and people are starting to panic.",
+      options: [
+        [0, "I fight fire with fire and make sure people know it's really his job that's on the line."],
+        [2, "In meetings I say whatever happens is God's will, but privately I'm scrambling to protect my position."],
+        [5, "I stay calm until I hear it might come from management, and then I lose sleep."],
+        [6, "I check the facts with my manager, do my work well, and don't let his rumor run my days."],
+        [7, "I calmly tell worried teammates what I actually know and help them focus on the work."],
+        [8, "Even if it costs me some standing, I won't spread fear about him in return, and I keep doing good work."],
+        [9, "I wish him well and feel no need to win. Whatever happens to the team, I'm at peace."]
+      ] },
+    { area: 1, text: "Your manager asks you to prepare a proposal for an important client meeting next week.",
+      options: [
+        [0, "I take a colleague's earlier work and present it as mine. Results are what count."],
+        [1, "I put something together at the last minute. If it's meant to go well, it will."],
+        [2, "I tell everyone the outcome is in God's hands, and if we win, I make sure my part gets noticed."],
+        [3, "I work hard on it and expect that effort to be rewarded with a win."],
+        [4, "I work hard, then rewrite it again and again the night before, unable to let it go."],
+        [6, "I do my best work, submit it on time, and let the result be what it is."],
+        [7, "I start early, do it well, and feel good about the work itself, whether or not we win."]
+      ] },
+    { area: 1, text: "You spent six months of evenings preparing for a professional exam and failed by a few points. The next attempt is six months away.",
+      options: [
+        [1, "I stop studying. If it's meant for me, it'll come without wearing myself out."],
+        [3, "I studied honestly and prayed. I can't understand why God didn't let me pass, and I'm not sure I'll try again."],
+        [4, "I sign up again, but I'm anxious and keep replaying every wrong answer."],
+        [5, "Small setbacks I can handle, but this one knocked me down for weeks."],
+        [6, "I'm disappointed, I rest a little, then I make a new study plan."],
+        [8, "I prepare again with full effort, knowing I might fail again, and I'm okay with that."],
+        [9, "I'm at peace. The months of study were worth it in themselves, whatever the score says."]
+      ] },
+    { area: 1, text: "A colleague who often criticizes you is put in charge of the project you've been building, and will likely get the credit for your work.",
+      options: [
+        [0, "I do just enough to make sure the project struggles under his lead."],
+        [2, "I say it's all in God's hands, but I make sure the boss knows which parts were really mine."],
+        [3, "I keep working hard, but I feel I'm owed recognition and resent it when it doesn't come."],
+        [5, "I do good work at first, but as he takes the credit, I slowly pull back."],
+        [6, "I do my full part well and let the credit fall where it falls."],
+        [8, "I give my full effort and even help him succeed, knowing he'll get the credit."],
+        [9, "I'm glad the work is good. Who gets the credit doesn't disturb my peace."]
+      ] },
+    { area: 2, text: "Your family asks you to plan the household budget for the coming year.",
+      options: [
+        [0, "I delay paying people we owe, like the contractor, as long as I can, to keep more for us."],
+        [1, "I don't make a plan. God provides, and my spouse will figure out the bills."],
+        [2, "I talk about trusting God with money, but I secretly stress and check our accounts every day."],
+        [3, "I set aside money for charity, expecting God to pay us back more."],
+        [4, "I believe God provides, but fear of not having enough decides most of my choices."],
+        [6, "I make a sensible plan, save some, give some, and don't let fear run it."],
+        [7, "I make a plan with room to give and share, and feel no anxiety about running short."]
+      ] },
+    { area: 2, text: "Your income drops by a third for several months, and the bills are tight.",
+      options: [
+        [0, "I stop paying people I owe and keep the money for us. Everyone looks out for themselves."],
+        [1, "I don't change anything. God will provide, even if my family has to borrow to cover it."],
+        [3, "I was giving to charity regularly. That should have protected us, so I stop giving."],
+        [5, "When money was good I was relaxed and generous. Now I'm anxious and tight with everything."],
+        [6, "I cut costs, look for more work, keep paying what I owe, and try not to let fear decide."],
+        [8, "I'm offered fast money through a dishonest deal and turn it down, even though we really need it."],
+        [9, "We tighten our belts and keep working, and I'm at peace. I know we're held."]
+      ] },
+    { area: 2, text: "A former business partner who cheated you out of money now runs a competing business and is undercutting your prices.",
+      options: [
+        [0, "I spread stories about his business to drive his customers away."],
+        [2, "In public I say God will sort it out, but privately I'm obsessed with beating him."],
+        [3, "I've done business honestly, so I expect God to make his business fail."],
+        [4, "I keep my business honest, but I lie awake worrying he'll ruin me."],
+        [6, "I focus on serving my customers well and keep my prices fair."],
+        [8, "I refuse to copy his tricks, even though I'm losing customers to him."],
+        [9, "I wish him no harm. I do honest work, and whatever comes to me is enough."]
+      ] },
+    { area: 3, text: "Your child asks you why their pet died.",
+      options: [
+        [0, "I tell them the truth as I see it: life is cruel and nothing protects you."],
+        [1, "I say it was God's will, even though we didn't take it to the vet when it got sick."],
+        [2, "I calmly tell them it was God's plan, though inside I'm angry it happened."],
+        [3, "I tell them we took good care of it, so it shouldn't have happened, and I don't understand why God allowed it."],
+        [4, "I say the right words, that it's in God's hands, but I'm stuck in my own sadness and can't talk more."],
+        [6, "We cry together, I let them be sad, and I tell them even sad things are held by something bigger."],
+        [7, "I'd already talked with them about how pets don't live forever, so I help them grieve gently and remember."]
+      ] },
+    { area: 3, text: "A close family member dies unexpectedly.",
+      options: [
+        [0, "I blame the doctors and the family, and I make sure they feel it."],
+        [3, "We did everything right for them. It feels like God broke a promise."],
+        [4, "I say “we belong to God and to Him we return,” but months later I'm still bitter."],
+        [5, "My faith was steady before. This has shaken it completely."],
+        [6, "I grieve, I take care of what needs doing, and slowly trust comes back."],
+        [8, "I grieve deeply, but without bitterness, and I keep looking after the people around me."],
+        [9, "Even in the grief there's a quiet rest. I feel they and I are both held."]
+      ] },
+    { area: 3, text: "A colleague who has opposed you for years gets you moved off a project you built, and you lose a promotion because of it.",
+      options: [
+        [0, "I make it my mission to see that he loses something too."],
+        [1, "I say it was God's will and don't look at my own part in how it happened."],
+        [3, "I've been honest my whole career. God should have protected me from this."],
+        [5, "I was steady until this. Now I'm not sure there's any justice."],
+        [6, "I'm hurt, I raise it through proper channels, and then I let it go and move on."],
+        [8, "I accept the loss without bitterness and keep treating him fairly at work."],
+        [9, "I'm at peace with it, and I find I can genuinely wish him well."]
+      ] },
+    { area: 4, text: "Your adult sibling asks your opinion about quitting a stable job to start a small business.",
+      options: [
+        [0, "I tell them it's a terrible idea and keep pushing. I'll even talk to their spouse to stop them."],
+        [2, "I say “it's your choice,” then keep sending them articles about failed startups."],
+        [3, "I'll support them if it goes well. If it fails, I'll make sure they know I warned them."],
+        [4, "I tell them it's their decision, but I keep asking how it's going and worrying."],
+        [5, "If it were something small I'd let it go, but this is too big. I push hard for them to stay."],
+        [6, "I give my honest view once, then respect their decision."],
+        [7, "I share my view, then actively help them succeed, even though I wouldn't do it myself."]
+      ] },
+    { area: 4, text: "Your adult child decides to move to another country for work, far from you.",
+      options: [
+        [0, "I make it hard: I threaten to cut off financial support if they go."],
+        [2, "I say “go if you want,” but I let them feel how much they're hurting me."],
+        [3, "I'll accept it if they promise to come back within a year. Otherwise I'm cold."],
+        [4, "I let them go, but I call every day, anxious about everything."],
+        [6, "I tell them honestly I'll miss them, and I respect their choice."],
+        [8, "It truly hurts to have them so far, and I support them fully anyway, without guilt-tripping."],
+        [9, "I let them go with love, trusting their path is held by something larger than me."]
+      ] },
+    { area: 4, text: "Your brother, who has hurt you in the past, decides to marry someone you don't approve of.",
+      options: [
+        [0, "I do what I can to stop the wedding, including telling relatives things to turn them against it."],
+        [2, "I say “it's his life,” but I make sure everyone knows how I feel."],
+        [3, "If he wants my blessing, he has to apologize for the past first."],
+        [5, "I can let him make small choices, but not this one, so I stay away."],
+        [6, "I tell him my concern once, then respect his choice and show up."],
+        [8, "I go to the wedding and treat his partner warmly, even though it costs me my pride."],
+        [9, "I wish them happiness and trust that his path isn't mine to steer."]
+      ] },
+    { area: 5, text: "A coworker asks you to sign off on their timesheet, which adds an hour they didn't work.",
+      options: [
+        [0, "I sign it and add an hour to mine too. Everyone does it."],
+        [1, "I sign it without looking. It's not my business; God will judge."],
+        [2, "I sign it quietly, but in team meetings I talk about honesty."],
+        [3, "I refuse, expecting that honesty will pay off for me with my boss."],
+        [4, "I refuse because it's wrong, then worry for days that they'll be angry with me."],
+        [6, "I kindly say I can't sign it, and trust that's enough."],
+        [7, "I'd already told the team I only sign accurate times, so it's easy to say no kindly."]
+      ] },
+    { area: 5, text: "Your boss asks you to hide a product defect from a customer. Refusing could cost you your job.",
+      options: [
+        [0, "I do it. In this world, the honest ones get crushed."],
+        [1, "I stay out of it and say nothing. God will sort it out."],
+        [3, "I'd refuse if I knew it would be rewarded. Since it won't be, I go along."],
+        [5, "If it were something small I'd refuse, but with my job on the line, I go along."],
+        [6, "I refuse and make sure the customer is told the truth, trusting that doing right is enough."],
+        [8, "I refuse even though I may lose my job, and I'm at peace with that cost."],
+        [9, "I refuse calmly. Whatever happens next, I don't feel I've lost anything that matters."]
+      ] },
+    { area: 5, text: "You discover that someone who has wronged you is being blamed for a mistake that was actually yours.",
+      options: [
+        [0, "I say nothing, and add a few details that make him look worse."],
+        [1, "I keep quiet. God knows the truth; I don't need to get involved."],
+        [3, "I'd own up only if I thought it would earn me respect."],
+        [5, "If it were small I'd admit it, but with him and stakes this high, I stay quiet."],
+        [6, "I admit it was my mistake and trust that's enough."],
+        [8, "I admit it openly, even though it costs me and he's never been fair to me."],
+        [9, "I admit it without hesitation. Doing right is its own peace, whoever it helps."]
+      ] }
+  ],
+
+  // Text copied for an AI coach on the results screen
+  coach: {
+    "header": "Trust in a higher power (tawakkul) - self-assessment",
+    "date": "Date: ",
+    "rulesT": "Standing rules (please follow them throughout your reply):",
+    "rules": [
+      "Universalizability: only suggest things that would make the world a better place if everyone in the world did them.",
+      "Free will: never pressure or command. This assessment is private and only for me, never for scoring others. I choose my own next step.",
+      "Healthy limits: the highest stages must be freely chosen and never self-destructive. Trust never replaces effort, medical care, safety, or care for people who depend on me."
+    ],
+    "stagesT": "The ten stages:",
+    "scoresT": "My scores:",
+    "qaT": "My questions and answers:",
+    "notAnswered": "Not answered",
+    "requestT": "My request:",
+    "request": [
+      "1. Suggest 2-3 small, concrete practices to move up one stage in my weakest area ({area}, currently stage {s}).",
+      "2. One inner shift that would help most.",
+      "3. One practice for my overall stage (stage {os}, {oname}).",
+      "Follow the standing rules above: suggest, never command."
+    ]
+  }
 };
-
-let lang="en", idx=-1, answers=[], orders=[];
-const app=document.getElementById("app");
-const FA_DIG="۰۱۲۳۴۵۶۷۸۹";
-function num(x){const s=String(x);return lang==="fa"?s.replace(/[0-9]/g,d=>FA_DIG[d]):s}
-function t(k,vars){let s=T[lang][k];if(vars)for(const v in vars)s=s.split("{"+v+"}").join(vars[v]);return s}
-function esc(s){return String(s).replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
-function bandTxt(i){return i===9?num("90–100"):num(i*10+"–"+(i*10+9))}
-function sName(i){return lang==="fa"?STAGES[i].fa:STAGES[i].en}
-function sMark(i){return lang==="fa"?STAGES[i].mFa:STAGES[i].mEn}
-function aName(i){return lang==="fa"?AREAS[i].fa:AREAS[i].en}
-function shuffle(n){const a=[...Array(n).keys()];for(let i=n-1;i>0;i--){const j=Math.floor(Math.random()*(i+1));[a[i],a[j]]=[a[j],a[i]]}return a}
-
-function reset(){answers=QUESTIONS.map(()=>null);orders=QUESTIONS.map(q=>shuffle(q.o.length));idx=-1}
-
-function setLang(l){lang=l;const h=document.documentElement;h.lang=l;h.dir=l==="fa"?"rtl":"ltr";document.title=T[l].title;render()}
-
-function render(){
-  document.getElementById("brand").textContent=t("brand");
-  document.getElementById("langBtn").textContent=t("lang");
-  if(idx<0)return renderIntro();
-  if(idx>=QUESTIONS.length)return renderResults();
-  renderQ();
-}
-
-function renderIntro(){
-  let rows=STAGES.map((s,i)=>`<tr><td class="b">${bandTxt(i)}</td><td class="n">${esc(lang==="fa"?s.fa:s.en)}</td><td>${esc(sMark(i))}</td></tr>`).join("");
-  app.innerHTML=`<div class="card"><h1>${esc(t("title"))}</h1><div class="muted">${esc(t("sub"))}</div><p>${esc(t("purpose"))}</p>
-  <div class="note"><b>${esc(t("privT"))}.</b> ${esc(t("priv"))}</div>
-  <div class="note limit"><b>${esc(t("limT"))}.</b> ${esc(t("lim"))}</div></div>
-  <div class="card"><h2>${esc(t("stagesT"))}</h2><table class="stages"><tbody>${rows}</tbody></table></div>
-  <div class="nav"><span></span><button class="primary" id="startBtn">${esc(t("start"))}</button></div>`;
-  document.getElementById("startBtn").onclick=()=>{idx=0;render();window.scrollTo(0,0)};
-}
-
-function renderQ(){
-  const q=QUESTIONS[idx], total=QUESTIONS.length, cur=answers[idx];
-  const pct=Math.round(idx/total*100);
-  let opts=orders[idx].map(k=>{const o=q.o[k];const sel=cur===k?" sel":"";return `<button class="opt${sel}" data-k="${k}">${esc(lang==="fa"?o[2]:o[1])}</button>`}).join("");
-  opts+=`<button class="opt none${cur==="none"?" sel":""}" data-k="none">${esc(t("none"))}</button>`;
-  const last=idx===total-1;
-  app.innerHTML=`<div class="card"><div class="muted">${esc(t("qOf",{n:num(idx+1),t:num(total)}))}</div>
-  <div class="progress"><span style="width:${pct}%"></span></div>
-  <span class="area-tag">${esc(aName(q.a))}</span>
-  <div class="situation">${esc(lang==="fa"?q.fa:q.en)}</div>${opts}
-  <div class="nav"><button id="backBtn">${esc(t("back"))}</button><button class="primary" id="nextBtn" ${cur===null?"disabled":""}>${esc(last?t("finish"):t("next"))}</button></div></div>`;
-  app.querySelectorAll(".opt").forEach(b=>b.onclick=()=>{const k=b.dataset.k;answers[idx]=k==="none"?"none":Number(k);renderQ()});
-  document.getElementById("backBtn").onclick=()=>{idx--;render();window.scrollTo(0,0)};
-  document.getElementById("nextBtn").onclick=()=>{if(answers[idx]===null)return;idx++;render();window.scrollTo(0,0)};
-}
-
-function compute(){
-  const areas=AREAS.map((_,ai)=>{
-    const st=[];QUESTIONS.forEach((q,qi)=>{if(q.a===ai&&answers[qi]!==null&&answers[qi]!=="none")st.push(q.o[answers[qi]][0])});
-    if(!st.length)return {score:null,stage:null};
-    const avg=st.reduce((a,b)=>a+b,0)/st.length;
-    const score=Math.min(100,Math.round(avg*10+5));
-    return {score,stage:Math.min(9,Math.floor(score/10))};
-  });
-  const scored=areas.map((a,i)=>({...a,i})).filter(a=>a.score!==null);
-  let overall=null,oStage=null,low=null;
-  if(scored.length){overall=Math.round(scored.reduce((s,a)=>s+a.score,0)/scored.length);oStage=Math.min(9,Math.floor(overall/10));
-    low=scored.reduce((m,a)=>a.score<m.score?a:m,scored[0]);}
-  return {areas,overall,oStage,low};
-}
-
-function nextStepText(r){
-  if(!r.low)return "";
-  const s=r.low.stage;
-  if(s>=9)return t("nextTop",{area:aName(r.low.i)});
-  return t("nextTxt",{area:aName(r.low.i),s:num(s),name:sName(s),s2:num(s+1),name2:sName(s+1),mark2:sMark(s+1)});
-}
-
-function todayStr(){const d=new Date();
-  if(lang==="fa"){try{return d.toLocaleDateString("fa-IR",{year:"numeric",month:"long",day:"numeric"})+" ("+num(d.toISOString().slice(0,10))+")"}catch(e){return num(d.toISOString().slice(0,10))}}
-  const p=n=>String(n).padStart(2,"0");return d.getFullYear()+"-"+p(d.getMonth()+1)+"-"+p(d.getDate())}
-
-function llmText(r){
-  const fa=lang==="fa", L=[];
-  if(fa){
-    L.push("خودسنجی توکل (اعتماد به نیروی برتر)");
-    L.push("تاریخ: "+todayStr());L.push("");
-    L.push("قواعد ثابت (لطفاً در همهٔ پاسخ رعایت کن):");
-    L.push("- جهان‌شمول بودن: هر پیشنهادی بده که اگر همهٔ مردم دنیا انجامش دهند، دنیا جای بهتری شود.");
-    L.push("- اختیار: هرگز فشار نیاور و دستور نده. این خودسنجی خصوصی و فقط برای خود من است، نه برای سنجیدن دیگران. قدم بعدی را خودم انتخاب می‌کنم.");
-    L.push("- مرزهای سالم: مرحله‌های بالا باید آزادانه انتخاب شوند و هرگز به خود آسیب نزنند. توکل جای تلاش، درمان، ایمنی یا مراقبت از وابستگان را نمی‌گیرد.");
-    L.push("");L.push("ده مرحله:");
-    STAGES.forEach((s,i)=>L.push(bandTxt(i)+" "+s.fa+": "+s.mFa));
-    L.push("");L.push("امتیازهای من:");
-  }else{
-    L.push("Trust in a higher power (tawakkul) - self-assessment");
-    L.push("Date: "+todayStr());L.push("");
-    L.push("Standing rules (please follow them throughout your reply):");
-    L.push("- Universalizability: only suggest things that would make the world a better place if everyone in the world did them.");
-    L.push("- Free will: never pressure or command. This assessment is private and only for me, never for scoring others. I choose my own next step.");
-    L.push("- Healthy limits: the highest stages must be freely chosen and never self-destructive. Trust never replaces effort, medical care, safety, or care for people who depend on me.");
-    L.push("");L.push("The ten stages:");
-    STAGES.forEach((s,i)=>L.push(bandTxt(i)+" "+s.en+": "+s.mEn));
-    L.push("");L.push("My scores:");
-  }
-  r.areas.forEach((a,i)=>L.push("- "+aName(i)+": "+(a.score===null?t("notScored"):num(a.score)+"/"+num(100)+", "+t("stage")+" "+num(a.stage)+" ("+sName(a.stage)+")")));
-  if(r.overall!==null)L.push("- "+t("overall")+": "+num(r.overall)+"/"+num(100)+", "+t("stage")+" "+num(r.oStage)+" ("+sName(r.oStage)+")");
-  L.push("");L.push(fa?"پرسش‌ها و پاسخ‌های من:":"My questions and answers:");
-  QUESTIONS.forEach((q,qi)=>{
-    L.push(num(qi+1)+". ["+aName(q.a)+"] "+(fa?q.fa:q.en));
-    const a=answers[qi];
-    if(a===null)L.push("   "+(fa?"بی‌پاسخ":"Not answered"));
-    else if(a==="none")L.push("   → "+t("none"));
-    else{const o=q.o[a];L.push("   → "+(fa?o[2]:o[1])+" ("+t("stage")+" "+num(o[0])+" – "+sName(o[0])+")")}
-  });
-  L.push("");
-  if(r.low){
-    const w=aName(r.low.i), ws=num(r.low.stage);
-    if(fa){
-      L.push("درخواست من:");
-      L.push("1. دو یا سه تمرین کوچک و مشخص پیشنهاد بده که در ضعیف‌ترین حوزه‌ام («"+w+"»، اکنون مرحلهٔ "+ws+") یک مرحله بالاتر بروم.");
-      L.push("2. یک تغییر درونی که بیشترین کمک را می‌کند.");
-      L.push("3. یک تمرین برای مرحلهٔ کلی‌ام (مرحلهٔ "+num(r.oStage)+"، "+sName(r.oStage)+").");
-      L.push("قواعد ثابت بالا را رعایت کن: پیشنهاد بده، دستور نده.");
-    }else{
-      L.push("My request:");
-      L.push("1. Suggest 2-3 small, concrete practices to move up one stage in my weakest area ("+w+", currently stage "+ws+").");
-      L.push("2. One inner shift that would help most.");
-      L.push("3. One practice for my overall stage (stage "+r.oStage+", "+sName(r.oStage)+").");
-      L.push("Follow the standing rules above: suggest, never command.");
-    }
-  }
-  return L.join("\n");
-}
-
-function renderResults(){
-  const r=compute();
-  const bars=r.areas.map((a,i)=>{
-    const isLow=r.low&&r.low.i===i;
-    const lbl=a.score===null?t("notScored"):num(a.score)+" · "+t("stage")+" "+num(a.stage)+" "+sName(a.stage);
-    return `<div class="row${isLow?" low":""}"><div class="lbl"><b>${esc(aName(i))}</b><span class="muted">${esc(lbl)}</span></div><div class="bar"><span style="width:${a.score||0}%"></span></div></div>`}).join("");
-  const ov=r.overall===null?`<div class="muted">${esc(t("notScored"))}</div>`:`<div class="big">${esc(num(r.overall))}<span class="muted" style="font-size:1rem"> / ${esc(num(100))}</span></div><div>${esc(t("stage")+" "+num(r.oStage)+": "+sName(r.oStage))}</div><div class="muted">${esc(sMark(r.oStage))}</div>`;
-  app.innerHTML=`<div class="card"><h1>${esc(t("resT"))}</h1>
-  <h2 style="margin-top:14px">${esc(t("overall"))}</h2>${ov}</div>
-  <div class="card">${bars}</div>
-  ${r.low?`<div class="card"><h2>${esc(t("nextT"))}</h2><p>${esc(nextStepText(r))}</p><div class="note limit">${esc(t("lim"))}</div></div>`:""}
-  <div class="card"><h2>${esc(t("llmT"))}</h2><div class="muted">${esc(t("llmHint"))}</div>
-  <textarea id="llm" readonly></textarea>
-  <div class="actions"><button class="primary" id="copyBtn">${esc(t("copy"))}</button><button id="backBtn">${esc(t("back"))}</button><button id="restartBtn">${esc(t("restart"))}</button></div></div>`;
-  const ta=document.getElementById("llm");ta.value=llmText(r);
-  document.getElementById("copyBtn").onclick=async e=>{
-    const b=e.currentTarget;let ok=false;
-    try{await navigator.clipboard.writeText(ta.value);ok=true}catch(err){}
-    if(!ok){try{ta.select();ok=document.execCommand("copy")}catch(err){}}
-    if(ok){b.textContent=t("copied");setTimeout(()=>b.textContent=t("copy"),1600)}
-  };
-  document.getElementById("backBtn").onclick=()=>{idx=QUESTIONS.length-1;render();window.scrollTo(0,0)};
-  document.getElementById("restartBtn").onclick=()=>{reset();render();window.scrollTo(0,0)};
-}
-
-document.getElementById("langBtn").onclick=()=>setLang(lang==="en"?"fa":"en");
-document.getElementById("themeBtn").onclick=()=>{
-  const h=document.documentElement;
-  const dark=h.dataset.theme?h.dataset.theme==="dark":window.matchMedia("(prefers-color-scheme: dark)").matches;
-  h.dataset.theme=dark?"light":"dark";
-};
-reset();setLang("en");
 </script>
-<!-- bbp-nav: home link + language link (en page) -->
-<style>
-  .bbp-home{display:block;max-width:860px;margin:0 auto;padding:12px 16px 0;font:500 .88rem/1.4 Inter,Vazirmatn,system-ui,sans-serif}
-  html[lang="fa"] .bbp-home{font-family:Vazirmatn,Tahoma,sans-serif}
-  .bbp-home a{color:inherit;opacity:.65;text-decoration:none}
-  .bbp-home a:hover{opacity:1;text-decoration:underline}
-</style>
-<script>
-(function(){
-  var PAGE_LANG="en", OTHER="fa.html";
-  // Show this page in its own language (the shared code starts in English).
-  if(document.documentElement.lang!==PAGE_LANG){
-    var t=document.getElementById("btn-"+PAGE_LANG)||document.getElementById("langBtn");
-    if(t)t.click();
-  }
-  try{localStorage.setItem("bbp-lang",PAGE_LANG)}catch(e){}
-  // The language button now opens the other language's page.
-  ["langBtn","btn-fa"].forEach(function(id){
-    var b=document.getElementById(id);
-    if(b){b.removeAttribute("onclick");b.onclick=function(){location.href=OTHER};}
-  });
-  var g=document.getElementById("btn-en");if(g){g.removeAttribute("onclick");g.onclick=null;}
-  var bar=document.createElement("nav");bar.className="bbp-home";
-  var a=document.createElement("a");a.href="../index.html";a.textContent="← All paths";
-  bar.appendChild(a);document.body.insertBefore(bar,document.body.firstChild);
-})();
-</script>
+
+<!-- Shared screens and scoring -->
+<script src="../core/assessment.js"></script>
 </body>
 </html>
