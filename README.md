@@ -9,6 +9,7 @@ Private, self-scored assessments for growing in a quality across ten stages, in 
 | Thankfulness · شکر | نمک‌نشناس → شکور | `thankfulness/en.html` | `thankfulness/fa.html` |
 | Trust · توکل | قانِط → راضی | `trust/en.html` | `trust/fa.html` |
 | Bravery · شجاعت | جُبن → قوی | `bravery/en.html` | `bravery/fa.html` |
+| Mastery of Thoughts · انتخاب آگاهانه افکار | اسیر → حاضردل | `watchfulness/en.html` | `watchfulness/fa.html` |
 
 `index.html` is the home page. It builds one card per quality from `core/items.js` and opens each in the viewer's language. Answers never leave the browser; unfinished answers and past results are saved only on the viewer's device.
 

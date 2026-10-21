@@ -35,5 +35,11 @@ window.BBP_ITEMS = [
     en: { name: "Bravery", from: "Cowardice", to: "The Strong" },
     fa: { name: "شجاعت", from: "جُبن", to: "قوی" },
     areas: 7, questions: 21
+  },
+  {
+    id: "watchfulness",  // folder name
+    en: { name: "Mastery of Thoughts", from: "The Captive", to: "The Present" },
+    fa: { name: "انتخاب آگاهانه افکار", from: "اسیر", to: "حاضردل" },
+    areas: 6, questions: 18
   }
 ];

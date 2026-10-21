@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Mastery of Thoughts</title>
+<link rel="stylesheet" href="../core/core.css">
+</head>
+<body>
+<div class="wrap">
+  <header id="top"></header>
+  <main id="app"></main>
+</div>
+
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
+<script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
+<script src="../core/questionnaire.js"></script>
+
+<script>
+// This page's content (English only)
+const CONTENT = {
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
+  text: {
+    brand: "Watchfulness",
+    title: "Mastery of Thoughts",
+    sub: "Muraqaba (watchfulness): a private self-assessment",
+    purpose: "This shows how well you can watch and steer your own mind in six areas of daily life. Mastery here does not mean forcing thoughts away; thoughts that are pushed away come back stronger. It means seeing a thought as a thought, not feeding the ones that harm, and choosing where your attention goes. Thoughts arrive on their own; what you follow and act on is yours. There are 18 short situations. Choose what you would honestly do, not what you think you should do.",
+    limT: "Healthy limits",
+    lim: "Watching your thoughts never replaces professional care. If thoughts are distressing, intrusive and won't settle, or you feel unsafe, reach out to a doctor or counselor. Having a thought is not a failing: this is about what you follow and act on, never about blaming yourself. It concerns your own mind, never controlling what others think. Stage 9 is a direction to face, not a badge to claim."
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "Noticing",  // 0
+    "Worry and replay",  // 1
+    "Anger and grudges",  // 2
+    "Attention",  // 3
+    "Thoughts about others",  // 4
+    "What you feed the mind"  // 5
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "The Captive", desc: "Ruled by every passing thought; acts out anger, fear and suspicion, and stirs the same in others." },  // 0
+    { name: "The Heedless", desc: "Never notices the mind; thoughts pass for facts and steer the day unseen." },  // 1
+    { name: "The Suppressor", desc: "Fights thoughts by force and scolds oneself for having them; they come back stronger." },  // 2
+    { name: "The Ruminator", desc: "Notices thoughts but feeds them, replaying and arguing until they grow." },  // 3
+    { name: "The Escaper", desc: "Runs from the mind into noise, screens and busyness instead of watching it." },  // 4
+    { name: "The Wavering", desc: "Watchful when life is calm; swept away when tired, stressed or provoked." },  // 5
+    { name: "The Watcher", desc: "Sees a thought as a thought, does not feed what harms, and gently brings attention back." },  // 6
+    { name: "The Discerning", desc: "Tells thoughts of fear, ego and habit from clear ones, and tends what goes into the mind." },  // 7
+    { name: "The Self-Possessed", desc: "Keeps the mind steady and kind under real provocation, choosing to think well even of those who did wrong." },  // 8
+    { name: "The Present", desc: "Thoughts come and go like guests over a quiet, present heart, facing al-Raqib (The Watchful). A direction to face, not a badge to claim." }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "You're driving home after a long day and realize you've spent the last twenty minutes arguing in your head with someone from work.",
+      options: [
+        [1, "I don't really notice. I get home already in a bad mood and snap at whoever is there."],
+        [2, "I tell myself sharply to stop thinking about it, and a minute later the argument starts again."],
+        [3, "I notice, but keep going over it anyway, adding better comebacks each time."],
+        [4, "I turn the radio up loud so I don't have to think about it."],
+        [5, "On a good day I'd catch it, but after a day like this it just carries me."],
+        [6, "I notice “I'm rehearsing an argument,” take a breath, and bring my attention back to the road."],
+        [7, "I catch it early, make a mental note of the one thing I really need to say tomorrow, and let the rest go."]
+      ] },
+    { area: 0, text: "You wake up at 3 a.m. and a thought arrives: “Everyone at the party could tell I didn't belong.”",
+      options: [
+        [0, "I believe it completely, and the next day I message a friend demanding to know why they all mocked me."],
+        [1, "I take it as fact and spend the next morning avoiding everyone who was there."],
+        [2, "I try to force the thought out of my head and get angry at myself when it won't leave."],
+        [3, "I lie awake replaying every conversation from the party, looking for proof."],
+        [5, "In the daytime I'd see it's just a thought, but at 3 a.m. it feels completely true."],
+        [6, "I see that it's a thought, not a fact, and let it sit there without arguing until I fall back asleep."],
+        [8, "I notice it, and the next day I'm warm with the people from the party, even though part of me still feels awkward."]
+      ] },
+    { area: 0, text: "During prayer, meditation, or a quiet moment, your mind keeps wandering to your to-do list.",
+      options: [
+        [1, "I don't notice until it's over; I was planning the whole time."],
+        [2, "I scold myself every time it wanders and end up more tense than when I started."],
+        [3, "I follow the list, add things to it, and decide the quiet time can wait."],
+        [4, "I give up on the quiet time and pick up my phone instead."],
+        [6, "Each time I notice, I gently come back, without blaming myself."],
+        [7, "I keep a notepad nearby, jot down anything important, and return to the quiet."],
+        [9, "The thoughts come and go like passing guests; I stay present underneath them."]
+      ] },
+    { area: 1, text: "You sent an important email with a mistake in it. The person hasn't replied yet.",
+      options: [
+        [0, "I blame my assistant for the mistake, so the worry is theirs, not mine."],
+        [1, "I don't think about it at all, and I don't correct it either."],
+        [2, "I force myself not to think about it, and it keeps jumping back into my head all afternoon."],
+        [3, "I reread the email again and again, imagining every way they might react."],
+        [4, "I distract myself with videos for the rest of the evening."],
+        [6, "I send a short correction, and each time the worry returns, I notice it and let it pass."],
+        [7, "I correct it, and when the worry returns I remind myself I've done my part and go back to my work."]
+      ] },
+    { area: 1, text: "A friend said something hurtful a month ago. They apologized, but the moment keeps replaying in your mind.",
+      options: [
+        [0, "Every time it replays I get angrier, and I start telling others what kind of person they really are."],
+        [2, "I keep telling myself to just get over it, and feel ashamed that I can't."],
+        [3, "I replay it in detail, imagining what I should have said back."],
+        [4, "I avoid the friend so I don't have to think about it."],
+        [5, "Most days I let it go, but when I'm tired it comes back as strong as ever."],
+        [6, "When it replays, I notice it, name the hurt, and turn my attention to something else."],
+        [8, "When it replays, I choose not to feed it and stay warm with my friend, even though it still stings."]
+      ] },
+    { area: 1, text: "You have a big decision to make next week, and your mind keeps running worst-case scenarios.",
+      options: [
+        [1, "I don't think it through at all and decide on a whim at the last minute."],
+        [2, "I try to block the scenarios out completely, and they get louder."],
+        [3, "I run every scenario again and again, and still can't decide."],
+        [4, "I keep busy and avoid thinking about it until the deadline forces me."],
+        [6, "I set aside one time to think it through on paper, and when worry comes outside that time, I let it wait."],
+        [7, "I think it through carefully once, ask someone I trust, decide, and stop feeding the scenarios."],
+        [9, "I give it careful thought, then rest. The worry visits, but it doesn't take the wheel."]
+      ] },
+    { area: 2, text: "A driver cuts you off dangerously, and anger floods you.",
+      options: [
+        [0, "I chase them, honk, and try to cut them off in return."],
+        [1, "I don't realize how angry I am until I'm yelling at my kids in the back seat."],
+        [2, "I clench my jaw and tell myself I'm not angry, then stay tense for an hour."],
+        [3, "I replay it the rest of the way, getting angrier each time."],
+        [5, "Normally I'd let it go, but today I'm already stressed, so I lose it."],
+        [6, "I notice the anger, take a few slow breaths, and let it pass."],
+        [7, "I notice the anger, and almost at once another thought comes: maybe they have an emergency. I drive on calmly."]
+      ] },
+    { area: 2, text: "A colleague takes credit for your idea in a meeting. That evening, your mind keeps going back to it.",
+      options: [
+        [0, "I plan how to embarrass him in front of the team tomorrow."],
+        [2, "I tell myself it doesn't matter, but I'm short with my family all evening."],
+        [3, "I spend the evening rehearsing what I'll say to him, getting more worked up."],
+        [4, "I numb it with snacks and TV until I fall asleep."],
+        [6, "I notice I'm stewing, decide to talk to him calmly tomorrow, and let it rest for tonight."],
+        [7, "I make a note, plan a calm conversation, and spend the evening fully present with my family."],
+        [8, "I talk to him honestly the next day, and I choose not to hold a grudge, even if he never admits it."]
+      ] },
+    { area: 2, text: "Someone who badly wronged you years ago is in the news for a success.",
+      options: [
+        [0, "I post something online about what they did to me, to ruin their moment."],
+        [1, "I don't notice how much it affects me, but I'm irritable for days."],
+        [3, "Old memories come back and I spend hours going over what they did."],
+        [4, "I avoid any news so I never have to think about them."],
+        [5, "I thought I was past it, but this brings it all back and I can't shake it."],
+        [6, "The old hurt comes up; I acknowledge it and gently return to my day."],
+        [9, "I feel a small sting, and then, quietly, I wish them well."]
+      ] },
+    { area: 3, text: "You sit down to do an important task, and within minutes you want to check your phone.",
+      options: [
+        [1, "I check it without noticing, and an hour disappears."],
+        [2, "I lock myself in with strict rules and feel miserable fighting myself."],
+        [3, "I start thinking about what I might be missing and can't concentrate until I look."],
+        [4, "I put videos on in the background so the task feels less boring."],
+        [5, "When I'm rested I stay focused, but when I'm tired I give in every time."],
+        [6, "I notice the urge, put the phone in another room, and return to the task."],
+        [7, "I set things up before I start, phone away and one clear task, so the urge has little to grab."]
+      ] },
+    { area: 3, text: "Your child or partner is telling you about their day, and your mind drifts to work.",
+      options: [
+        [0, "I cut them off and tell them I don't have time for this."],
+        [1, "I nod along without hearing a word, and don't even realize it."],
+        [2, "I force myself to look interested, while inside I'm frustrated with myself for drifting."],
+        [3, "I start solving the work problem in my head while they keep talking."],
+        [5, "If the work problem is small I can stay present, but if it's big, I'm gone."],
+        [6, "I notice I've drifted, bring my attention back, and ask a question about what they said."],
+        [8, "I put work fully aside, even when it's urgent, because this moment with them matters more."]
+      ] },
+    { area: 3, text: "You're waiting in a long line with nothing to do.",
+      options: [
+        [1, "I'm lost in thought and couldn't tell you what I was thinking about."],
+        [2, "I tell myself I should be calm and get annoyed that I'm not."],
+        [3, "I replay something that went wrong earlier today."],
+        [4, "I scroll on my phone the whole time so I'm not bored."],
+        [6, "I notice my thoughts, and use the time to breathe and notice what's around me."],
+        [7, "I use the time on purpose: a short prayer, a kind thought for someone, or simply being present."],
+        [9, "Waiting feels like any other moment. I'm simply here, at ease."]
+      ] },
+    { area: 4, text: "A friend hasn't replied to your message in two days, though you can see they've been online.",
+      options: [
+        [0, "I send them something cutting and tell mutual friends they're ignoring me."],
+        [1, "I decide they don't care about me and quietly stop reaching out."],
+        [3, "I keep imagining reasons they might be upset with me and reread our old messages."],
+        [4, "I ignore the feeling and bury myself in other things."],
+        [5, "Usually I'd give them the benefit of the doubt, but with this friend, after what happened before, I can't."],
+        [6, "I notice the story my mind is telling and remind myself I don't know the real reason."],
+        [7, "I assume the best, that they may be busy or struggling, and send a kind check-in later."]
+      ] },
+    { area: 4, text: "A new coworker is getting a lot of praise, and a thought appears: “They're just good at pretending.”",
+      options: [
+        [0, "I agree with the thought and start hinting to others that they're fake."],
+        [1, "I treat the thought as plain truth, without noticing it came from envy."],
+        [2, "I feel guilty for thinking it and try to shove it away, but it keeps coming back."],
+        [3, "I keep watching them, collecting evidence that I'm right."],
+        [6, "I notice the thought, recognize the envy in it, and don't act on it."],
+        [7, "I notice the envy, then deliberately look for what is genuinely good about them."],
+        [8, "I notice the envy, and I choose to praise them sincerely in front of others."]
+      ] },
+    { area: 4, text: "A relative you've had conflict with says something that could be a jab, or might not be.",
+      options: [
+        [0, "I take it as an insult and hit back hard in front of the family."],
+        [1, "I react without thinking and sulk for the rest of the evening."],
+        [2, "I tell myself to ignore it, smile, and boil inside all night."],
+        [3, "I turn the comment over for days, working out what they really meant."],
+        [5, "If someone else had said it I'd let it go, but from them I always assume the worst."],
+        [6, "I notice my mind jumping to the worst meaning and choose to hold it lightly."],
+        [8, "I choose the kindest reading and treat them warmly, even though our history makes it hard."]
+      ] },
+    { area: 5, text: "Before bed, you often scroll through news and social media that leave you angry or anxious.",
+      options: [
+        [1, "I've never really thought about how it affects me; I just scroll until I'm tired."],
+        [2, "I tell myself to stop, fail, and then lie awake feeling bad about myself."],
+        [3, "I keep reading, then lie awake going over what I read."],
+        [4, "I switch to endless videos instead. At least it's not the news."],
+        [5, "Some weeks I keep a good routine, but whenever something big happens, I'm back to scrolling."],
+        [6, "I notice how it leaves me feeling and set a time to put the phone away."],
+        [7, "I choose what goes into my mind before bed: something calm, uplifting, or a short prayer."]
+      ] },
+    { area: 5, text: "In a group chat, friends are sharing a shocking rumor about someone you all know.",
+      options: [
+        [0, "I add my own details to make it juicier."],
+        [1, "I forward it to others without thinking."],
+        [2, "I tell myself I shouldn't read it and scold myself, but I keep reading anyway and feel bad afterward."],
+        [3, "I don't pass it on, but it stays in my mind and colors how I see that person."],
+        [6, "I notice it's feeding something unkind in me, mute the chat, and don't pass it on."],
+        [7, "I kindly say I'd rather not talk about someone who isn't here, and change the subject."],
+        [8, "I speak up for the person, even though it makes me unpopular in the group."]
+      ] },
+    { area: 5, text: "A friend is in a dark mood and says negative things about their own life. You have strong views on how they should think.",
+      options: [
+        [0, "I agree with the worst things they say about themselves and add a few of my own."],
+        [1, "I barely listen and turn the conversation to my own problems."],
+        [2, "I tell them firmly to stop thinking negatively, the way I try to force myself."],
+        [3, "I argue with every negative thought until they give up and go quiet."],
+        [6, "I listen, and gently mention that a thought isn't always a fact."],
+        [7, "I listen fully, share what helps me with my own thoughts, and let them take what's useful."],
+        [8, "I stay with them patiently without pushing my way of thinking, and if things seem serious, I encourage them to talk to someone who can help."]
+      ] }
+  ],
+
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
+  coach: {
+    "header": "Mastery of thoughts (muraqaba, watchfulness) - self-assessment",
+    "rules": [
+      "Healthy limits: mastery of thoughts means noticing and choosing, never forcing thoughts away or blaming myself for having them. It never replaces professional help for thoughts that are distressing, intrusive or unsafe, and it is about my own mind, never about controlling what others think."
+    ],
+    "plan": {
+      "quality": "mastery of thoughts (muraqaba, watchfulness)",
+      "patterns": "rumination, forcing thoughts away, escaping into screens, acting on angry or suspicious thoughts",
+      "vague": "think more positively",
+      "reach": "staying present and kind when the mind is pulled toward resentment, thinking well of someone who has wronged me",
+      "recurring": "like a short daily sit where I notice thoughts and return to the breath",
+      "limit": "watching my thoughts never replaces professional help for thoughts that are distressing, intrusive or unsafe, and it is never about forcing thoughts away or blaming myself for them",
+      "example": "Monday: three minutes of noticing thoughts and returning to the breath\nWednesday: one hour of focused work with the phone in another room\nFriday: when an unkind thought about someone comes, find one good thing about them"
+    }
+  }
+};
+
+// Show the questionnaire
+Questionnaire.mount({
+  id: "watchfulness",
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "fa.html",
+  home: "../index.html"
+});
+</script>
+</body>
+</html>
