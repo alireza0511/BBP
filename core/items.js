@@ -41,5 +41,11 @@ window.BBP_ITEMS = [
     en: { name: "Mastery of Thoughts", from: "The Captive", to: "The Present" },
     fa: { name: "انتخاب آگاهانه افکار", from: "اسیر", to: "حاضردل" },
     areas: 6, questions: 18
+  },
+  {
+    id: "healthy-bonds",  // folder name
+    en: { name: "Breaking the Loop", from: "The Entangled", to: "The Free" },
+    fa: { name: "رهایی از چرخهٔ رابطهٔ سمی", from: "گرفتار", to: "آزاده" },
+    areas: 6, questions: 18
   }
 ];

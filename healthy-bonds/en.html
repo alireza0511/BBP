@@ -1,0 +1,270 @@
+<!doctype html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Breaking the Loop</title>
+<link rel="stylesheet" href="../core/core.css">
+</head>
+<body>
+<div class="wrap">
+  <header id="top"></header>
+  <main id="app"></main>
+</div>
+
+<!-- Shared core: UI widgets, shared text, questionnaire widget -->
+<script src="../core/widgets.js"></script>
+<script src="../core/defaults.js"></script>
+<script src="../core/questionnaire.js"></script>
+
+<script>
+// This page's content (English only)
+const CONTENT = {
+  // This page's own words (buttons and other shared labels come from ../core/defaults.js)
+  text: {
+    brand: "Healthy Bonds",
+    title: "Breaking the Loop",
+    sub: "Freedom from toxic relationship patterns: a private self-assessment",
+    purpose: "This shows how free you are from repeating painful relationship patterns, in six areas of life. Many of these loops begin long before the relationship itself: in what love looked like when we were young. Breaking the loop does not mean blaming your parents, your exes or yourself. It means seeing the pattern, understanding where it comes from, and choosing differently. It covers partners, family and friends. There are 18 short situations. Choose what you would honestly do, not what you think you should do.",
+    limT: "Healthy limits",
+    lim: "If you are being hurt, threatened or controlled, your safety comes first: reach out to someone you trust, a domestic violence helpline or emergency services. This never replaces a therapist, especially for childhood wounds or trauma. Understanding the roots is not blaming your family or yourself. It is about your own patterns and choices, never diagnosing, labeling or controlling anyone else, and whether to stay, repair or leave is always your own choice. Stage 9 is a direction to face, not a badge to claim."
+  },
+
+  // Areas of life (questions point to these by number, starting at 0)
+  areas: [
+    "Seeing the pattern",  // 0
+    "Roots in the past",  // 1
+    "Attraction and choosing",  // 2
+    "Boundaries",  // 3
+    "Leaving and going back",  // 4
+    "Self-worth and your own part"  // 5
+  ],
+
+  // The ten stages, lowest (0) to highest (9)
+  stages: [
+    { name: "The Entangled", desc: "Caught in the loop and passing it on: clings, controls or punishes, and takes harm as proof of love." },  // 0
+    { name: "The Unaware", desc: "Sees no pattern; every painful relationship feels like bad luck, and drama feels like love." },  // 1
+    { name: "The Self-Blamer", desc: "Feels the pain but believes it is deserved; explains away mistreatment and shrinks to keep the peace." },  // 2
+    { name: "The Rescuer", desc: "Tries to earn love by pleasing, saving or changing the other, sure that enough love will make them change." },  // 3
+    { name: "The Runner", desc: "Escapes instead of looking: numbs the pain, walls off closeness, or jumps straight into the next relationship." },  // 4
+    { name: "The Wavering", desc: "Sees the pattern clearly when calm, but loneliness, guilt or one sweet message pulls them back in." },  // 5
+    { name: "The Awake", desc: "Names the pattern, sees where it began, keeps clear boundaries, and chooses respect and safety." },  // 6
+    { name: "The Mending", desc: "Tends the old wound itself, with help when needed; spots warning signs early and lets calm feel like home." },  // 7
+    { name: "The Steady", desc: "Keeps self-respect and kindness under real pressure; can end or repair a bond without revenge or self-betrayal." },  // 8
+    { name: "The Free", desc: "The past is understood and no longer steers; loves and is loved freely, without clinging or fleeing, facing al-Wadud (The Loving). A direction to face, not a badge to claim." }  // 9
+  ],
+
+  // Questions. Each option is [stage it reflects, answer text].
+  questions: [
+    { area: 0, text: "A close friend points out that your last three partners were very alike, and all of them left you feeling small.",
+      options: [
+        [1, "I laugh it off. It's just bad luck; I keep meeting the wrong people."],
+        [2, "I take it to mean something is wrong with me, and that's why people treat me this way."],
+        [3, "I tell them this time is different, because I see good in this one that others can't."],
+        [4, "I change the subject and decide not to date for a while, so I don't have to think about it."],
+        [5, "I see it while they're saying it, but the next time I'm drawn to someone, I forget again."],
+        [6, "I take it seriously and write down what those relationships had in common, including my own part."],
+        [7, "I look at what drew me to each of them, and ask which old feeling those relationships kept giving me."]
+      ] },
+    { area: 0, text: "After a big fight, your partner is suddenly warm and loving again. It's the same cycle as the last few months: tension, explosion, sweetness.",
+      options: [
+        [0, "I punish them with days of silence, and next time I do the same thing to them."],
+        [1, "I'm just relieved. The good times are so good that I don't see any cycle."],
+        [2, "I apologize for my part, and for parts that weren't mine, so the sweetness lasts."],
+        [3, "I think love is finally winning, and if I'm patient enough they'll change for good."],
+        [5, "I can see the cycle on paper, but in the sweet moments I can't feel it."],
+        [6, "I notice the cycle and name it to myself: tension, explosion, sweetness. The sweetness doesn't erase the rest."],
+        [8, "I calmly tell them what I see in the cycle and what needs to change, and I'm ready to act on it, whatever they choose."]
+      ] },
+    { area: 0, text: "You meet someone new and it feels intensely familiar, as if you've known them forever. Your heart races whenever they're slow to reply.",
+      options: [
+        [1, "I'm sure it's fate. That kind of intensity can only mean real love."],
+        [3, "I start doing everything I can to make sure they don't lose interest."],
+        [4, "The intensity scares me, so I go cold and pull away before they can."],
+        [5, "Part of me knows this anxious pull is a warning sign, but I chase it anyway."],
+        [6, "I notice that “familiar” and “anxious” may be the old pattern, and I slow down."],
+        [7, "I ask myself who this feeling reminds me of from long ago, and give it time before I trust it."],
+        [9, "I enjoy the spark but don't need it. I let trust grow slowly; calm feels better to me than the rush."]
+      ] },
+    { area: 1, text: "Your partner raises their voice, and suddenly you feel like a scared child, exactly as you felt at home growing up.",
+      options: [
+        [0, "I shout back louder, the way the adults did at home, so no one can make me feel small again."],
+        [1, "I freeze and go along with whatever they want, without knowing why I feel so small."],
+        [2, "I tell myself I'm too sensitive and must have done something to deserve it."],
+        [4, "I shut down completely and disappear into my phone until it's over."],
+        [6, "I notice “this is an old feeling,” breathe, and remind myself that I'm an adult with choices now."],
+        [7, "Later, I gently look at what that child needed back then, and give some of it to myself."],
+        [8, "I calmly say I won't go on while voices are raised, step away, and come back when we can talk."]
+      ] },
+    { area: 1, text: "Someone suggests your relationship choices may be linked to what love looked like in your family growing up.",
+      options: [
+        [1, "I dismiss it. My childhood has nothing to do with my relationships."],
+        [2, "I decide my family ruined me and I'll never be able to have a healthy relationship."],
+        [3, "I realize I'm still trying to win, through my partners, the approval I never got as a child, and I try even harder."],
+        [4, "I don't want to dig up the past. I'd rather keep busy and move on."],
+        [5, "It makes sense to me in theory, but I don't want to feel any of it."],
+        [6, "I take time to reflect on what love looked like at home, and which parts of it I keep repeating."],
+        [7, "I look at it honestly, with a counselor or someone wise, without blaming my parents or myself."]
+      ] },
+    { area: 1, text: "A parent who hurt you in childhood calls, wanting to be close now.",
+      options: [
+        [0, "I use the chance to hurt them back, listing every way they failed me."],
+        [1, "I answer as if nothing happened, and afterward I feel low for days without knowing why."],
+        [2, "I tell myself the past wasn't that bad and maybe I'm exaggerating."],
+        [3, "I drop everything to make them happy, still hoping to finally be the child they love."],
+        [4, "I let it ring and try not to think about it."],
+        [6, "I calmly decide what kind of contact feels safe for me, and I keep to it."],
+        [9, "I've made peace with what happened. I can meet them with kindness and clear limits, wanting nothing from them they can't give."]
+      ] },
+    { area: 2, text: "On a second date, the person mocks the waiter and jokes that their ex was “crazy.” With you, they're very charming.",
+      options: [
+        [0, "I join in the mocking to impress them."],
+        [1, "I don't notice anything wrong; I'm swept up by how charming they are."],
+        [2, "I feel uneasy, but tell myself I'm too picky and that's why I'm alone."],
+        [3, "I think they've just been hurt, and with me they'll be different."],
+        [5, "I see the warning signs, but the chemistry is strong, so I keep seeing them."],
+        [6, "I take note of how they treat others, because one day that may be how they treat me."],
+        [7, "I trust what I saw, end it kindly, and don't feel I'm missing out."]
+      ] },
+    { area: 2, text: "Someone kind, steady and respectful is interested in you, but you feel no spark. It feels almost boring.",
+      options: [
+        [1, "I'm bored, so I move on without wondering why."],
+        [2, "I think someone this kind can't know the real me; I don't deserve them."],
+        [3, "I'd rather stay with the exciting person who needs saving."],
+        [4, "I find small faults in them so I have a reason to leave before it gets close."],
+        [6, "I notice that calm may feel boring only because chaos is what I'm used to, and I give it a fair chance."],
+        [7, "I give it time and pay attention to how I feel around them: safe, seen, at ease."],
+        [9, "Calm is what I want. Steadiness feels like home, and attraction can grow on it."]
+      ] },
+    { area: 2, text: "Friends want to set you up with someone, but you're only a few weeks out of a painful breakup.",
+      options: [
+        [1, "Sure, why not. Being alone is the worst feeling there is."],
+        [2, "I go along with it because I think no one else will want me."],
+        [4, "I say yes right away; someone new will help me forget the last one."],
+        [5, "I know I should wait, but the loneliness at night is too much, so I go."],
+        [6, "I thank them and say I need time to understand what happened before I start something new."],
+        [7, "I use this time to learn what I want and what I won't accept, before meeting anyone new."],
+        [8, "I stay with the grief honestly, even though it's uncomfortable, trusting that it will pass."]
+      ] },
+    { area: 3, text: "Your partner reads your messages without asking and gets angry about a harmless conversation with a coworker.",
+      options: [
+        [0, "I start checking their phone too, so we're even."],
+        [1, "I think it's normal. If they're jealous, it means they care."],
+        [2, "I apologize and stop talking to the coworker, to keep the peace."],
+        [3, "I give them all my passwords so they'll trust me and calm down."],
+        [5, "I tell myself I'll say something next time, and then I don't."],
+        [6, "I calmly say that my phone is private and I won't be accused over normal friendships."],
+        [8, "I hold that boundary steadily even when they're upset, without punishing them, and decide what I'll do if it continues."]
+      ] },
+    { area: 3, text: "A partner or friend often makes “jokes” about your weight or intelligence in front of others.",
+      options: [
+        [0, "I hit back with even crueler jokes about them."],
+        [1, "I laugh along. That's just how they are."],
+        [2, "I laugh too, and secretly think maybe they're right."],
+        [4, "I stop going to gatherings with them so it can't happen."],
+        [5, "Sometimes I speak up, but when they say I'm too sensitive, I back down."],
+        [6, "In private, I tell them clearly that those jokes hurt and need to stop."],
+        [7, "I tell them, and if it continues, I calmly step back from the relationship without shaming them."]
+      ] },
+    { area: 3, text: "Someone who rarely gives anything back asks you for yet another big favor, and you're exhausted.",
+      options: [
+        [1, "I say yes automatically; I don't even ask myself whether I want to."],
+        [2, "I say yes, because saying no would make me a bad person."],
+        [3, "I say yes and hope that this time they'll finally appreciate me."],
+        [4, "I don't reply and avoid them for a while."],
+        [6, "This time I kindly say no, without a long explanation."],
+        [7, "I say no, and notice the old guilt that rises up, without obeying it."],
+        [8, "I say no, stay warm toward them, and help again only when I truly can, without keeping score."]
+      ] },
+    { area: 4, text: "A month ago you ended a hurtful relationship. Late at night, a message arrives from them: “I miss you. I've changed.”",
+      options: [
+        [0, "I reply with something cruel so they feel what I felt."],
+        [1, "I reply right away. Maybe it was meant to be after all."],
+        [2, "I reply because I feel guilty for leaving them."],
+        [3, "I meet them, sure that this time my love will make the change real."],
+        [5, "I read it twenty times, decide not to answer, and answer at 2 a.m."],
+        [6, "I don't answer at night. In the morning I remember why I left, and choose with that in mind."],
+        [8, "I see it clearly, feel the pull, and still stay true to my decision, without bitterness toward them."]
+      ] },
+    { area: 4, text: "You've left the same person and gone back several times. Your friends are tired of hearing about it.",
+      options: [
+        [0, "I accuse my friends of being jealous and cut them off."],
+        [1, "I don't see a pattern. Each time really was different."],
+        [2, "I'm ashamed, so I stop telling anyone and carry it alone."],
+        [3, "I keep going back because they need me. Who else would help them?"],
+        [5, "I know I'm stuck, but every time I'm lonely, I go back."],
+        [6, "I look honestly at what happens just before I go back, and plan what I'll do instead next time."],
+        [7, "I get proper support, a counselor or a support group, to understand the hook and heal it."]
+      ] },
+    { area: 4, text: "After a breakup, you see on social media that your ex looks happy with someone new.",
+      options: [
+        [0, "I message the new partner to “warn” them, exaggerating a little."],
+        [1, "I check their profile every day without noticing what it's doing to me."],
+        [2, "I conclude the problem was me; they're happy now that I'm gone."],
+        [4, "I throw myself into work and going out so I never have to feel it."],
+        [5, "Most days I'm fine, but some nights I'm back on their profile for hours."],
+        [6, "I notice the sting, mute or unfollow them, and turn back to my own life."],
+        [9, "I feel a small sting, and then, quietly, I wish them well and feel free."]
+      ] },
+    { area: 5, text: "It's a weekend with no plans and no one to message. The silence feels heavy.",
+      options: [
+        [1, "I message an ex, or anyone who'll answer, without thinking about why."],
+        [2, "I think: no one wants me, because I'm not worth it."],
+        [3, "I reach out to someone who needs help, so I feel needed."],
+        [4, "I fill every minute with screens, food or noise so I don't have to feel it."],
+        [6, "I feel the loneliness without running from it, and do something kind for myself."],
+        [7, "I use the time for something I enjoy, and notice I can be good company for myself."],
+        [9, "Being alone feels peaceful. I'm whole on my own, and that's why I can love without clinging."]
+      ] },
+    { area: 5, text: "Your partner has been distant and quiet for a few days, without saying why.",
+      options: [
+        [0, "I flood them with messages and accuse them of cheating."],
+        [1, "I panic and do anything to get their attention back, without seeing the old fear behind it."],
+        [2, "I go over everything I did and decide it must be my fault."],
+        [4, "I go cold too, so they can't hurt me first."],
+        [5, "I tell myself to stay calm, but by the third day I'm anxious and clingy."],
+        [6, "I notice my old fear of being left, calm myself, and gently ask if something is going on."],
+        [8, "I ask once, kindly, give them space, and stay settled in myself, whatever the answer is."]
+      ] },
+    { area: 5, text: "You realize you've been treating your partner the way you were treated as a child.",
+      options: [
+        [0, "I tell myself they deserve it; that's just how relationships work."],
+        [1, "I don't see it. I think I'm just reacting normally."],
+        [2, "I hate myself for it and decide I'm a bad person who should be alone."],
+        [4, "I try not to think about it and pull away from them."],
+        [6, "I admit it honestly, apologize without excuses, and look at where it comes from."],
+        [7, "I apologize, get help to change the pattern, and make real repair over time."],
+        [8, "I take full responsibility, make amends, and keep doing the work even when no one is watching, without excusing or punishing myself."]
+      ] }
+  ],
+
+  // Text for an AI coach: header, this quality's own rules (healthy limits), and the values that fill the 40-day plan request in ../core/defaults.js
+  coach: {
+    "header": "Breaking the loop (freedom from toxic relationship patterns) - self-assessment",
+    "rules": [
+      "Healthy limits: if I am being hurt, threatened or controlled, safety comes first, and the plan must never ask me to confront anyone unsafe. This never replaces therapy for childhood wounds or trauma. Looking at the roots is never about blaming my family or myself. The plan is about my own patterns and choices, never about diagnosing, labeling or changing another person. Do not tell me to stay or leave; that choice is mine."
+    ],
+    "plan": {
+      "quality": "breaking the loop of toxic relationships (healthy bonds)",
+      "patterns": "self-blame, trying to earn love by pleasing or rescuing, mistaking intensity for love, going back after leaving, numbing loneliness, repeating what was done to me",
+      "vague": "find a better partner",
+      "reach": "staying kind and steady under pressure, loving without clinging or fleeing, being at peace alone",
+      "recurring": "like a short weekly letter to my younger self about what love should have looked like",
+      "limit": "safety comes first if I am being hurt or controlled; this never replaces therapy for trauma, never blames my family or myself, and is never about changing another person",
+      "example": "Monday: write down one moment this week when an old feeling from childhood showed up\nWednesday: say one small, kind no\nSaturday: spend an hour alone with my phone off, doing something I enjoy"
+    }
+  }
+};
+
+// Show the questionnaire
+Questionnaire.mount({
+  id: "healthy-bonds",
+  content: CONTENT,
+  el: "#app",
+  header: "#top",
+  otherPage: "fa.html",
+  home: "../index.html"
+});
+</script>
+</body>
+</html>
