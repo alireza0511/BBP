@@ -144,3 +144,5 @@ html[dir="rtl"] .pc-arrow{display:inline-block;transform:scaleX(-1)}
 .field{display:flex;flex-direction:column;gap:4px;margin:14px 0 10px}
 .field .muted{font-size:.88rem}
 textarea.field-input{min-height:0;font:inherit;font-size:.95rem}
+.field .count{align-self:flex-end;font-size:.8rem;font-variant-numeric:tabular-nums}
+.field .count.full{color:var(--accent)}

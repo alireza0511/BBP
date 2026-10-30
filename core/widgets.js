@@ -137,17 +137,37 @@
   }
 
   /** One question screen: counter, progress bar, area tag, question, answers, Back/Next.
-      o: {counter, percent, area, text, items (see options), backLabel, nextLabel, nextDisabled}
+      o: {counter, percent, area, text, items (see options), extra (HTML under the answers), backLabel, nextLabel, nextDisabled}
       Buttons get the ids "backBtn" and "nextBtn". */
   function questionCard(o) {
-    return card(muted(o.counter) + progress(o.percent) + tag(o.area) + situation(o.text) + options(o.items) +
+    return card(muted(o.counter) + progress(o.percent) + tag(o.area) + situation(o.text) + options(o.items) + (o.extra || "") +
       navRow(button(o.backLabel, { id: "backBtn" }), button(o.nextLabel, { id: "nextBtn", primary: true, disabled: !!o.nextDisabled })));
   }
 
-  /** Labeled multi-line text field. o: {id, label, hint, placeholder, value, rows} */
+  /** Labeled multi-line text field. o: {id, label, hint, placeholder, value, rows, max}
+      With max, the field is limited to that many characters and shows a counter
+      (id "<id>Count"); keep it up to date with UI.bindCounter. */
   function field(o) {
+    var value = o.max ? String(o.value || "").slice(0, o.max) : (o.value || "");
     return '<label class="field" for="' + esc(o.id) + '"><b>' + esc(o.label) + "</b>" + (o.hint ? '<span class="muted">' + esc(o.hint) + "</span>" : "") +
-      '<textarea class="field-input" id="' + esc(o.id) + '" rows="' + (o.rows || 3) + '" placeholder="' + esc(o.placeholder || "") + '">' + esc(o.value || "") + "</textarea></label>";
+      '<textarea class="field-input" id="' + esc(o.id) + '" rows="' + (o.rows || 3) + '" placeholder="' + esc(o.placeholder || "") + '"' +
+      (o.max ? ' maxlength="' + o.max + '"' : "") + ">" + esc(value) + "</textarea>" +
+      (o.max ? '<span class="muted count" id="' + esc(o.id) + 'Count">' + esc(num(value.length + " / " + o.max)) + "</span>" : "") + "</label>";
+  }
+
+  /** Keep a limited field (UI.field with max) within its limit and its counter current.
+      Calls fn(value) on every change. */
+  function bindCounter(id, max, fn) {
+    var el = document.getElementById(id), count = document.getElementById(id + "Count");
+    if (!el) return;
+    el.oninput = function () {
+      if (el.value.length > max) el.value = el.value.slice(0, max);   // pasted text, older browsers
+      if (count) {
+        count.textContent = num(el.value.length + " / " + max);
+        count.classList.toggle("full", el.value.length >= max);
+      }
+      if (fn) fn(el.value);
+    };
   }
 
   /** Read-only text with a Copy button. Fill it with UI.bindCopy after rendering. */
@@ -264,7 +284,7 @@
   global.UI = {
     lang: lang, esc: esc, num: num, fill: fill, shuffle: shuffle, today: today,
     topBar: topBar, card: card, title: title, heading: heading, para: para, muted: muted, note: note,
-    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard, field: field,
+    stageTable: stageTable, progress: progress, tag: tag, situation: situation, options: options, questionCard: questionCard, field: field, bindCounter: bindCounter,
     pathCard: pathCard, historyChart: historyChart, historyTable: historyTable, store: store, download: download, onConfirm: onConfirm,
     button: button, navRow: navRow, scoreBars: scoreBars, bigScore: bigScore, copyBox: copyBox,
     bindCopy: bindCopy, onPick: onPick, onClick: onClick, initTheme: initTheme, rememberLang: rememberLang

@@ -41,10 +41,14 @@ The wording of the request is shared, in `core/defaults.js` (`coach.request`). E
 4. Run `node tools/check.js honesty` and fix anything it reports, then `node tools/questions-md.js honesty`.
 5. Commit and push. The new card appears on the home page.
 
+## “Other” answers
+
+Every question ends with “Other: none of these fits me”. Choosing it opens a box where the viewer can write what they would honestly do, up to 200 characters (change it with `otherMax` in `Questionnaire.mount`). These answers are not scored. They are added to the 40-day plan request with a note asking the AI to take them into account.
+
 ## What's saved on the device
 
 Only in the viewer's browser (localStorage), never sent anywhere:
-- `bbp-progress-<id>`: answers to an unfinished assessment, so it can be continued later.
+- `bbp-progress-<id>`: answers to an unfinished assessment (including any “Other” answers in the viewer's own words), so it can be continued later.
 - `bbp-history-<id>`: date and scores of each finished assessment, shown as a chart on the results screen and as "Last result" on the home page. The viewer can clear it from the results screen.
 - `bbp-tasks-<id>-<lang>`: the viewer's own tasks for the 40-day plan.
 - `bbp-lang`, `bbp-theme`: last language and light/dark choice.

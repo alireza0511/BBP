@@ -17,7 +17,10 @@ window.BBP_DEFAULTS = {
       back: "Back",
       next: "Next",
       finish: "See results",
-      none: "None of these fits me",
+      none: "Other: none of these fits me",
+      otherT: "Your own answer (optional)",
+      otherHint: "In your own words, what would you honestly do? Up to {max} characters. It isn't scored, but it is added to your 40-day plan request.",
+      otherPh: "What I would really do…",
       qOf: "Question {n} of {t}",
       resumeT: "Welcome back",
       resumeTxt: "You stopped at question {n} of {t}. Your answers so far are saved on this device.",
@@ -56,6 +59,8 @@ window.BBP_DEFAULTS = {
       scoresT: "My scores:",
       qaT: "My questions and answers:",
       notAnswered: "Not answered",
+      ownAnswer: "My own answer (not scored): ",
+      ownNote: "Answers marked “My own answer” are in my own words and are not scored. Read them to understand me better, and take them into account in the plan.",
       // The 40-day plan request ("request"). Placeholders come from the page's coach.plan
       // ({quality}, {patterns}, {vague}, {reach}, {recurring}, {limit}) and
       // from the results screen ({tasks}, {start}, {day40}).
@@ -123,7 +128,10 @@ window.BBP_DEFAULTS = {
       back: "قبلی",
       next: "بعدی",
       finish: "دیدن نتیجه",
-      none: "هیچ‌کدام به من نمی‌خورد",
+      none: "دیگر: هیچ‌کدام به من نمی‌خورد",
+      otherT: "پاسخ خودتان (اختیاری)",
+      otherHint: "به زبان خودتان، صادقانه چه می‌کنید؟ حداکثر {max} نویسه. امتیاز ندارد، ولی به درخواست برنامهٔ ۴۰ روزه اضافه می‌شود.",
+      otherPh: "کاری که واقعاً می‌کنم…",
       qOf: "پرسش {n} از {t}",
       resumeT: "خوش برگشتید",
       resumeTxt: "در پرسش {n} از {t} متوقف شدید. پاسخ‌هایتان تا اینجا روی همین دستگاه ذخیره شده است.",
@@ -162,6 +170,8 @@ window.BBP_DEFAULTS = {
       scoresT: "امتیازهای من:",
       qaT: "پرسش‌ها و پاسخ‌های من:",
       notAnswered: "بی‌پاسخ",
+      ownAnswer: "پاسخ خودم (بی‌امتیاز): ",
+      ownNote: "پاسخ‌هایی که با «پاسخ خودم» آمده‌اند به زبان خودم نوشته شده‌اند و امتیاز ندارند. آن‌ها را برای شناخت بهتر من بخوان و در برنامه در نظر بگیر.",
       // درخواست برنامهٔ چله. جای‌خالی‌ها از coach.plan صفحه پر می‌شوند
       // و {tasks}، {start}، {day40} از صفحهٔ نتیجه.
       request: [

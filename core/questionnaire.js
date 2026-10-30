@@ -14,7 +14,8 @@
          el: "#app",              // where the screens go       (default "#app")
          header: "#top",          // where the top bar goes     (default "#top")
          otherPage: "fa.html",    // same page, other language  (optional)
-         home: "../index.html"    // home link                  (default "../index.html")
+         home: "../index.html",   // home link                  (default "../index.html")
+         otherMax: 200            // max characters for an "Other" answer (default 200)
        });
      </script>
 
@@ -30,8 +31,11 @@
               plan: { quality, patterns, vague, reach, recurring, limit, example } }
        // fills the 40-day plan request in core/defaults.js
    }
+   "Other" answer: every question ends with "Other: none of these fits me".
+   Choosing it opens a box for the viewer's own answer (optional, at most
+   otherMax characters). It is not scored, but it is added to the AI coach text.
    Saved on this device only (localStorage):
-     bbp-progress-<id>  unfinished answers, so the viewer can continue later
+     bbp-progress-<id>  unfinished answers and "Other" texts, so the viewer can continue later
      bbp-history-<id>   date and scores of each finished assessment
    Scoring: each area = average stage of its answers x 10 + 5 (0-100);
    overall = average of the scored areas.
@@ -58,7 +62,10 @@
     var id = opts.id || folderId();
     var KEY_PROGRESS = "bbp-progress-" + id, KEY_HISTORY = "bbp-history-" + id;
     KEY_TASKS = "bbp-tasks-" + id + "-" + lang;
-    var idx = -1, answers = [], orders = [], historyEntry = -1;
+    var OTHER_MAX = opts.otherMax > 0 ? Math.floor(opts.otherMax) : 200;
+    var idx = -1, answers = [], orders = [], others = [], historyEntry = -1;
+    function blankOthers() { return QUESTIONS.map(function () { return ""; }); }
+    function otherText(qi) { return answers[qi] === "none" ? String(others[qi] || "").trim().slice(0, OTHER_MAX) : ""; }
 
     function t(k, vars) { return UI.fill(T[k] == null ? k : T[k], vars); }
     function band(i) { return i === 9 ? UI.num("90–100") : UI.num(i * 10 + "–" + (i * 10 + 9)); }
@@ -72,11 +79,12 @@
     function reset() {
       answers = QUESTIONS.map(function () { return null; });
       orders = QUESTIONS.map(function (q) { return UI.shuffle(q.options.length); });
+      others = blankOthers();
       idx = -1; historyEntry = -1;
       UI.store.remove(KEY_PROGRESS);
     }
     function save() {
-      if (idx >= 0 && idx < QUESTIONS.length) UI.store.set(KEY_PROGRESS, { n: QUESTIONS.length, idx: idx, answers: answers, orders: orders });
+      if (idx >= 0 && idx < QUESTIONS.length) UI.store.set(KEY_PROGRESS, { n: QUESTIONS.length, idx: idx, answers: answers, orders: orders, others: others });
     }
     function loadSaved() {
       var p = UI.store.get(KEY_PROGRESS, null);
@@ -131,7 +139,12 @@
         historyCard() +
         (saved ? "" : UI.navRow("", UI.button(t("start"), { id: "startBtn", primary: true })));
       UI.onClick("startBtn", function () { goTo(0); });
-      UI.onClick("resumeBtn", function () { answers = saved.answers; orders = saved.orders; goTo(saved.idx); });
+      UI.onClick("resumeBtn", function () {
+        answers = saved.answers; orders = saved.orders;
+        others = blankOthers();   // older saves have no "Other" texts
+        if (Array.isArray(saved.others)) saved.others.forEach(function (x, i) { if (i < others.length) others[i] = String(x || "").slice(0, OTHER_MAX); });
+        goTo(saved.idx);
+      });
       UI.onClick("freshBtn", function () { reset(); goTo(0); });
       bindHistory();
     }
@@ -141,13 +154,20 @@
       var q = QUESTIONS[idx], total = QUESTIONS.length, cur = answers[idx], last = idx === total - 1;
       var items = orders[idx].map(function (k) { return { key: k, text: q.options[k][1], selected: cur === k }; });
       items.push({ key: "none", text: t("none"), none: true, selected: cur === "none" });
+      var own = cur === "none" ? UI.field({ id: "otherAnswer", label: t("otherT"), hint: t("otherHint", { max: UI.num(OTHER_MAX) }),
+        placeholder: t("otherPh"), value: others[idx] || "", rows: 3, max: OTHER_MAX }) : "";
       app.innerHTML = UI.questionCard({
         counter: t("qOf", { n: UI.num(idx + 1), t: UI.num(total) }),
         percent: Math.round(idx / total * 100),
-        area: AREAS[q.area], text: q.text, items: items,
+        area: AREAS[q.area], text: q.text, items: items, extra: own,
         backLabel: t("back"), nextLabel: last ? t("finish") : t("next"), nextDisabled: cur === null
       });
-      UI.onPick(app, function (k) { answers[idx] = k === "none" ? "none" : Number(k); save(); renderQuestion(); });
+      UI.onPick(app, function (k) {
+        var was = answers[idx];
+        answers[idx] = k === "none" ? "none" : Number(k); save(); renderQuestion();
+        if (k === "none" && was !== "none") { var box = document.getElementById("otherAnswer"); if (box) box.focus(); }
+      });
+      UI.bindCounter("otherAnswer", OTHER_MAX, function (v) { others[idx] = v; save(); });
       UI.onClick("backBtn", function () { goTo(idx - 1); });
       UI.onClick("nextBtn", function () { if (answers[idx] !== null) goTo(idx + 1); });
     }
@@ -207,9 +227,10 @@
         L.push(UI.num(qi + 1) + ". [" + AREAS[q.area] + "] " + q.text);
         var a = answers[qi];
         if (a === null) L.push("   " + P.notAnswered);
-        else if (a === "none") L.push("   → " + t("none"));
+        else if (a === "none") L.push("   → " + (otherText(qi) ? P.ownAnswer + (lang === "fa" ? "«" + otherText(qi) + "»" : "“" + otherText(qi) + "”") : t("none")));
         else { var o = q.options[a]; L.push("   → " + o[1] + " (" + t("stage") + " " + UI.num(o[0]) + " – " + STAGES[o[0]].name + ")"); }
       });
+      if (QUESTIONS.some(function (_, qi) { return otherText(qi); }) && P.ownNote) L.push("", P.ownNote);
       L.push("", "---", "");
       var list = String(ownTasks || "").split("\n").map(function (x) { return x.trim(); }).filter(Boolean);
       var vars = merge(plan, {
@@ -264,6 +285,7 @@
     UI.rememberLang();
     answers = QUESTIONS.map(function () { return null; });
     orders = QUESTIONS.map(function (q) { return UI.shuffle(q.options.length); });
+    others = blankOthers();
     render();
     return { restart: function () { reset(); goTo(-1); } };
   }
